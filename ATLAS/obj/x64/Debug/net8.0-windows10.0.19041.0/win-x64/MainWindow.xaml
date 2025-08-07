@@ -14,7 +14,11 @@
     </Window.SystemBackdrop>
 
     <Grid>
-
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+            <Button x:ConnectionId='2' x:Name="IncrementButton" Content="+"                               />
+            <TextBlock x:ConnectionId='3' x:Name="CounterTextBlock" Width="100" Text="0" TextAlignment="Center"/>
+            <Button x:ConnectionId='4' x:Name="DecrementButton" Content="-"                               />
+        </StackPanel>
     </Grid>
 </Window>
 
