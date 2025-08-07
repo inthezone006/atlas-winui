@@ -232,38 +232,38 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             _typeNameTable[2] = "Object";
             _typeNameTable[3] = "Boolean";
             _typeNameTable[4] = "Microsoft.UI.Xaml.Controls.Button";
-            _typeNameTable[5] = "Microsoft.UI.Xaml.Controls.NavigationView";
-            _typeNameTable[6] = "Microsoft.UI.Xaml.Controls.ContentControl";
-            _typeNameTable[7] = "Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode";
-            _typeNameTable[8] = "System.Enum";
-            _typeNameTable[9] = "System.ValueType";
-            _typeNameTable[10] = "Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible";
-            _typeNameTable[11] = "System.Collections.Generic.IList`1<Object>";
-            _typeNameTable[12] = "Microsoft.UI.Xaml.Controls.AutoSuggestBox";
-            _typeNameTable[13] = "Double";
-            _typeNameTable[14] = "Microsoft.UI.Xaml.UIElement";
-            _typeNameTable[15] = "Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode";
-            _typeNameTable[16] = "Microsoft.UI.Xaml.DataTemplate";
-            _typeNameTable[17] = "Microsoft.UI.Xaml.Style";
-            _typeNameTable[18] = "Microsoft.UI.Xaml.Controls.StyleSelector";
-            _typeNameTable[19] = "Microsoft.UI.Xaml.Controls.DataTemplateSelector";
-            _typeNameTable[20] = "Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode";
-            _typeNameTable[21] = "String";
-            _typeNameTable[22] = "Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus";
-            _typeNameTable[23] = "Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled";
-            _typeNameTable[24] = "Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings";
-            _typeNameTable[25] = "Microsoft.UI.Xaml.DependencyObject";
-            _typeNameTable[26] = "Microsoft.UI.Xaml.Controls.NavigationViewItem";
-            _typeNameTable[27] = "Microsoft.UI.Xaml.Controls.NavigationViewItemBase";
-            _typeNameTable[28] = "Microsoft.UI.Xaml.Controls.IconElement";
-            _typeNameTable[29] = "Microsoft.UI.Xaml.Controls.InfoBadge";
-            _typeNameTable[30] = "Microsoft.UI.Xaml.Controls.Control";
-            _typeNameTable[31] = "ATLAS.MainWindow";
-            _typeNameTable[32] = "Microsoft.UI.Xaml.Window";
-            _typeNameTable[33] = "ATLAS.Pages.AccountPage";
-            _typeNameTable[34] = "Microsoft.UI.Xaml.Controls.Page";
-            _typeNameTable[35] = "Microsoft.UI.Xaml.Controls.UserControl";
-            _typeNameTable[36] = "ATLAS.Pages.HomePage";
+            _typeNameTable[5] = "ATLAS.AccountPage";
+            _typeNameTable[6] = "Microsoft.UI.Xaml.Controls.Page";
+            _typeNameTable[7] = "Microsoft.UI.Xaml.Controls.UserControl";
+            _typeNameTable[8] = "ATLAS.HomePage";
+            _typeNameTable[9] = "Microsoft.UI.Xaml.Controls.NavigationView";
+            _typeNameTable[10] = "Microsoft.UI.Xaml.Controls.ContentControl";
+            _typeNameTable[11] = "Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode";
+            _typeNameTable[12] = "System.Enum";
+            _typeNameTable[13] = "System.ValueType";
+            _typeNameTable[14] = "Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible";
+            _typeNameTable[15] = "System.Collections.Generic.IList`1<Object>";
+            _typeNameTable[16] = "Microsoft.UI.Xaml.Controls.AutoSuggestBox";
+            _typeNameTable[17] = "Double";
+            _typeNameTable[18] = "Microsoft.UI.Xaml.UIElement";
+            _typeNameTable[19] = "Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode";
+            _typeNameTable[20] = "Microsoft.UI.Xaml.DataTemplate";
+            _typeNameTable[21] = "Microsoft.UI.Xaml.Style";
+            _typeNameTable[22] = "Microsoft.UI.Xaml.Controls.StyleSelector";
+            _typeNameTable[23] = "Microsoft.UI.Xaml.Controls.DataTemplateSelector";
+            _typeNameTable[24] = "Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode";
+            _typeNameTable[25] = "String";
+            _typeNameTable[26] = "Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus";
+            _typeNameTable[27] = "Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled";
+            _typeNameTable[28] = "Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings";
+            _typeNameTable[29] = "Microsoft.UI.Xaml.DependencyObject";
+            _typeNameTable[30] = "Microsoft.UI.Xaml.Controls.NavigationViewItem";
+            _typeNameTable[31] = "Microsoft.UI.Xaml.Controls.NavigationViewItemBase";
+            _typeNameTable[32] = "Microsoft.UI.Xaml.Controls.IconElement";
+            _typeNameTable[33] = "Microsoft.UI.Xaml.Controls.InfoBadge";
+            _typeNameTable[34] = "Microsoft.UI.Xaml.Controls.Control";
+            _typeNameTable[35] = "ATLAS.MainWindow";
+            _typeNameTable[36] = "Microsoft.UI.Xaml.Window";
             _typeNameTable[37] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
             _typeNameTable[38] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
             _typeNameTable[39] = "Int32";
@@ -274,38 +274,38 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             _typeTable[2] = typeof(global::System.Object);
             _typeTable[3] = typeof(global::System.Boolean);
             _typeTable[4] = typeof(global::Microsoft.UI.Xaml.Controls.Button);
-            _typeTable[5] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationView);
-            _typeTable[6] = typeof(global::Microsoft.UI.Xaml.Controls.ContentControl);
-            _typeTable[7] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode);
-            _typeTable[8] = typeof(global::System.Enum);
-            _typeTable[9] = typeof(global::System.ValueType);
-            _typeTable[10] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible);
-            _typeTable[11] = typeof(global::System.Collections.Generic.IList<global::System.Object>);
-            _typeTable[12] = typeof(global::Microsoft.UI.Xaml.Controls.AutoSuggestBox);
-            _typeTable[13] = typeof(global::System.Double);
-            _typeTable[14] = typeof(global::Microsoft.UI.Xaml.UIElement);
-            _typeTable[15] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode);
-            _typeTable[16] = typeof(global::Microsoft.UI.Xaml.DataTemplate);
-            _typeTable[17] = typeof(global::Microsoft.UI.Xaml.Style);
-            _typeTable[18] = typeof(global::Microsoft.UI.Xaml.Controls.StyleSelector);
-            _typeTable[19] = typeof(global::Microsoft.UI.Xaml.Controls.DataTemplateSelector);
-            _typeTable[20] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode);
-            _typeTable[21] = typeof(global::System.String);
-            _typeTable[22] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus);
-            _typeTable[23] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled);
-            _typeTable[24] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings);
-            _typeTable[25] = typeof(global::Microsoft.UI.Xaml.DependencyObject);
-            _typeTable[26] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItem);
-            _typeTable[27] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItemBase);
-            _typeTable[28] = typeof(global::Microsoft.UI.Xaml.Controls.IconElement);
-            _typeTable[29] = typeof(global::Microsoft.UI.Xaml.Controls.InfoBadge);
-            _typeTable[30] = typeof(global::Microsoft.UI.Xaml.Controls.Control);
-            _typeTable[31] = typeof(global::ATLAS.MainWindow);
-            _typeTable[32] = typeof(global::Microsoft.UI.Xaml.Window);
-            _typeTable[33] = typeof(global::ATLAS.Pages.AccountPage);
-            _typeTable[34] = typeof(global::Microsoft.UI.Xaml.Controls.Page);
-            _typeTable[35] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
-            _typeTable[36] = typeof(global::ATLAS.Pages.HomePage);
+            _typeTable[5] = typeof(global::ATLAS.AccountPage);
+            _typeTable[6] = typeof(global::Microsoft.UI.Xaml.Controls.Page);
+            _typeTable[7] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
+            _typeTable[8] = typeof(global::ATLAS.HomePage);
+            _typeTable[9] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationView);
+            _typeTable[10] = typeof(global::Microsoft.UI.Xaml.Controls.ContentControl);
+            _typeTable[11] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode);
+            _typeTable[12] = typeof(global::System.Enum);
+            _typeTable[13] = typeof(global::System.ValueType);
+            _typeTable[14] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible);
+            _typeTable[15] = typeof(global::System.Collections.Generic.IList<global::System.Object>);
+            _typeTable[16] = typeof(global::Microsoft.UI.Xaml.Controls.AutoSuggestBox);
+            _typeTable[17] = typeof(global::System.Double);
+            _typeTable[18] = typeof(global::Microsoft.UI.Xaml.UIElement);
+            _typeTable[19] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode);
+            _typeTable[20] = typeof(global::Microsoft.UI.Xaml.DataTemplate);
+            _typeTable[21] = typeof(global::Microsoft.UI.Xaml.Style);
+            _typeTable[22] = typeof(global::Microsoft.UI.Xaml.Controls.StyleSelector);
+            _typeTable[23] = typeof(global::Microsoft.UI.Xaml.Controls.DataTemplateSelector);
+            _typeTable[24] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode);
+            _typeTable[25] = typeof(global::System.String);
+            _typeTable[26] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus);
+            _typeTable[27] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled);
+            _typeTable[28] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings);
+            _typeTable[29] = typeof(global::Microsoft.UI.Xaml.DependencyObject);
+            _typeTable[30] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItem);
+            _typeTable[31] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItemBase);
+            _typeTable[32] = typeof(global::Microsoft.UI.Xaml.Controls.IconElement);
+            _typeTable[33] = typeof(global::Microsoft.UI.Xaml.Controls.InfoBadge);
+            _typeTable[34] = typeof(global::Microsoft.UI.Xaml.Controls.Control);
+            _typeTable[35] = typeof(global::ATLAS.MainWindow);
+            _typeTable[36] = typeof(global::Microsoft.UI.Xaml.Window);
             _typeTable[37] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
             _typeTable[38] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
             _typeTable[39] = typeof(global::System.Int32);
@@ -344,32 +344,32 @@ namespace ATLAS.ATLAS_XamlTypeInfo
         }
 
         private object Activate_0_XamlControlsResources() { return new global::Microsoft.UI.Xaml.Controls.XamlControlsResources(); }
-        private object Activate_5_NavigationView() { return new global::Microsoft.UI.Xaml.Controls.NavigationView(); }
-        private object Activate_24_NavigationViewTemplateSettings() { return new global::Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings(); }
-        private object Activate_26_NavigationViewItem() { return new global::Microsoft.UI.Xaml.Controls.NavigationViewItem(); }
-        private object Activate_29_InfoBadge() { return new global::Microsoft.UI.Xaml.Controls.InfoBadge(); }
-        private object Activate_31_MainWindow() { return new global::ATLAS.MainWindow(); }
-        private object Activate_33_AccountPage() { return new global::ATLAS.Pages.AccountPage(); }
-        private object Activate_36_HomePage() { return new global::ATLAS.Pages.HomePage(); }
+        private object Activate_5_AccountPage() { return new global::ATLAS.AccountPage(); }
+        private object Activate_8_HomePage() { return new global::ATLAS.HomePage(); }
+        private object Activate_9_NavigationView() { return new global::Microsoft.UI.Xaml.Controls.NavigationView(); }
+        private object Activate_28_NavigationViewTemplateSettings() { return new global::Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings(); }
+        private object Activate_30_NavigationViewItem() { return new global::Microsoft.UI.Xaml.Controls.NavigationViewItem(); }
+        private object Activate_33_InfoBadge() { return new global::Microsoft.UI.Xaml.Controls.InfoBadge(); }
+        private object Activate_35_MainWindow() { return new global::ATLAS.MainWindow(); }
         private object Activate_37_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void StaticInitializer_0_XamlControlsResources() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources).TypeHandle);
-        private void StaticInitializer_5_NavigationView() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationView).TypeHandle);
-        private void StaticInitializer_7_NavigationViewPaneDisplayMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode).TypeHandle);
-        private void StaticInitializer_8_Enum() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Enum).TypeHandle);
-        private void StaticInitializer_9_ValueType() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.ValueType).TypeHandle);
-        private void StaticInitializer_10_NavigationViewBackButtonVisible() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible).TypeHandle);
-        private void StaticInitializer_11_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::System.Object>).TypeHandle);
-        private void StaticInitializer_15_NavigationViewDisplayMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode).TypeHandle);
-        private void StaticInitializer_20_NavigationViewOverflowLabelMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode).TypeHandle);
-        private void StaticInitializer_22_NavigationViewSelectionFollowsFocus() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus).TypeHandle);
-        private void StaticInitializer_23_NavigationViewShoulderNavigationEnabled() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled).TypeHandle);
-        private void StaticInitializer_24_NavigationViewTemplateSettings() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings).TypeHandle);
-        private void StaticInitializer_26_NavigationViewItem() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItem).TypeHandle);
-        private void StaticInitializer_27_NavigationViewItemBase() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItemBase).TypeHandle);
-        private void StaticInitializer_29_InfoBadge() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.InfoBadge).TypeHandle);
-        private void StaticInitializer_31_MainWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.MainWindow).TypeHandle);
-        private void StaticInitializer_33_AccountPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.AccountPage).TypeHandle);
-        private void StaticInitializer_36_HomePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.HomePage).TypeHandle);
+        private void StaticInitializer_5_AccountPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.AccountPage).TypeHandle);
+        private void StaticInitializer_8_HomePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.HomePage).TypeHandle);
+        private void StaticInitializer_9_NavigationView() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationView).TypeHandle);
+        private void StaticInitializer_11_NavigationViewPaneDisplayMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode).TypeHandle);
+        private void StaticInitializer_12_Enum() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Enum).TypeHandle);
+        private void StaticInitializer_13_ValueType() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.ValueType).TypeHandle);
+        private void StaticInitializer_14_NavigationViewBackButtonVisible() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible).TypeHandle);
+        private void StaticInitializer_15_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::System.Object>).TypeHandle);
+        private void StaticInitializer_19_NavigationViewDisplayMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode).TypeHandle);
+        private void StaticInitializer_24_NavigationViewOverflowLabelMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode).TypeHandle);
+        private void StaticInitializer_26_NavigationViewSelectionFollowsFocus() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus).TypeHandle);
+        private void StaticInitializer_27_NavigationViewShoulderNavigationEnabled() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled).TypeHandle);
+        private void StaticInitializer_28_NavigationViewTemplateSettings() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings).TypeHandle);
+        private void StaticInitializer_30_NavigationViewItem() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItem).TypeHandle);
+        private void StaticInitializer_31_NavigationViewItemBase() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItemBase).TypeHandle);
+        private void StaticInitializer_33_InfoBadge() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.InfoBadge).TypeHandle);
+        private void StaticInitializer_35_MainWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.MainWindow).TypeHandle);
         private void StaticInitializer_37_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
         private void StaticInitializer_38_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
@@ -379,7 +379,7 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newKey, newItem);
         }
-        private void VectorAdd_11_IList(object instance, object item)
+        private void VectorAdd_15_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::System.Object>)instance;
             var newItem = (global::System.Object)item;
@@ -427,10 +427,34 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 5:   //  Microsoft.UI.Xaml.Controls.NavigationView
+            case 5:   //  ATLAS.AccountPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_5_AccountPage;
+                userType.StaticInitializer = StaticInitializer_5_AccountPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 6:   //  Microsoft.UI.Xaml.Controls.Page
+                xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 7:   //  Microsoft.UI.Xaml.Controls.UserControl
+                xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 8:   //  ATLAS.HomePage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_8_HomePage;
+                userType.StaticInitializer = StaticInitializer_8_HomePage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 9:   //  Microsoft.UI.Xaml.Controls.NavigationView
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ContentControl"));
-                userType.Activator = Activate_5_NavigationView;
-                userType.StaticInitializer = StaticInitializer_5_NavigationView;
+                userType.Activator = Activate_9_NavigationView;
+                userType.StaticInitializer = StaticInitializer_9_NavigationView;
                 userType.AddMemberName("PaneDisplayMode");
                 userType.AddMemberName("IsSettingsVisible");
                 userType.AddMemberName("IsBackButtonVisible");
@@ -471,13 +495,13 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 6:   //  Microsoft.UI.Xaml.Controls.ContentControl
+            case 10:   //  Microsoft.UI.Xaml.Controls.ContentControl
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 7:   //  Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode
+            case 11:   //  Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_7_NavigationViewPaneDisplayMode;
+                userType.StaticInitializer = StaticInitializer_11_NavigationViewPaneDisplayMode;
                 userType.AddEnumValue("Auto", global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Auto);
                 userType.AddEnumValue("Left", global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left);
                 userType.AddEnumValue("Top", global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top);
@@ -486,116 +510,116 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 8:   //  System.Enum
+            case 12:   //  System.Enum
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.ValueType"));
-                userType.StaticInitializer = StaticInitializer_8_Enum;
+                userType.StaticInitializer = StaticInitializer_12_Enum;
                 xamlType = userType;
                 break;
 
-            case 9:   //  System.ValueType
+            case 13:   //  System.ValueType
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.StaticInitializer = StaticInitializer_9_ValueType;
+                userType.StaticInitializer = StaticInitializer_13_ValueType;
                 xamlType = userType;
                 break;
 
-            case 10:   //  Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible
+            case 14:   //  Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_10_NavigationViewBackButtonVisible;
+                userType.StaticInitializer = StaticInitializer_14_NavigationViewBackButtonVisible;
                 userType.AddEnumValue("Collapsed", global::Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible.Collapsed);
                 userType.AddEnumValue("Visible", global::Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible.Visible);
                 userType.AddEnumValue("Auto", global::Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible.Auto);
                 xamlType = userType;
                 break;
 
-            case 11:   //  System.Collections.Generic.IList`1<Object>
+            case 15:   //  System.Collections.Generic.IList`1<Object>
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_11_IList;
-                userType.CollectionAdd = VectorAdd_11_IList;
+                userType.StaticInitializer = StaticInitializer_15_IList;
+                userType.CollectionAdd = VectorAdd_15_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 12:   //  Microsoft.UI.Xaml.Controls.AutoSuggestBox
+            case 16:   //  Microsoft.UI.Xaml.Controls.AutoSuggestBox
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 13:   //  Double
+            case 17:   //  Double
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 14:   //  Microsoft.UI.Xaml.UIElement
+            case 18:   //  Microsoft.UI.Xaml.UIElement
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 15:   //  Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode
+            case 19:   //  Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_15_NavigationViewDisplayMode;
+                userType.StaticInitializer = StaticInitializer_19_NavigationViewDisplayMode;
                 userType.AddEnumValue("Minimal", global::Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal);
                 userType.AddEnumValue("Compact", global::Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Compact);
                 userType.AddEnumValue("Expanded", global::Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded);
                 xamlType = userType;
                 break;
 
-            case 16:   //  Microsoft.UI.Xaml.DataTemplate
+            case 20:   //  Microsoft.UI.Xaml.DataTemplate
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 17:   //  Microsoft.UI.Xaml.Style
+            case 21:   //  Microsoft.UI.Xaml.Style
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 18:   //  Microsoft.UI.Xaml.Controls.StyleSelector
+            case 22:   //  Microsoft.UI.Xaml.Controls.StyleSelector
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 19:   //  Microsoft.UI.Xaml.Controls.DataTemplateSelector
+            case 23:   //  Microsoft.UI.Xaml.Controls.DataTemplateSelector
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 20:   //  Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode
+            case 24:   //  Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_20_NavigationViewOverflowLabelMode;
+                userType.StaticInitializer = StaticInitializer_24_NavigationViewOverflowLabelMode;
                 userType.AddEnumValue("MoreLabel", global::Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode.MoreLabel);
                 userType.AddEnumValue("NoLabel", global::Microsoft.UI.Xaml.Controls.NavigationViewOverflowLabelMode.NoLabel);
                 xamlType = userType;
                 break;
 
-            case 21:   //  String
+            case 25:   //  String
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 22:   //  Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus
+            case 26:   //  Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_22_NavigationViewSelectionFollowsFocus;
+                userType.StaticInitializer = StaticInitializer_26_NavigationViewSelectionFollowsFocus;
                 userType.AddEnumValue("Disabled", global::Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus.Disabled);
                 userType.AddEnumValue("Enabled", global::Microsoft.UI.Xaml.Controls.NavigationViewSelectionFollowsFocus.Enabled);
                 xamlType = userType;
                 break;
 
-            case 23:   //  Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled
+            case 27:   //  Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_23_NavigationViewShoulderNavigationEnabled;
+                userType.StaticInitializer = StaticInitializer_27_NavigationViewShoulderNavigationEnabled;
                 userType.AddEnumValue("WhenSelectionFollowsFocus", global::Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled.WhenSelectionFollowsFocus);
                 userType.AddEnumValue("Always", global::Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled.Always);
                 userType.AddEnumValue("Never", global::Microsoft.UI.Xaml.Controls.NavigationViewShoulderNavigationEnabled.Never);
                 xamlType = userType;
                 break;
 
-            case 24:   //  Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings
+            case 28:   //  Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.StaticInitializer = StaticInitializer_24_NavigationViewTemplateSettings;
+                userType.StaticInitializer = StaticInitializer_28_NavigationViewTemplateSettings;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 25:   //  Microsoft.UI.Xaml.DependencyObject
+            case 29:   //  Microsoft.UI.Xaml.DependencyObject
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 26:   //  Microsoft.UI.Xaml.Controls.NavigationViewItem
+            case 30:   //  Microsoft.UI.Xaml.Controls.NavigationViewItem
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NavigationViewItemBase"));
-                userType.Activator = Activate_26_NavigationViewItem;
-                userType.StaticInitializer = StaticInitializer_26_NavigationViewItem;
+                userType.Activator = Activate_30_NavigationViewItem;
+                userType.StaticInitializer = StaticInitializer_30_NavigationViewItem;
                 userType.AddMemberName("Icon");
                 userType.AddMemberName("MenuItems");
                 userType.AddMemberName("CompactPaneLength");
@@ -608,62 +632,38 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 27:   //  Microsoft.UI.Xaml.Controls.NavigationViewItemBase
+            case 31:   //  Microsoft.UI.Xaml.Controls.NavigationViewItemBase
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ContentControl"));
-                userType.StaticInitializer = StaticInitializer_27_NavigationViewItemBase;
+                userType.StaticInitializer = StaticInitializer_31_NavigationViewItemBase;
                 userType.AddMemberName("IsSelected");
                 xamlType = userType;
                 break;
 
-            case 28:   //  Microsoft.UI.Xaml.Controls.IconElement
+            case 32:   //  Microsoft.UI.Xaml.Controls.IconElement
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 29:   //  Microsoft.UI.Xaml.Controls.InfoBadge
+            case 33:   //  Microsoft.UI.Xaml.Controls.InfoBadge
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
-                userType.StaticInitializer = StaticInitializer_29_InfoBadge;
+                userType.StaticInitializer = StaticInitializer_33_InfoBadge;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 30:   //  Microsoft.UI.Xaml.Controls.Control
+            case 34:   //  Microsoft.UI.Xaml.Controls.Control
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 31:   //  ATLAS.MainWindow
+            case 35:   //  ATLAS.MainWindow
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Window"));
-                userType.Activator = Activate_31_MainWindow;
-                userType.StaticInitializer = StaticInitializer_31_MainWindow;
+                userType.Activator = Activate_35_MainWindow;
+                userType.StaticInitializer = StaticInitializer_35_MainWindow;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 32:   //  Microsoft.UI.Xaml.Window
+            case 36:   //  Microsoft.UI.Xaml.Window
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
-                break;
-
-            case 33:   //  ATLAS.Pages.AccountPage
-                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_33_AccountPage;
-                userType.StaticInitializer = StaticInitializer_33_AccountPage;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 34:   //  Microsoft.UI.Xaml.Controls.Page
-                xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
-                break;
-
-            case 35:   //  Microsoft.UI.Xaml.Controls.UserControl
-                xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
-                break;
-
-            case 36:   //  ATLAS.Pages.HomePage
-                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_36_HomePage;
-                userType.StaticInitializer = StaticInitializer_36_HomePage;
-                userType.SetIsLocalType();
-                xamlType = userType;
                 break;
 
             case 37:   //  Microsoft.UI.Xaml.Controls.TreeViewNode

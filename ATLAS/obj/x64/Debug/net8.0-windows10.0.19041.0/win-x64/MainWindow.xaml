@@ -9,16 +9,55 @@
     mc:Ignorable="d"
     Title="ATLAS">
 
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
-
     <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-            <Button x:ConnectionId='2' x:Name="IncrementButton" Content="+"                               />
-            <TextBlock x:ConnectionId='3' x:Name="CounterTextBlock" Width="100" Text="0" TextAlignment="Center"/>
-            <Button x:ConnectionId='4' x:Name="DecrementButton" Content="-"                               />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:ConnectionId='2' x:Name="CustomTitleBar" Grid.Row="0" Height="48">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <NavigationView x:ConnectionId='4' x:Name="NavView"
+                            Grid.Column="0"
+                            PaneDisplayMode="Top"
+                            IsSettingsVisible="False" IsBackButtonVisible="Collapsed"
+                                                             >
+
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Content="Home" Icon="Home" Tag="Home"/>
+                    <NavigationViewItem Content="Analysis" Icon="GoToStart" Tag="Analysis">
+                        <NavigationViewItem.MenuItems>
+                            <NavigationViewItem Content="Text Analysis" Tag="TextAnalysis">
+                                <NavigationViewItem.Icon>
+                                    <FontIcon Glyph="&#xE736;"/>
+                                </NavigationViewItem.Icon>
+                            </NavigationViewItem>
+                            <NavigationViewItem Content="Voice Analysis" Tag="VoiceAnalysis">
+                                <NavigationViewItem.Icon>
+                                    <FontIcon Glyph="&#xE720;"/>
+                                </NavigationViewItem.Icon>
+                            </NavigationViewItem>
+                            <NavigationViewItem Content="Image Analysis" Tag="ImageAnalysis">
+                                <NavigationViewItem.Icon>
+                                    <FontIcon Glyph="&#xE722;"/>
+                                </NavigationViewItem.Icon>
+                            </NavigationViewItem>
+                        </NavigationViewItem.MenuItems>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="Our Vision" Icon="Flag" Tag="Vision"/>
+                    <NavigationViewItem Content="Account" Icon="Contact" Tag="Account"/>
+                    <NavigationViewItem Content="Settings" Icon="Setting" Tag="Settings"/>
+                </NavigationView.MenuItems>
+            </NavigationView>
+        </Grid>
+
+        <Frame x:ConnectionId='3' x:Name="ContentFrame" Grid.Row="1" />
+
     </Grid>
 </Window>
 

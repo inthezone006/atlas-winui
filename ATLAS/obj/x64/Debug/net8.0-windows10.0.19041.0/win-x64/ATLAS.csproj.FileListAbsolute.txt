@@ -259,3 +259,13 @@ C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19
 C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\qualifiers.txt.intermediate
 C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ProjectArchitectures.txt
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AccountPage.g.i.cs
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AccountPage.g.cs
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\HomePage.g.i.cs
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\HomePage.g.cs
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AccountPage.xaml
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\HomePage.xaml
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AccountPage.xbf
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\HomePage.xbf
+C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AccountPage.xbf
+C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\HomePage.xbf
