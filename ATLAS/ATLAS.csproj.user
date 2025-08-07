@@ -11,5 +11,32 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\AccountSettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\DashboardPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SignUpPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\VisionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\ImageAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\VoiceAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TextAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

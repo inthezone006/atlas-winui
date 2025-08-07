@@ -15,6 +15,15 @@
   <ItemGroup>
     <None Remove="AccountPage.xaml" />
     <None Remove="HomePage.xaml" />
+    <None Remove="Pages\AccountSettingsPage.xaml" />
+    <None Remove="Pages\DashboardPage.xaml" />
+    <None Remove="Pages\ImageAnalysisPage.xaml" />
+    <None Remove="Pages\LoginPage.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\SignUpPage.xaml" />
+    <None Remove="Pages\TextAnalysisPage.xaml" />
+    <None Remove="Pages\VisionPage.xaml" />
+    <None Remove="Pages\VoiceAnalysisPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +53,16 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Pages\AccountSettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\DashboardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="AccountPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -54,9 +73,39 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
-    <Folder Include="Pages\" />
+    <Page Update="Pages\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\SignUpPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\VisionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ImageAnalysisPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\VoiceAnalysisPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\TextAnalysisPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--

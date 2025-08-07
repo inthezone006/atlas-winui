@@ -1,0 +1,39 @@
+<Page
+    x:Class="ATLAS.Pages.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Grid Padding="40">
+        <StackPanel Spacing="20">
+            <TextBlock Text="Dashboard" FontSize="32" FontWeight="SemiBold"/>
+
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <Border Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="20" Width="200">
+                    <StackPanel>
+                        <TextBlock Text="Total Analyses" FontWeight="SemiBold"/>
+                        <TextBlock x:Name="TotalAnalysesText" Text="-" FontSize="36"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="20" Width="200">
+                    <StackPanel>
+                        <TextBlock Text="Scams Detected" FontWeight="SemiBold"/>
+                        <TextBlock x:Name="ScamsDetectedText" Text="-" FontSize="36"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="20" Width="200">
+                    <StackPanel>
+                        <TextBlock Text="Submissions" FontWeight="SemiBold"/>
+                        <TextBlock x:Name="SubmissionsText" Text="-" FontSize="36"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <TextBlock Text="Recent Activity" FontSize="24" FontWeight="SemiBold" Margin="0,20,0,0"/>
+            <TextBlock x:Name="LogStatusText" Text="Loading activity..." />
+        </StackPanel>
+    </Grid>
+</Page>

@@ -226,7 +226,7 @@ namespace ATLAS.ATLAS_XamlTypeInfo
         
         private void InitTypeTables()
         {
-            _typeNameTable = new string[40];
+            _typeNameTable = new string[53];
             _typeNameTable[0] = "Microsoft.UI.Xaml.Controls.XamlControlsResources";
             _typeNameTable[1] = "Microsoft.UI.Xaml.ResourceDictionary";
             _typeNameTable[2] = "Object";
@@ -258,17 +258,30 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             _typeNameTable[28] = "Microsoft.UI.Xaml.Controls.IconElement";
             _typeNameTable[29] = "Microsoft.UI.Xaml.Controls.InfoBadge";
             _typeNameTable[30] = "Microsoft.UI.Xaml.Controls.Control";
-            _typeNameTable[31] = "ATLAS.MainWindow";
-            _typeNameTable[32] = "Microsoft.UI.Xaml.Window";
-            _typeNameTable[33] = "ATLAS.Pages.AccountPage";
-            _typeNameTable[34] = "Microsoft.UI.Xaml.Controls.Page";
-            _typeNameTable[35] = "Microsoft.UI.Xaml.Controls.UserControl";
-            _typeNameTable[36] = "ATLAS.Pages.HomePage";
-            _typeNameTable[37] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
-            _typeNameTable[38] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
-            _typeNameTable[39] = "Int32";
+            _typeNameTable[31] = "Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator";
+            _typeNameTable[32] = "ATLAS.MainWindow";
+            _typeNameTable[33] = "Microsoft.UI.Xaml.Window";
+            _typeNameTable[34] = "Microsoft.UI.Xaml.Controls.Frame";
+            _typeNameTable[35] = "ATLAS.Pages.AccountPage";
+            _typeNameTable[36] = "Microsoft.UI.Xaml.Controls.Page";
+            _typeNameTable[37] = "Microsoft.UI.Xaml.Controls.UserControl";
+            _typeNameTable[38] = "ATLAS.Pages.AccountSettingsPage";
+            _typeNameTable[39] = "ATLAS.Pages.DashboardPage";
+            _typeNameTable[40] = "ATLAS.Pages.HomePage";
+            _typeNameTable[41] = "ATLAS.Pages.ImageAnalysisPage";
+            _typeNameTable[42] = "Microsoft.UI.Xaml.Controls.ProgressRing";
+            _typeNameTable[43] = "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings";
+            _typeNameTable[44] = "ATLAS.Pages.LoginPage";
+            _typeNameTable[45] = "ATLAS.Pages.SettingsPage";
+            _typeNameTable[46] = "ATLAS.Pages.SignUpPage";
+            _typeNameTable[47] = "ATLAS.Pages.TextAnalysisPage";
+            _typeNameTable[48] = "ATLAS.Pages.VisionPage";
+            _typeNameTable[49] = "ATLAS.Pages.VoiceAnalysisPage";
+            _typeNameTable[50] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
+            _typeNameTable[51] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
+            _typeNameTable[52] = "Int32";
 
-            _typeTable = new global::System.Type[40];
+            _typeTable = new global::System.Type[53];
             _typeTable[0] = typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources);
             _typeTable[1] = typeof(global::Microsoft.UI.Xaml.ResourceDictionary);
             _typeTable[2] = typeof(global::System.Object);
@@ -300,15 +313,28 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             _typeTable[28] = typeof(global::Microsoft.UI.Xaml.Controls.IconElement);
             _typeTable[29] = typeof(global::Microsoft.UI.Xaml.Controls.InfoBadge);
             _typeTable[30] = typeof(global::Microsoft.UI.Xaml.Controls.Control);
-            _typeTable[31] = typeof(global::ATLAS.MainWindow);
-            _typeTable[32] = typeof(global::Microsoft.UI.Xaml.Window);
-            _typeTable[33] = typeof(global::ATLAS.Pages.AccountPage);
-            _typeTable[34] = typeof(global::Microsoft.UI.Xaml.Controls.Page);
-            _typeTable[35] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
-            _typeTable[36] = typeof(global::ATLAS.Pages.HomePage);
-            _typeTable[37] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
-            _typeTable[38] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
-            _typeTable[39] = typeof(global::System.Int32);
+            _typeTable[31] = typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator);
+            _typeTable[32] = typeof(global::ATLAS.MainWindow);
+            _typeTable[33] = typeof(global::Microsoft.UI.Xaml.Window);
+            _typeTable[34] = typeof(global::Microsoft.UI.Xaml.Controls.Frame);
+            _typeTable[35] = typeof(global::ATLAS.Pages.AccountPage);
+            _typeTable[36] = typeof(global::Microsoft.UI.Xaml.Controls.Page);
+            _typeTable[37] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
+            _typeTable[38] = typeof(global::ATLAS.Pages.AccountSettingsPage);
+            _typeTable[39] = typeof(global::ATLAS.Pages.DashboardPage);
+            _typeTable[40] = typeof(global::ATLAS.Pages.HomePage);
+            _typeTable[41] = typeof(global::ATLAS.Pages.ImageAnalysisPage);
+            _typeTable[42] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing);
+            _typeTable[43] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings);
+            _typeTable[44] = typeof(global::ATLAS.Pages.LoginPage);
+            _typeTable[45] = typeof(global::ATLAS.Pages.SettingsPage);
+            _typeTable[46] = typeof(global::ATLAS.Pages.SignUpPage);
+            _typeTable[47] = typeof(global::ATLAS.Pages.TextAnalysisPage);
+            _typeTable[48] = typeof(global::ATLAS.Pages.VisionPage);
+            _typeTable[49] = typeof(global::ATLAS.Pages.VoiceAnalysisPage);
+            _typeTable[50] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
+            _typeTable[51] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
+            _typeTable[52] = typeof(global::System.Int32);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -348,10 +374,21 @@ namespace ATLAS.ATLAS_XamlTypeInfo
         private object Activate_24_NavigationViewTemplateSettings() { return new global::Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings(); }
         private object Activate_26_NavigationViewItem() { return new global::Microsoft.UI.Xaml.Controls.NavigationViewItem(); }
         private object Activate_29_InfoBadge() { return new global::Microsoft.UI.Xaml.Controls.InfoBadge(); }
-        private object Activate_31_MainWindow() { return new global::ATLAS.MainWindow(); }
-        private object Activate_33_AccountPage() { return new global::ATLAS.Pages.AccountPage(); }
-        private object Activate_36_HomePage() { return new global::ATLAS.Pages.HomePage(); }
-        private object Activate_37_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
+        private object Activate_31_NavigationViewItemSeparator() { return new global::Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator(); }
+        private object Activate_32_MainWindow() { return new global::ATLAS.MainWindow(); }
+        private object Activate_35_AccountPage() { return new global::ATLAS.Pages.AccountPage(); }
+        private object Activate_38_AccountSettingsPage() { return new global::ATLAS.Pages.AccountSettingsPage(); }
+        private object Activate_39_DashboardPage() { return new global::ATLAS.Pages.DashboardPage(); }
+        private object Activate_40_HomePage() { return new global::ATLAS.Pages.HomePage(); }
+        private object Activate_41_ImageAnalysisPage() { return new global::ATLAS.Pages.ImageAnalysisPage(); }
+        private object Activate_42_ProgressRing() { return new global::Microsoft.UI.Xaml.Controls.ProgressRing(); }
+        private object Activate_44_LoginPage() { return new global::ATLAS.Pages.LoginPage(); }
+        private object Activate_45_SettingsPage() { return new global::ATLAS.Pages.SettingsPage(); }
+        private object Activate_46_SignUpPage() { return new global::ATLAS.Pages.SignUpPage(); }
+        private object Activate_47_TextAnalysisPage() { return new global::ATLAS.Pages.TextAnalysisPage(); }
+        private object Activate_48_VisionPage() { return new global::ATLAS.Pages.VisionPage(); }
+        private object Activate_49_VoiceAnalysisPage() { return new global::ATLAS.Pages.VoiceAnalysisPage(); }
+        private object Activate_50_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void StaticInitializer_0_XamlControlsResources() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources).TypeHandle);
         private void StaticInitializer_5_NavigationView() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationView).TypeHandle);
         private void StaticInitializer_7_NavigationViewPaneDisplayMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode).TypeHandle);
@@ -367,11 +404,23 @@ namespace ATLAS.ATLAS_XamlTypeInfo
         private void StaticInitializer_26_NavigationViewItem() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItem).TypeHandle);
         private void StaticInitializer_27_NavigationViewItemBase() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItemBase).TypeHandle);
         private void StaticInitializer_29_InfoBadge() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.InfoBadge).TypeHandle);
-        private void StaticInitializer_31_MainWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.MainWindow).TypeHandle);
-        private void StaticInitializer_33_AccountPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.AccountPage).TypeHandle);
-        private void StaticInitializer_36_HomePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.HomePage).TypeHandle);
-        private void StaticInitializer_37_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
-        private void StaticInitializer_38_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
+        private void StaticInitializer_31_NavigationViewItemSeparator() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator).TypeHandle);
+        private void StaticInitializer_32_MainWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.MainWindow).TypeHandle);
+        private void StaticInitializer_35_AccountPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.AccountPage).TypeHandle);
+        private void StaticInitializer_38_AccountSettingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.AccountSettingsPage).TypeHandle);
+        private void StaticInitializer_39_DashboardPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.DashboardPage).TypeHandle);
+        private void StaticInitializer_40_HomePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.HomePage).TypeHandle);
+        private void StaticInitializer_41_ImageAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.ImageAnalysisPage).TypeHandle);
+        private void StaticInitializer_42_ProgressRing() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing).TypeHandle);
+        private void StaticInitializer_43_ProgressRingTemplateSettings() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings).TypeHandle);
+        private void StaticInitializer_44_LoginPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.LoginPage).TypeHandle);
+        private void StaticInitializer_45_SettingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.SettingsPage).TypeHandle);
+        private void StaticInitializer_46_SignUpPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.SignUpPage).TypeHandle);
+        private void StaticInitializer_47_TextAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.TextAnalysisPage).TypeHandle);
+        private void StaticInitializer_48_VisionPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.VisionPage).TypeHandle);
+        private void StaticInitializer_49_VoiceAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.VoiceAnalysisPage).TypeHandle);
+        private void StaticInitializer_50_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
+        private void StaticInitializer_51_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.Object, global::System.Object>)instance;
@@ -385,7 +434,7 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_38_IList(object instance, object item)
+        private void VectorAdd_51_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.TreeViewNode>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)item;
@@ -630,46 +679,150 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 31:   //  ATLAS.MainWindow
+            case 31:   //  Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NavigationViewItemBase"));
+                userType.Activator = Activate_31_NavigationViewItemSeparator;
+                userType.StaticInitializer = StaticInitializer_31_NavigationViewItemSeparator;
+                xamlType = userType;
+                break;
+
+            case 32:   //  ATLAS.MainWindow
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Window"));
-                userType.Activator = Activate_31_MainWindow;
-                userType.StaticInitializer = StaticInitializer_31_MainWindow;
+                userType.Activator = Activate_32_MainWindow;
+                userType.StaticInitializer = StaticInitializer_32_MainWindow;
+                userType.AddMemberName("AppFrame");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 32:   //  Microsoft.UI.Xaml.Window
+            case 33:   //  Microsoft.UI.Xaml.Window
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 33:   //  ATLAS.Pages.AccountPage
+            case 34:   //  Microsoft.UI.Xaml.Controls.Frame
+                xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 35:   //  ATLAS.Pages.AccountPage
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_33_AccountPage;
-                userType.StaticInitializer = StaticInitializer_33_AccountPage;
+                userType.Activator = Activate_35_AccountPage;
+                userType.StaticInitializer = StaticInitializer_35_AccountPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 34:   //  Microsoft.UI.Xaml.Controls.Page
+            case 36:   //  Microsoft.UI.Xaml.Controls.Page
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 35:   //  Microsoft.UI.Xaml.Controls.UserControl
+            case 37:   //  Microsoft.UI.Xaml.Controls.UserControl
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 36:   //  ATLAS.Pages.HomePage
+            case 38:   //  ATLAS.Pages.AccountSettingsPage
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_36_HomePage;
-                userType.StaticInitializer = StaticInitializer_36_HomePage;
+                userType.Activator = Activate_38_AccountSettingsPage;
+                userType.StaticInitializer = StaticInitializer_38_AccountSettingsPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 37:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+            case 39:   //  ATLAS.Pages.DashboardPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_39_DashboardPage;
+                userType.StaticInitializer = StaticInitializer_39_DashboardPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 40:   //  ATLAS.Pages.HomePage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_40_HomePage;
+                userType.StaticInitializer = StaticInitializer_40_HomePage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 41:   //  ATLAS.Pages.ImageAnalysisPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_41_ImageAnalysisPage;
+                userType.StaticInitializer = StaticInitializer_41_ImageAnalysisPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 42:   //  Microsoft.UI.Xaml.Controls.ProgressRing
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
+                userType.Activator = Activate_42_ProgressRing;
+                userType.StaticInitializer = StaticInitializer_42_ProgressRing;
+                userType.AddMemberName("IsActive");
+                userType.AddMemberName("IsIndeterminate");
+                userType.AddMemberName("Maximum");
+                userType.AddMemberName("Minimum");
+                userType.AddMemberName("TemplateSettings");
+                userType.AddMemberName("Value");
+                xamlType = userType;
+                break;
+
+            case 43:   //  Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_37_TreeViewNode;
-                userType.StaticInitializer = StaticInitializer_37_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_43_ProgressRingTemplateSettings;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 44:   //  ATLAS.Pages.LoginPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_44_LoginPage;
+                userType.StaticInitializer = StaticInitializer_44_LoginPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 45:   //  ATLAS.Pages.SettingsPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_45_SettingsPage;
+                userType.StaticInitializer = StaticInitializer_45_SettingsPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 46:   //  ATLAS.Pages.SignUpPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_46_SignUpPage;
+                userType.StaticInitializer = StaticInitializer_46_SignUpPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 47:   //  ATLAS.Pages.TextAnalysisPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_47_TextAnalysisPage;
+                userType.StaticInitializer = StaticInitializer_47_TextAnalysisPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 48:   //  ATLAS.Pages.VisionPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_48_VisionPage;
+                userType.StaticInitializer = StaticInitializer_48_VisionPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 49:   //  ATLAS.Pages.VoiceAnalysisPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_49_VoiceAnalysisPage;
+                userType.StaticInitializer = StaticInitializer_49_VoiceAnalysisPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 50:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
+                userType.Activator = Activate_50_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_50_TreeViewNode;
                 userType.AddMemberName("Children");
                 userType.AddMemberName("Content");
                 userType.AddMemberName("Depth");
@@ -681,15 +834,15 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 38:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+            case 51:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_38_IList;
-                userType.CollectionAdd = VectorAdd_38_IList;
+                userType.StaticInitializer = StaticInitializer_51_IList;
+                userType.CollectionAdd = VectorAdd_51_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 39:   //  Int32
+            case 52:   //  Int32
                 xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
             }
@@ -1196,52 +1349,112 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             var that = (global::Microsoft.UI.Xaml.Controls.NavigationViewItemBase)instance;
             that.IsSelected = (global::System.Boolean)Value;
         }
-        private object get_48_TreeViewNode_Children(object instance)
+        private object get_48_MainWindow_AppFrame(object instance)
+        {
+            var that = (global::ATLAS.MainWindow)instance;
+            return that.AppFrame;
+        }
+        private object get_49_ProgressRing_IsActive(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.IsActive;
+        }
+        private void set_49_ProgressRing_IsActive(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.IsActive = (global::System.Boolean)Value;
+        }
+        private object get_50_ProgressRing_IsIndeterminate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.IsIndeterminate;
+        }
+        private void set_50_ProgressRing_IsIndeterminate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.IsIndeterminate = (global::System.Boolean)Value;
+        }
+        private object get_51_ProgressRing_Maximum(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.Maximum;
+        }
+        private void set_51_ProgressRing_Maximum(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.Maximum = (global::System.Double)Value;
+        }
+        private object get_52_ProgressRing_Minimum(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.Minimum;
+        }
+        private void set_52_ProgressRing_Minimum(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.Minimum = (global::System.Double)Value;
+        }
+        private object get_53_ProgressRing_TemplateSettings(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.TemplateSettings;
+        }
+        private object get_54_ProgressRing_Value(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.Value;
+        }
+        private void set_54_ProgressRing_Value(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.Value = (global::System.Double)Value;
+        }
+        private object get_55_TreeViewNode_Children(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Children;
         }
-        private object get_49_TreeViewNode_Content(object instance)
+        private object get_56_TreeViewNode_Content(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Content;
         }
-        private void set_49_TreeViewNode_Content(object instance, object Value)
+        private void set_56_TreeViewNode_Content(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.Content = (global::System.Object)Value;
         }
-        private object get_50_TreeViewNode_Depth(object instance)
+        private object get_57_TreeViewNode_Depth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Depth;
         }
-        private object get_51_TreeViewNode_HasChildren(object instance)
+        private object get_58_TreeViewNode_HasChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasChildren;
         }
-        private object get_52_TreeViewNode_HasUnrealizedChildren(object instance)
+        private object get_59_TreeViewNode_HasUnrealizedChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasUnrealizedChildren;
         }
-        private void set_52_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
+        private void set_59_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.HasUnrealizedChildren = (global::System.Boolean)Value;
         }
-        private object get_53_TreeViewNode_IsExpanded(object instance)
+        private object get_60_TreeViewNode_IsExpanded(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.IsExpanded;
         }
-        private void set_53_TreeViewNode_IsExpanded(object instance, object Value)
+        private void set_60_TreeViewNode_IsExpanded(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.IsExpanded = (global::System.Boolean)Value;
         }
-        private object get_54_TreeViewNode_Parent(object instance)
+        private object get_61_TreeViewNode_Parent(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Parent;
@@ -1590,50 +1803,97 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlMember.Getter = get_47_NavigationViewItemBase_IsSelected;
                 xamlMember.Setter = set_47_NavigationViewItemBase_IsSelected;
                 break;
+            case "ATLAS.MainWindow.AppFrame":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ATLAS.MainWindow");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "AppFrame", "Microsoft.UI.Xaml.Controls.Frame");
+                xamlMember.Getter = get_48_MainWindow_AppFrame;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.IsActive":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "IsActive", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_49_ProgressRing_IsActive;
+                xamlMember.Setter = set_49_ProgressRing_IsActive;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.IsIndeterminate":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "IsIndeterminate", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_50_ProgressRing_IsIndeterminate;
+                xamlMember.Setter = set_50_ProgressRing_IsIndeterminate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.Maximum":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Maximum", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_51_ProgressRing_Maximum;
+                xamlMember.Setter = set_51_ProgressRing_Maximum;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.Minimum":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Minimum", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_52_ProgressRing_Minimum;
+                xamlMember.Setter = set_52_ProgressRing_Minimum;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.TemplateSettings":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "TemplateSettings", "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings");
+                xamlMember.Getter = get_53_ProgressRing_TemplateSettings;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.Value":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Value", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_54_ProgressRing_Value;
+                xamlMember.Setter = set_54_ProgressRing_Value;
+                break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Children":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Children", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>");
-                xamlMember.Getter = get_48_TreeViewNode_Children;
+                xamlMember.Getter = get_55_TreeViewNode_Children;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Content":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Content", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_49_TreeViewNode_Content;
-                xamlMember.Setter = set_49_TreeViewNode_Content;
+                xamlMember.Getter = get_56_TreeViewNode_Content;
+                xamlMember.Setter = set_56_TreeViewNode_Content;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Depth":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Depth", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_50_TreeViewNode_Depth;
+                xamlMember.Getter = get_57_TreeViewNode_Depth;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "HasChildren", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_51_TreeViewNode_HasChildren;
+                xamlMember.Getter = get_58_TreeViewNode_HasChildren;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "HasUnrealizedChildren", "Boolean");
-                xamlMember.Getter = get_52_TreeViewNode_HasUnrealizedChildren;
-                xamlMember.Setter = set_52_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Getter = get_59_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Setter = set_59_TreeViewNode_HasUnrealizedChildren;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "IsExpanded", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_53_TreeViewNode_IsExpanded;
-                xamlMember.Setter = set_53_TreeViewNode_IsExpanded;
+                xamlMember.Getter = get_60_TreeViewNode_IsExpanded;
+                xamlMember.Setter = set_60_TreeViewNode_IsExpanded;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Parent":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Parent", "Microsoft.UI.Xaml.Controls.TreeViewNode");
-                xamlMember.Getter = get_54_TreeViewNode_Parent;
+                xamlMember.Getter = get_61_TreeViewNode_Parent;
                 xamlMember.SetIsReadOnly();
                 break;
             }

@@ -1,4 +1,13 @@
 App.xbf
 MainWindow.xbf
 Pages\AccountPage.xbf
+Pages\AccountSettingsPage.xbf
+Pages\DashboardPage.xbf
 Pages\HomePage.xbf
+Pages\ImageAnalysisPage.xbf
+Pages\LoginPage.xbf
+Pages\SettingsPage.xbf
+Pages\SignUpPage.xbf
+Pages\TextAnalysisPage.xbf
+Pages\VisionPage.xbf
+Pages\VoiceAnalysisPage.xbf

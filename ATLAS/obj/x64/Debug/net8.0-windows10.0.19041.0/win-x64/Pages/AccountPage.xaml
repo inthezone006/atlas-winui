@@ -22,7 +22,7 @@
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
                     <TextBlock Text="Log In" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     <TextBlock Text="Welcome back!" HorizontalAlignment="Center" />
-                    <Button Content="Log In" HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}"/>
+                    <Button x:ConnectionId='3' Content="Log In" HorizontalAlignment="Center"                           Style="{StaticResource AccentButtonStyle}"/>
                 </StackPanel>
             </Border>
 
@@ -35,7 +35,7 @@
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
                     <TextBlock Text="Sign Up" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     <TextBlock Text="Create a new account." HorizontalAlignment="Center" />
-                    <Button Content="Sign Up" HorizontalAlignment="Center"/>
+                    <Button x:ConnectionId='2' Content="Sign Up" HorizontalAlignment="Center"                           />
                 </StackPanel>
             </Border>
 

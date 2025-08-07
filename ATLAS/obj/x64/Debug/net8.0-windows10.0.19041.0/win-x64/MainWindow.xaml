@@ -23,14 +23,16 @@
             </Grid.ColumnDefinitions>
 
             <NavigationView x:ConnectionId='4' x:Name="NavView"
-                            Grid.Column="0"
-                            PaneDisplayMode="Top"
-                            IsSettingsVisible="False" IsBackButtonVisible="Collapsed"
-                                                             >
+                Grid.Column="0"
+                PaneDisplayMode="Top"
+                IsSettingsVisible="False" IsBackButtonVisible="Collapsed"
+                                                 >
 
                 <NavigationView.MenuItems>
+
                     <NavigationViewItem Content="Home" Icon="Home" Tag="Home"/>
-                    <NavigationViewItem Content="Analysis" Icon="GoToStart" Tag="Analysis">
+
+                    <NavigationViewItem Content="Analysis Tools" Icon="GoToStart" Tag="Analysis">
                         <NavigationViewItem.MenuItems>
                             <NavigationViewItem Content="Text Analysis" Tag="TextAnalysis">
                                 <NavigationViewItem.Icon>
@@ -49,9 +51,29 @@
                             </NavigationViewItem>
                         </NavigationViewItem.MenuItems>
                     </NavigationViewItem>
+
                     <NavigationViewItem Content="Our Vision" Icon="Flag" Tag="Vision"/>
-                    <NavigationViewItem Content="Account" Icon="Contact" Tag="Account"/>
+
+                    <NavigationViewItem x:ConnectionId='5' x:Name="AccountNavItemLoggedIn"
+                        Icon="Contact"
+                        Tag="AccountLoggedIn"
+                        Visibility="Collapsed">
+                        
+                        <NavigationViewItem.MenuItems>
+                            <NavigationViewItem Content="Dashboard" Tag="Dashboard" Icon="Home"/>
+                            <NavigationViewItem Content="Account Settings" Tag="AccountSettings" Icon="ContactInfo"/>
+                            <NavigationViewItemSeparator/>
+                            <NavigationViewItem Content="Sign Out" Tag="SignOut" Icon="LeaveChat"/>
+                        </NavigationViewItem.MenuItems>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem x:ConnectionId='6' x:Name="AccountNavItemLoggedOut"
+                        Content="Account"
+                        Icon="Contact"
+                        Tag="AccountLoggedOut"/>
+
                     <NavigationViewItem Content="Settings" Icon="Setting" Tag="Settings"/>
+
                 </NavigationView.MenuItems>
             </NavigationView>
         </Grid>
