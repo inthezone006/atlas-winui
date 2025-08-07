@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using ATLAS.Pages;
 using ATLAS.Services;
+using Windows.UI;
 
 namespace ATLAS
 {
@@ -45,6 +46,13 @@ namespace ATLAS
 
             NavView.SelectedItem = NavView.MenuItems[0];
             ContentFrame.Navigate(typeof(HomePage));
+
+            if (this.Content is FrameworkElement rootElement)
+            {
+                rootElement.ActualThemeChanged += OnThemeChanged;
+            }
+            UpdateThemeButtonIcon();
+            UpdateTitleBarTheme();
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -97,6 +105,52 @@ namespace ATLAS
             {
                 AccountNavItemLoggedIn.Visibility = Visibility.Collapsed;
                 AccountNavItemLoggedOut.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void ThemeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.Content is FrameworkElement rootElement)
+            {
+                rootElement.RequestedTheme = (rootElement.ActualTheme == ElementTheme.Dark)
+                    ? ElementTheme.Light
+                    : ElementTheme.Dark;
+            }
+        }
+
+        private void OnThemeChanged(FrameworkElement sender, object args)
+        {
+            UpdateThemeButtonIcon();
+            UpdateTitleBarTheme();
+        }
+        private void UpdateThemeButtonIcon()
+        {
+            if (this.Content is FrameworkElement rootElement)
+            {
+                if (rootElement.ActualTheme == ElementTheme.Dark)
+                {
+                    ThemeIcon.Glyph = "\uE706";
+                }
+                else
+                {
+                    ThemeIcon.Glyph = "\uE708";
+                }
+            }
+        }
+
+        private void UpdateTitleBarTheme()
+        {
+            if (AppWindowTitleBar.IsCustomizationSupported() && this.Content is FrameworkElement rootElement)
+            {
+                var titleBar = this.AppWindow.TitleBar;
+                if (rootElement.ActualTheme == ElementTheme.Dark)
+                {
+                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
+                }
+                else
+                {
+                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.Black;
+                }
             }
         }
     }

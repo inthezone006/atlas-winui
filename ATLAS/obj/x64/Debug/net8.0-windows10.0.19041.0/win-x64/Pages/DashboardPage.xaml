@@ -6,20 +6,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:ATLAS.Models"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent">
 
-    <Grid Padding="40">
-        <StackPanel Spacing="10">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="10" Padding="40">
             <TextBlock Text="Dashboard" FontSize="32" FontWeight="SemiBold" Margin="0,0,0,10"/>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+            <GridView
+                SelectionMode="None"
+                IsItemClickEnabled="False"
+                HorizontalAlignment="Stretch">
 
-                <Border Grid.Column="0" Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="300" Margin="10">
+                <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="320" Height="280" Margin="10">
                     <StackPanel Spacing="15">
                         <TextBlock Text="Your Statistics" FontSize="18" FontWeight="SemiBold"/>
                         <StackPanel>
@@ -40,37 +38,41 @@
                 <Border Grid.Column="1" Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" Margin="10">
                     <StackPanel Spacing="15">
                         <TextBlock Text="Recent Submission History" FontSize="18" FontWeight="SemiBold"/>
-                        <ScrollViewer>
-                            <ItemsRepeater x:ConnectionId='4' x:Name="HistoryItemsRepeater">
-                                <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate                                >
-                                        <StackPanel x:ConnectionId='6' Margin="0,5" Padding="5" CornerRadius="4">
-                                            <TextBlock x:ConnectionId='7'                     
-                                           TextWrapping="NoWrap"
-                                           TextTrimming="CharacterEllipsis">
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip x:ConnectionId='9'                        />
-                                    </ToolTipService.ToolTip>
-                                            </TextBlock>
-                                            <TextBlock x:ConnectionId='8'                            FontSize="12" Opacity="0.6"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
+
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Border Padding="10,0">
+                                <ItemsRepeater x:ConnectionId='4' x:Name="HistoryItemsRepeater">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate                                >
+                                            <StackPanel x:ConnectionId='6' Margin="0,8">
+                                                <TextBlock x:ConnectionId='7'                     
+                                       TextWrapping="NoWrap"
+                                       TextTrimming="CharacterEllipsis">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:ConnectionId='9'                        />
+                                </ToolTipService.ToolTip>
+                                                </TextBlock>
+                                                <TextBlock x:ConnectionId='8'                            FontSize="12" Opacity="0.6"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </Border>
                         </ScrollViewer>
                         <TextBlock x:ConnectionId='3' x:Name="HistoryStatusText" Text="Loading history..."/>
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Column="2" Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="300" Margin="10">
+                <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="320" Height="280" Margin="10">
                     <StackPanel Spacing="15" VerticalAlignment="Center">
-                        <TextBlock Text="Help the Community" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Found a new scam? Submit it for review to help improve our detection models." TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Submit New Scam" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Help improve ATLAS by submitting new scam examples you might encounter." TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
                         <Button x:ConnectionId='2' x:Name="SubmitScamButton" Content="Submit a New Scam" HorizontalAlignment="Center"                                Style="{ThemeResource AccentButtonStyle}"/>
                     </StackPanel>
                 </Border>
-            </Grid>
+
+            </GridView>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>
 

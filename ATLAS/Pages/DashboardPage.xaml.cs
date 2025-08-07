@@ -87,17 +87,19 @@ namespace ATLAS.Pages
                 AcceptsReturn = true,
                 TextWrapping = TextWrapping.Wrap,
                 Height = 200,
-                PlaceholderText = "Paste the full scam text here..."
+                PlaceholderText = "Paste the full text of a scam email, text, or message below. This will be reviewed by our team and used to improve ATLAS for everyone."
             };
 
             var dialog = new ContentDialog
             {
-                Title = "Submit New Scam for Review",
+                Title = "Submit a Scam Example",
                 Content = submissionTextBox,
-                PrimaryButtonText = "Submit",
+                PrimaryButtonText = "Submit for Review",
                 CloseButtonText = "Cancel",
                 XamlRoot = this.XamlRoot
             };
+
+            dialog.RequestedTheme = (this.Content as FrameworkElement).ActualTheme;
 
             var result = await dialog.ShowAsync();
 

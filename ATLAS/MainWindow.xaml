@@ -74,6 +74,13 @@
 
                     <NavigationViewItem Content="Settings" Icon="Setting" Tag="Settings"/>
 
+                    <Button x:Name="ThemeButton" Style="{StaticResource SubtleButtonStyle}" Click="ThemeButton_Click" VerticalAlignment="Center">
+                        <FontIcon x:Name="ThemeIcon" Glyph="&#xE708;" FontSize="16"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Change Theme"/>
+                        </ToolTipService.ToolTip>
+                    </Button>
+
                 </NavigationView.MenuItems>
             </NavigationView>
         </Grid>
