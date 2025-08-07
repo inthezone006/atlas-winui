@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ATLAS (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ATLAS (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
