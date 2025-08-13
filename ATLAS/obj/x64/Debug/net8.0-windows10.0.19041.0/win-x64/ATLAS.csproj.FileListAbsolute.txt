@@ -314,3 +314,8 @@ C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19
 C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\DashboardPage.xaml
 C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AccountSettingsPage.xbf
 C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\DashboardPage.xbf
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AnalysisHubPage.g.i.cs
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AnalysisHubPage.g.cs
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AnalysisHubPage.xaml
+C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AnalysisHubPage.xbf
+C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Pages\AnalysisHubPage.xbf

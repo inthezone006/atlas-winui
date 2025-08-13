@@ -76,9 +76,7 @@ namespace ATLAS
             Type pageType = pageTag switch
             {
                 "Home" => typeof(HomePage),
-                "TextAnalysis" => typeof(TextAnalysisPage),
-                "VoiceAnalysis" => typeof(VoiceAnalysisPage),
-                "ImageAnalysis" => typeof(ImageAnalysisPage),
+                "AnalysisTools" => typeof(AnalysisHubPage),
                 "Vision" => typeof(VisionPage),
                 "Settings" => typeof(SettingsPage),
                 "Dashboard" => typeof(DashboardPage),

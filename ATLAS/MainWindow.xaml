@@ -32,25 +32,7 @@
 
                     <NavigationViewItem Content="Home" Icon="Home" Tag="Home"/>
 
-                    <NavigationViewItem Content="Analysis Tools" Icon="GoToStart" Tag="Analysis">
-                        <NavigationViewItem.MenuItems>
-                            <NavigationViewItem Content="Text Analysis" Tag="TextAnalysis">
-                                <NavigationViewItem.Icon>
-                                    <FontIcon Glyph="&#xE736;"/>
-                                </NavigationViewItem.Icon>
-                            </NavigationViewItem>
-                            <NavigationViewItem Content="Voice Analysis" Tag="VoiceAnalysis">
-                                <NavigationViewItem.Icon>
-                                    <FontIcon Glyph="&#xE720;"/>
-                                </NavigationViewItem.Icon>
-                            </NavigationViewItem>
-                            <NavigationViewItem Content="Image Analysis" Tag="ImageAnalysis">
-                                <NavigationViewItem.Icon>
-                                    <FontIcon Glyph="&#xE722;"/>
-                                </NavigationViewItem.Icon>
-                            </NavigationViewItem>
-                        </NavigationViewItem.MenuItems>
-                    </NavigationViewItem>
+                    <NavigationViewItem Content="Analysis Tools" Icon="GoToStart" Tag="AnalysisTools"/>
 
                     <NavigationViewItem Content="Our Vision" Icon="Flag" Tag="Vision"/>
 

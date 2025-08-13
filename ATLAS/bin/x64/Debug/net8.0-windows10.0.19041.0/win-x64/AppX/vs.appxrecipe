@@ -29,25 +29,25 @@
     <AppXManifest Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-08-07T11:41:12.982</Modified>
+      <Modified>2025-08-13T04:10:44.413</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2025-08-07T11:37:08.046</Modified>
+      <Modified>2025-08-13T04:10:44.254</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ATLAS.runtimeconfig.json">
       <PackagePath>ATLAS.runtimeconfig.json</PackagePath>
-      <Modified>2025-08-07T00:13:59.239</Modified>
+      <Modified>2025-08-08T04:47:33.602</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ATLAS.dll">
       <PackagePath>ATLAS.dll</PackagePath>
-      <Modified>2025-08-07T11:41:12.690</Modified>
+      <Modified>2025-08-13T04:10:44.175</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
       <PackagePath>ATLAS.exe</PackagePath>
-      <Modified>2025-08-07T11:41:12.694</Modified>
+      <Modified>2025-08-13T04:10:44.175</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\.nuget\packages\microsoft.netcore.app.runtime.win-x64\8.0.19\runtimes\win-x64\lib\net8.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -907,35 +907,35 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ATLAS.deps.json">
       <PackagePath>ATLAS.deps.json</PackagePath>
-      <Modified>2025-08-07T09:54:12.008</Modified>
+      <Modified>2025-08-13T04:08:09.229</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
-      <Modified>2025-06-06T19:41:03.912</Modified>
+      <Modified>2025-08-08T04:30:55.022</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
-      <Modified>2025-06-06T19:41:03.914</Modified>
+      <Modified>2025-08-08T04:30:55.022</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
-      <Modified>2025-06-06T19:41:03.917</Modified>
+      <Modified>2025-08-08T04:30:55.029</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
-      <Modified>2025-06-06T19:41:03.919</Modified>
+      <Modified>2025-08-08T04:30:55.029</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
-      <Modified>2025-06-06T19:41:03.921</Modified>
+      <Modified>2025-08-08T04:30:55.029</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
-      <Modified>2025-06-06T19:41:03.924</Modified>
+      <Modified>2025-08-08T04:30:55.029</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
-      <Modified>2025-06-06T19:41:03.926</Modified>
+      <Modified>2025-08-08T04:30:55.029</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@ App.xbf
 MainWindow.xbf
 Pages\AccountPage.xbf
 Pages\AccountSettingsPage.xbf
+Pages\AnalysisHubPage.xbf
 Pages\DashboardPage.xbf
 Pages\HomePage.xbf
 Pages\ImageAnalysisPage.xbf
