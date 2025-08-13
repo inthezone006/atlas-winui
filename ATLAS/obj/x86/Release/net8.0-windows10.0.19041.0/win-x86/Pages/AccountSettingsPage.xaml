@@ -13,16 +13,17 @@
 
             <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
                 <TextBlock Text="Change Your Name" FontSize="18" FontWeight="SemiBold"/>
-                <TextBox x:ConnectionId='6' x:Name="FirstNameTextBox" Header="First Name"/>
-                <TextBox x:ConnectionId='7' x:Name="LastNameTextBox" Header="Last Name"/>
-                <Button x:ConnectionId='8' Content="Save Name"                       />
+                <TextBox x:ConnectionId='7' x:Name="FirstNameTextBox" Header="First Name"/>
+                <TextBox x:ConnectionId='8' x:Name="LastNameTextBox" Header="Last Name"/>
+                <Button x:ConnectionId='9' Content="Save Name"                       />
             </StackPanel>
 
             <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
                 <TextBlock Text="Change Your Password" FontSize="18" FontWeight="SemiBold"/>
                 <PasswordBox x:ConnectionId='3' x:Name="OldPasswordBox" Header="Old Password"/>
                 <PasswordBox x:ConnectionId='4' x:Name="NewPasswordBox" Header="New Password"/>
-                <Button x:ConnectionId='5' Content="Save Password"                           />
+                <TextBlock x:ConnectionId='5' x:Name="PasswordErrorTextBlock" Foreground="Red" TextWrapping="Wrap"/>
+                <Button x:ConnectionId='6' Content="Save Password"                           />
             </StackPanel>
 
             <TextBlock x:ConnectionId='2' x:Name="StatusTextBlock" HorizontalAlignment="Center" FontWeight="SemiBold"/>

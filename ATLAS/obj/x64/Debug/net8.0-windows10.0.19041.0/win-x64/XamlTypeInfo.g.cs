@@ -226,7 +226,7 @@ namespace ATLAS.ATLAS_XamlTypeInfo
         
         private void InitTypeTables()
         {
-            _typeNameTable = new string[60];
+            _typeNameTable = new string[61];
             _typeNameTable[0] = "Microsoft.UI.Xaml.Controls.XamlControlsResources";
             _typeNameTable[1] = "Microsoft.UI.Xaml.ResourceDictionary";
             _typeNameTable[2] = "Object";
@@ -275,20 +275,21 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             _typeNameTable[45] = "Microsoft.UI.Xaml.Controls.Layout";
             _typeNameTable[46] = "ATLAS.Pages.DashboardPage";
             _typeNameTable[47] = "ATLAS.Pages.HomePage";
-            _typeNameTable[48] = "ATLAS.Pages.ImageAnalysisPage";
-            _typeNameTable[49] = "Microsoft.UI.Xaml.Controls.ProgressRing";
-            _typeNameTable[50] = "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings";
+            _typeNameTable[48] = "Microsoft.UI.Xaml.Controls.ProgressRing";
+            _typeNameTable[49] = "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings";
+            _typeNameTable[50] = "ATLAS.Pages.ImageAnalysisPage";
             _typeNameTable[51] = "ATLAS.Pages.LoginPage";
-            _typeNameTable[52] = "ATLAS.Pages.SettingsPage";
-            _typeNameTable[53] = "ATLAS.Pages.SignUpPage";
-            _typeNameTable[54] = "ATLAS.Pages.TextAnalysisPage";
-            _typeNameTable[55] = "ATLAS.Pages.VisionPage";
-            _typeNameTable[56] = "ATLAS.Pages.VoiceAnalysisPage";
-            _typeNameTable[57] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
-            _typeNameTable[58] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
-            _typeNameTable[59] = "Int32";
+            _typeNameTable[52] = "Microsoft.UI.Xaml.Controls.RadioButtons";
+            _typeNameTable[53] = "Int32";
+            _typeNameTable[54] = "ATLAS.Pages.SettingsPage";
+            _typeNameTable[55] = "ATLAS.Pages.SignUpPage";
+            _typeNameTable[56] = "ATLAS.Pages.TextAnalysisPage";
+            _typeNameTable[57] = "ATLAS.Pages.VisionPage";
+            _typeNameTable[58] = "ATLAS.Pages.VoiceAnalysisPage";
+            _typeNameTable[59] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
+            _typeNameTable[60] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
 
-            _typeTable = new global::System.Type[60];
+            _typeTable = new global::System.Type[61];
             _typeTable[0] = typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources);
             _typeTable[1] = typeof(global::Microsoft.UI.Xaml.ResourceDictionary);
             _typeTable[2] = typeof(global::System.Object);
@@ -337,18 +338,19 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             _typeTable[45] = typeof(global::Microsoft.UI.Xaml.Controls.Layout);
             _typeTable[46] = typeof(global::ATLAS.Pages.DashboardPage);
             _typeTable[47] = typeof(global::ATLAS.Pages.HomePage);
-            _typeTable[48] = typeof(global::ATLAS.Pages.ImageAnalysisPage);
-            _typeTable[49] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing);
-            _typeTable[50] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings);
+            _typeTable[48] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing);
+            _typeTable[49] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings);
+            _typeTable[50] = typeof(global::ATLAS.Pages.ImageAnalysisPage);
             _typeTable[51] = typeof(global::ATLAS.Pages.LoginPage);
-            _typeTable[52] = typeof(global::ATLAS.Pages.SettingsPage);
-            _typeTable[53] = typeof(global::ATLAS.Pages.SignUpPage);
-            _typeTable[54] = typeof(global::ATLAS.Pages.TextAnalysisPage);
-            _typeTable[55] = typeof(global::ATLAS.Pages.VisionPage);
-            _typeTable[56] = typeof(global::ATLAS.Pages.VoiceAnalysisPage);
-            _typeTable[57] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
-            _typeTable[58] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
-            _typeTable[59] = typeof(global::System.Int32);
+            _typeTable[52] = typeof(global::Microsoft.UI.Xaml.Controls.RadioButtons);
+            _typeTable[53] = typeof(global::System.Int32);
+            _typeTable[54] = typeof(global::ATLAS.Pages.SettingsPage);
+            _typeTable[55] = typeof(global::ATLAS.Pages.SignUpPage);
+            _typeTable[56] = typeof(global::ATLAS.Pages.TextAnalysisPage);
+            _typeTable[57] = typeof(global::ATLAS.Pages.VisionPage);
+            _typeTable[58] = typeof(global::ATLAS.Pages.VoiceAnalysisPage);
+            _typeTable[59] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
+            _typeTable[60] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -397,15 +399,16 @@ namespace ATLAS.ATLAS_XamlTypeInfo
         private object Activate_43_ItemCollectionTransitionProvider() { return new global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider(); }
         private object Activate_46_DashboardPage() { return new global::ATLAS.Pages.DashboardPage(); }
         private object Activate_47_HomePage() { return new global::ATLAS.Pages.HomePage(); }
-        private object Activate_48_ImageAnalysisPage() { return new global::ATLAS.Pages.ImageAnalysisPage(); }
-        private object Activate_49_ProgressRing() { return new global::Microsoft.UI.Xaml.Controls.ProgressRing(); }
+        private object Activate_48_ProgressRing() { return new global::Microsoft.UI.Xaml.Controls.ProgressRing(); }
+        private object Activate_50_ImageAnalysisPage() { return new global::ATLAS.Pages.ImageAnalysisPage(); }
         private object Activate_51_LoginPage() { return new global::ATLAS.Pages.LoginPage(); }
-        private object Activate_52_SettingsPage() { return new global::ATLAS.Pages.SettingsPage(); }
-        private object Activate_53_SignUpPage() { return new global::ATLAS.Pages.SignUpPage(); }
-        private object Activate_54_TextAnalysisPage() { return new global::ATLAS.Pages.TextAnalysisPage(); }
-        private object Activate_55_VisionPage() { return new global::ATLAS.Pages.VisionPage(); }
-        private object Activate_56_VoiceAnalysisPage() { return new global::ATLAS.Pages.VoiceAnalysisPage(); }
-        private object Activate_57_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
+        private object Activate_52_RadioButtons() { return new global::Microsoft.UI.Xaml.Controls.RadioButtons(); }
+        private object Activate_54_SettingsPage() { return new global::ATLAS.Pages.SettingsPage(); }
+        private object Activate_55_SignUpPage() { return new global::ATLAS.Pages.SignUpPage(); }
+        private object Activate_56_TextAnalysisPage() { return new global::ATLAS.Pages.TextAnalysisPage(); }
+        private object Activate_57_VisionPage() { return new global::ATLAS.Pages.VisionPage(); }
+        private object Activate_58_VoiceAnalysisPage() { return new global::ATLAS.Pages.VoiceAnalysisPage(); }
+        private object Activate_59_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void StaticInitializer_0_XamlControlsResources() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources).TypeHandle);
         private void StaticInitializer_5_NavigationView() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationView).TypeHandle);
         private void StaticInitializer_7_NavigationViewPaneDisplayMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode).TypeHandle);
@@ -432,17 +435,18 @@ namespace ATLAS.ATLAS_XamlTypeInfo
         private void StaticInitializer_45_Layout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.Layout).TypeHandle);
         private void StaticInitializer_46_DashboardPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.DashboardPage).TypeHandle);
         private void StaticInitializer_47_HomePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.HomePage).TypeHandle);
-        private void StaticInitializer_48_ImageAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.ImageAnalysisPage).TypeHandle);
-        private void StaticInitializer_49_ProgressRing() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing).TypeHandle);
-        private void StaticInitializer_50_ProgressRingTemplateSettings() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings).TypeHandle);
+        private void StaticInitializer_48_ProgressRing() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing).TypeHandle);
+        private void StaticInitializer_49_ProgressRingTemplateSettings() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings).TypeHandle);
+        private void StaticInitializer_50_ImageAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.ImageAnalysisPage).TypeHandle);
         private void StaticInitializer_51_LoginPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.LoginPage).TypeHandle);
-        private void StaticInitializer_52_SettingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.SettingsPage).TypeHandle);
-        private void StaticInitializer_53_SignUpPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.SignUpPage).TypeHandle);
-        private void StaticInitializer_54_TextAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.TextAnalysisPage).TypeHandle);
-        private void StaticInitializer_55_VisionPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.VisionPage).TypeHandle);
-        private void StaticInitializer_56_VoiceAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.VoiceAnalysisPage).TypeHandle);
-        private void StaticInitializer_57_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
-        private void StaticInitializer_58_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
+        private void StaticInitializer_52_RadioButtons() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.RadioButtons).TypeHandle);
+        private void StaticInitializer_54_SettingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.SettingsPage).TypeHandle);
+        private void StaticInitializer_55_SignUpPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.SignUpPage).TypeHandle);
+        private void StaticInitializer_56_TextAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.TextAnalysisPage).TypeHandle);
+        private void StaticInitializer_57_VisionPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.VisionPage).TypeHandle);
+        private void StaticInitializer_58_VoiceAnalysisPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ATLAS.Pages.VoiceAnalysisPage).TypeHandle);
+        private void StaticInitializer_59_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
+        private void StaticInitializer_60_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.Object, global::System.Object>)instance;
@@ -456,7 +460,7 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_58_IList(object instance, object item)
+        private void VectorAdd_60_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.TreeViewNode>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)item;
@@ -818,18 +822,10 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 48:   //  ATLAS.Pages.ImageAnalysisPage
-                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_48_ImageAnalysisPage;
-                userType.StaticInitializer = StaticInitializer_48_ImageAnalysisPage;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 49:   //  Microsoft.UI.Xaml.Controls.ProgressRing
+            case 48:   //  Microsoft.UI.Xaml.Controls.ProgressRing
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
-                userType.Activator = Activate_49_ProgressRing;
-                userType.StaticInitializer = StaticInitializer_49_ProgressRing;
+                userType.Activator = Activate_48_ProgressRing;
+                userType.StaticInitializer = StaticInitializer_48_ProgressRing;
                 userType.AddMemberName("IsActive");
                 userType.AddMemberName("IsIndeterminate");
                 userType.AddMemberName("Maximum");
@@ -839,10 +835,18 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 50:   //  Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings
+            case 49:   //  Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.StaticInitializer = StaticInitializer_50_ProgressRingTemplateSettings;
+                userType.StaticInitializer = StaticInitializer_49_ProgressRingTemplateSettings;
                 userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 50:   //  ATLAS.Pages.ImageAnalysisPage
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_50_ImageAnalysisPage;
+                userType.StaticInitializer = StaticInitializer_50_ImageAnalysisPage;
+                userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
@@ -854,50 +858,70 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 52:   //  ATLAS.Pages.SettingsPage
+            case 52:   //  Microsoft.UI.Xaml.Controls.RadioButtons
+                userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
+                userType.Activator = Activate_52_RadioButtons;
+                userType.StaticInitializer = StaticInitializer_52_RadioButtons;
+                userType.SetContentPropertyName("Microsoft.UI.Xaml.Controls.RadioButtons.Items");
+                userType.AddMemberName("Items");
+                userType.AddMemberName("Header");
+                userType.AddMemberName("HeaderTemplate");
+                userType.AddMemberName("ItemTemplate");
+                userType.AddMemberName("ItemsSource");
+                userType.AddMemberName("MaxColumns");
+                userType.AddMemberName("SelectedIndex");
+                userType.AddMemberName("SelectedItem");
+                xamlType = userType;
+                break;
+
+            case 53:   //  Int32
+                xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 54:   //  ATLAS.Pages.SettingsPage
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_52_SettingsPage;
-                userType.StaticInitializer = StaticInitializer_52_SettingsPage;
+                userType.Activator = Activate_54_SettingsPage;
+                userType.StaticInitializer = StaticInitializer_54_SettingsPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 53:   //  ATLAS.Pages.SignUpPage
+            case 55:   //  ATLAS.Pages.SignUpPage
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_53_SignUpPage;
-                userType.StaticInitializer = StaticInitializer_53_SignUpPage;
+                userType.Activator = Activate_55_SignUpPage;
+                userType.StaticInitializer = StaticInitializer_55_SignUpPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 54:   //  ATLAS.Pages.TextAnalysisPage
+            case 56:   //  ATLAS.Pages.TextAnalysisPage
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_54_TextAnalysisPage;
-                userType.StaticInitializer = StaticInitializer_54_TextAnalysisPage;
+                userType.Activator = Activate_56_TextAnalysisPage;
+                userType.StaticInitializer = StaticInitializer_56_TextAnalysisPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 55:   //  ATLAS.Pages.VisionPage
+            case 57:   //  ATLAS.Pages.VisionPage
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_55_VisionPage;
-                userType.StaticInitializer = StaticInitializer_55_VisionPage;
+                userType.Activator = Activate_57_VisionPage;
+                userType.StaticInitializer = StaticInitializer_57_VisionPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 56:   //  ATLAS.Pages.VoiceAnalysisPage
+            case 58:   //  ATLAS.Pages.VoiceAnalysisPage
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_56_VoiceAnalysisPage;
-                userType.StaticInitializer = StaticInitializer_56_VoiceAnalysisPage;
+                userType.Activator = Activate_58_VoiceAnalysisPage;
+                userType.StaticInitializer = StaticInitializer_58_VoiceAnalysisPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 57:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+            case 59:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_57_TreeViewNode;
-                userType.StaticInitializer = StaticInitializer_57_TreeViewNode;
+                userType.Activator = Activate_59_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_59_TreeViewNode;
                 userType.AddMemberName("Children");
                 userType.AddMemberName("Content");
                 userType.AddMemberName("Depth");
@@ -909,16 +933,12 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 58:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+            case 60:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
                 userType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_58_IList;
-                userType.CollectionAdd = VectorAdd_58_IList;
+                userType.StaticInitializer = StaticInitializer_60_IList;
+                userType.CollectionAdd = VectorAdd_60_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
-                break;
-
-            case 59:   //  Int32
-                xamlType = new global::ATLAS.ATLAS_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
             }
             return xamlType;
@@ -1559,52 +1579,127 @@ namespace ATLAS.ATLAS_XamlTypeInfo
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             that.Value = (global::System.Double)Value;
         }
-        private object get_63_TreeViewNode_Children(object instance)
+        private object get_63_RadioButtons_Items(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.Items;
+        }
+        private object get_64_RadioButtons_Header(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.Header;
+        }
+        private void set_64_RadioButtons_Header(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            that.Header = (global::System.Object)Value;
+        }
+        private object get_65_RadioButtons_HeaderTemplate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.HeaderTemplate;
+        }
+        private void set_65_RadioButtons_HeaderTemplate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            that.HeaderTemplate = (global::Microsoft.UI.Xaml.DataTemplate)Value;
+        }
+        private object get_66_RadioButtons_ItemTemplate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.ItemTemplate;
+        }
+        private void set_66_RadioButtons_ItemTemplate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            that.ItemTemplate = (global::System.Object)Value;
+        }
+        private object get_67_RadioButtons_ItemsSource(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.ItemsSource;
+        }
+        private void set_67_RadioButtons_ItemsSource(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            that.ItemsSource = (global::System.Object)Value;
+        }
+        private object get_68_RadioButtons_MaxColumns(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.MaxColumns;
+        }
+        private void set_68_RadioButtons_MaxColumns(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            that.MaxColumns = (global::System.Int32)Value;
+        }
+        private object get_69_RadioButtons_SelectedIndex(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.SelectedIndex;
+        }
+        private void set_69_RadioButtons_SelectedIndex(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            that.SelectedIndex = (global::System.Int32)Value;
+        }
+        private object get_70_RadioButtons_SelectedItem(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            return that.SelectedItem;
+        }
+        private void set_70_RadioButtons_SelectedItem(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.RadioButtons)instance;
+            that.SelectedItem = (global::System.Object)Value;
+        }
+        private object get_71_TreeViewNode_Children(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Children;
         }
-        private object get_64_TreeViewNode_Content(object instance)
+        private object get_72_TreeViewNode_Content(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Content;
         }
-        private void set_64_TreeViewNode_Content(object instance, object Value)
+        private void set_72_TreeViewNode_Content(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.Content = (global::System.Object)Value;
         }
-        private object get_65_TreeViewNode_Depth(object instance)
+        private object get_73_TreeViewNode_Depth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Depth;
         }
-        private object get_66_TreeViewNode_HasChildren(object instance)
+        private object get_74_TreeViewNode_HasChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasChildren;
         }
-        private object get_67_TreeViewNode_HasUnrealizedChildren(object instance)
+        private object get_75_TreeViewNode_HasUnrealizedChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasUnrealizedChildren;
         }
-        private void set_67_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
+        private void set_75_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.HasUnrealizedChildren = (global::System.Boolean)Value;
         }
-        private object get_68_TreeViewNode_IsExpanded(object instance)
+        private object get_76_TreeViewNode_IsExpanded(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.IsExpanded;
         }
-        private void set_68_TreeViewNode_IsExpanded(object instance, object Value)
+        private void set_76_TreeViewNode_IsExpanded(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.IsExpanded = (global::System.Boolean)Value;
         }
-        private object get_69_TreeViewNode_Parent(object instance)
+        private object get_77_TreeViewNode_Parent(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Parent;
@@ -2055,50 +2150,106 @@ namespace ATLAS.ATLAS_XamlTypeInfo
                 xamlMember.Getter = get_62_ProgressRing_Value;
                 xamlMember.Setter = set_62_ProgressRing_Value;
                 break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.Items":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Items", "System.Collections.Generic.IList`1<Object>");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_63_RadioButtons_Items;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.Header":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Header", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_64_RadioButtons_Header;
+                xamlMember.Setter = set_64_RadioButtons_Header;
+                break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.HeaderTemplate":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "HeaderTemplate", "Microsoft.UI.Xaml.DataTemplate");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_65_RadioButtons_HeaderTemplate;
+                xamlMember.Setter = set_65_RadioButtons_HeaderTemplate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.ItemTemplate":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "ItemTemplate", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_66_RadioButtons_ItemTemplate;
+                xamlMember.Setter = set_66_RadioButtons_ItemTemplate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.ItemsSource":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "ItemsSource", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_67_RadioButtons_ItemsSource;
+                xamlMember.Setter = set_67_RadioButtons_ItemsSource;
+                break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.MaxColumns":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "MaxColumns", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_68_RadioButtons_MaxColumns;
+                xamlMember.Setter = set_68_RadioButtons_MaxColumns;
+                break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.SelectedIndex":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "SelectedIndex", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_69_RadioButtons_SelectedIndex;
+                xamlMember.Setter = set_69_RadioButtons_SelectedIndex;
+                break;
+            case "Microsoft.UI.Xaml.Controls.RadioButtons.SelectedItem":
+                userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.RadioButtons");
+                xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "SelectedItem", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_70_RadioButtons_SelectedItem;
+                xamlMember.Setter = set_70_RadioButtons_SelectedItem;
+                break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Children":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Children", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>");
-                xamlMember.Getter = get_63_TreeViewNode_Children;
+                xamlMember.Getter = get_71_TreeViewNode_Children;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Content":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Content", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_64_TreeViewNode_Content;
-                xamlMember.Setter = set_64_TreeViewNode_Content;
+                xamlMember.Getter = get_72_TreeViewNode_Content;
+                xamlMember.Setter = set_72_TreeViewNode_Content;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Depth":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Depth", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_65_TreeViewNode_Depth;
+                xamlMember.Getter = get_73_TreeViewNode_Depth;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "HasChildren", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_66_TreeViewNode_HasChildren;
+                xamlMember.Getter = get_74_TreeViewNode_HasChildren;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "HasUnrealizedChildren", "Boolean");
-                xamlMember.Getter = get_67_TreeViewNode_HasUnrealizedChildren;
-                xamlMember.Setter = set_67_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Getter = get_75_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Setter = set_75_TreeViewNode_HasUnrealizedChildren;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "IsExpanded", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_68_TreeViewNode_IsExpanded;
-                xamlMember.Setter = set_68_TreeViewNode_IsExpanded;
+                xamlMember.Getter = get_76_TreeViewNode_IsExpanded;
+                xamlMember.Setter = set_76_TreeViewNode_IsExpanded;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Parent":
                 userType = (global::ATLAS.ATLAS_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ATLAS.ATLAS_XamlTypeInfo.XamlMember(this, "Parent", "Microsoft.UI.Xaml.Controls.TreeViewNode");
-                xamlMember.Getter = get_69_TreeViewNode_Parent;
+                xamlMember.Getter = get_77_TreeViewNode_Parent;
                 xamlMember.SetIsReadOnly();
                 break;
             }

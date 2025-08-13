@@ -205,26 +205,179 @@
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x86\Release\net8.0-windows10.0.19041.0\win-x86\ATLAS.deps.json">
       <PackagePath>ATLAS.deps.json</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-100.theme-light.png">
+      <PackagePath>Assets\LargeTile.scale-100.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-125.theme-light.png">
+      <PackagePath>Assets\LargeTile.scale-125.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-150.theme-light.png">
+      <PackagePath>Assets\LargeTile.scale-150.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-200.theme-light.png">
+      <PackagePath>Assets\LargeTile.scale-200.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-400.theme-light.png">
+      <PackagePath>Assets\LargeTile.scale-400.theme-light.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\renamer.py">
+      <PackagePath>Assets\renamer.py</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-100.theme-light.png">
+      <PackagePath>Assets\SmallTile.scale-100.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-125.theme-light.png">
+      <PackagePath>Assets\SmallTile.scale-125.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-150.theme-light.png">
+      <PackagePath>Assets\SmallTile.scale-150.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-200.theme-light.png">
+      <PackagePath>Assets\SmallTile.scale-200.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-400.theme-light.png">
+      <PackagePath>Assets\SmallTile.scale-400.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-100.theme-light.png">
+      <PackagePath>Assets\SplashScreen.scale-100.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-125.theme-light.png">
+      <PackagePath>Assets\SplashScreen.scale-125.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-150.theme-light.png">
+      <PackagePath>Assets\SplashScreen.scale-150.theme-light.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-200.theme-light.png">
+      <PackagePath>Assets\SplashScreen.scale-200.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-400.theme-light.png">
+      <PackagePath>Assets\SplashScreen.scale-400.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-100.theme-light.png">
+      <PackagePath>Assets\Square150x150Logo.scale-100.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-125.theme-light.png">
+      <PackagePath>Assets\Square150x150Logo.scale-125.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-150.theme-light.png">
+      <PackagePath>Assets\Square150x150Logo.scale-150.theme-light.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-200.theme-light.png">
+      <PackagePath>Assets\Square150x150Logo.scale-200.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-400.theme-light.png">
+      <PackagePath>Assets\Square150x150Logo.scale-400.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-16.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-16.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-24.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-24.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-256.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-256.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-32.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-32.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-48.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-48.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-16.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-16.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-256.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-256.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-32.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-32.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-48.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-48.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-100.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.scale-100.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-125.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.scale-125.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-150.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.scale-150.theme-light.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-200.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.scale-200.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-400.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.scale-400.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-16.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-16.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-24.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-24.theme-light.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.png">
-      <PackagePath>Assets\StoreLogo.png</PackagePath>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-24_altform-unplated.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-256.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-256.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-32.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-32.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-48.theme-light.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-48.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.backup.theme-light.png">
+      <PackagePath>Assets\StoreLogo.backup.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-100.theme-light.png">
+      <PackagePath>Assets\StoreLogo.scale-100.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-125.theme-light.png">
+      <PackagePath>Assets\StoreLogo.scale-125.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-150.theme-light.png">
+      <PackagePath>Assets\StoreLogo.scale-150.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-200.theme-light.png">
+      <PackagePath>Assets\StoreLogo.scale-200.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-400.theme-light.png">
+      <PackagePath>Assets\StoreLogo.scale-400.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-100.theme-light.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-100.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-125.theme-light.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-125.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-150.theme-light.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-150.theme-light.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-200.theme-light.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-200.theme-light.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-400.theme-light.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-400.theme-light.png</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

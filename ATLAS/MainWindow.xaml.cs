@@ -29,6 +29,7 @@ namespace ATLAS
         {
             this.InitializeComponent();
             this.SystemBackdrop = new MicaBackdrop();
+            (Application.Current as App).OnThemeChanged += (theme) => UpdateTitleBarTheme(theme);
             AuthService.OnLoginStateChanged += UpdateAccountNavItem;
             UpdateAccountNavItem();
 
@@ -46,13 +47,7 @@ namespace ATLAS
 
             NavView.SelectedItem = NavView.MenuItems[0];
             ContentFrame.Navigate(typeof(HomePage));
-
-            if (this.Content is FrameworkElement rootElement)
-            {
-                rootElement.ActualThemeChanged += OnThemeChanged;
-            }
-            UpdateThemeButtonIcon();
-            UpdateTitleBarTheme();
+            UpdateTitleBarTheme(((FrameworkElement)this.Content).ActualTheme);
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -106,49 +101,14 @@ namespace ATLAS
             }
         }
 
-        private void ThemeButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateTitleBarTheme(ElementTheme theme)
         {
-            if (this.Content is FrameworkElement rootElement)
-            {
-                rootElement.RequestedTheme = (rootElement.ActualTheme == ElementTheme.Dark)
-                    ? ElementTheme.Light
-                    : ElementTheme.Dark;
-            }
-        }
-
-        private void OnThemeChanged(FrameworkElement sender, object args)
-        {
-            UpdateThemeButtonIcon();
-            UpdateTitleBarTheme();
-        }
-        private void UpdateThemeButtonIcon()
-        {
-            if (this.Content is FrameworkElement rootElement)
-            {
-                if (rootElement.ActualTheme == ElementTheme.Dark)
-                {
-                    ThemeIcon.Glyph = "\uE706";
-                }
-                else
-                {
-                    ThemeIcon.Glyph = "\uE708";
-                }
-            }
-        }
-
-        private void UpdateTitleBarTheme()
-        {
-            if (AppWindowTitleBar.IsCustomizationSupported() && this.Content is FrameworkElement rootElement)
+            if (AppWindowTitleBar.IsCustomizationSupported())
             {
                 var titleBar = this.AppWindow.TitleBar;
-                if (rootElement.ActualTheme == ElementTheme.Dark)
-                {
-                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
-                }
-                else
-                {
-                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.Black;
-                }
+                titleBar.ButtonForegroundColor = (theme == ElementTheme.Dark)
+                    ? Microsoft.UI.Colors.White
+                    : Microsoft.UI.Colors.Black;
             }
         }
     }

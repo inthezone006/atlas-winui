@@ -22,20 +22,43 @@ namespace ATLAS
     public partial class App : Application
     {
         public Frame RootFrame { get; private set; }
-        private Window _window;
+        internal Window _window = default!;
+
+        public event Action<ElementTheme> OnThemeChanged;
 
         public App()
         {
             InitializeComponent();
             AuthService.TryLoadUserFromStorage();
         }
+
+        public void SetRequestedTheme(ElementTheme theme)
+        {
+            if (_window.Content is FrameworkElement rootElement)
+            {
+                rootElement.RequestedTheme = theme;
+                OnThemeChanged?.Invoke(theme);
+            }
+        }
+
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             _window = new MainWindow();
             RootFrame = (_window as MainWindow).AppFrame;
+            LoadAndApplyTheme();
             _window.Activate();
         }
 
-
+        private void LoadAndApplyTheme()
+        {
+            var savedTheme = Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppTheme"] as string;
+            ElementTheme theme = savedTheme switch
+            {
+                "Light" => ElementTheme.Light,
+                "Dark" => ElementTheme.Dark,
+                _ => ElementTheme.Default
+            };
+            SetRequestedTheme(theme);
+        }
     }
 }

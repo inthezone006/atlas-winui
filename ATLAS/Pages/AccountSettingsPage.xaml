@@ -22,6 +22,7 @@
                 <TextBlock Text="Change Your Password" FontSize="18" FontWeight="SemiBold"/>
                 <PasswordBox x:Name="OldPasswordBox" Header="Old Password"/>
                 <PasswordBox x:Name="NewPasswordBox" Header="New Password"/>
+                <TextBlock x:Name="PasswordErrorTextBlock" Foreground="Red" TextWrapping="Wrap"/>
                 <Button Content="Save Password" Click="SavePassword_Click"/>
             </StackPanel>
 

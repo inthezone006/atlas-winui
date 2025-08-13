@@ -1,30 +1,133 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using ATLAS.Models;
+using ATLAS.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.Json;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace ATLAS.Pages;
-
-/// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
-/// </summary>
-public sealed partial class ImageAnalysisPage : Page
+namespace ATLAS.Pages
 {
-    public ImageAnalysisPage()
+    public sealed partial class ImageAnalysisPage : Page
     {
-        InitializeComponent();
+        private static readonly HttpClient client = new HttpClient();
+        private StorageFile? selectedImageFile;
+
+        public ImageAnalysisPage()
+        {
+            this.InitializeComponent();
+        }
+
+        private async void SelectFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var filePicker = new FileOpenPicker();
+            var window = (Application.Current as App)?._window as MainWindow;
+            var hwnd = WindowNative.GetWindowHandle(window);
+            InitializeWithWindow.Initialize(filePicker, hwnd);
+
+            // Set file type filters for images
+            filePicker.FileTypeFilter.Add(".png");
+            filePicker.FileTypeFilter.Add(".jpg");
+            filePicker.FileTypeFilter.Add(".jpeg");
+
+            var file = await filePicker.PickSingleFileAsync();
+            if (file != null)
+            {
+                selectedImageFile = file;
+                SelectedFileNameText.Text = file.Name;
+                AnalyzeButton.IsEnabled = true;
+            }
+        }
+
+        private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedImageFile == null) return;
+
+            // 1. Set UI to loading state
+            ExtractedTextBox.Visibility = Visibility.Collapsed;
+            ResultsBox.Visibility = Visibility.Collapsed;
+            LoadingRing.IsActive = true;
+            AnalyzeButton.IsEnabled = false;
+            SelectFileButton.IsEnabled = false;
+
+            try
+            {
+                // 2. Prepare and send API request
+                using var content = new MultipartFormDataContent();
+                using var stream = await selectedImageFile.OpenStreamForReadAsync();
+                content.Add(new StreamContent(stream), "image", selectedImageFile.Name);
+
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/image-analyze") { Content = content };
+                if (AuthService.IsLoggedIn)
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
+                }
+
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                // 3. Process the response
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var result = JsonSerializer.Deserialize<ImageAnalysisResponse>(jsonResponse);
+                    DisplayResults(result);
+                }
+                else
+                {
+                    DisplayError("Could not get a response from the server.");
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                // 4. Reset UI from loading state
+                LoadingRing.IsActive = false;
+                AnalyzeButton.IsEnabled = true;
+                SelectFileButton.IsEnabled = true;
+            }
+        }
+
+        private void DisplayResults(ImageAnalysisResponse? result)
+        {
+            if (result == null)
+            {
+                DisplayError("Failed to parse the analysis result.");
+                return;
+            }
+
+            // Display extracted text
+            ExtractedText.Text = string.IsNullOrWhiteSpace(result.Text) ? "No text found in the image." : result.Text;
+            ExtractedTextBox.Visibility = Visibility.Visible;
+
+            // Display analysis of the text
+            if (result.Analysis != null)
+            {
+                ScoreText.Text = $"{(result.Analysis.Score * 10):F1}/10";
+                InterpretationText.Text = result.Analysis.IsScam ? "Scam Likely" : "Not Likely a Scam";
+                ExplanationText.Text = result.Analysis.Explanation;
+                ResultsBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ResultsBox.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void DisplayError(string message)
+        {
+            ResultsBox.Visibility = Visibility.Visible;
+            ExtractedTextBox.Visibility = Visibility.Collapsed;
+            InterpretationText.Text = "Error";
+            ScoreText.Text = "-";
+            ExplanationText.Text = message;
+        }
     }
 }

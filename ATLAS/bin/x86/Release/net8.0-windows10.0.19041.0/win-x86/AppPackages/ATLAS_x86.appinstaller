@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+	Uri="https://inthezone006.github.io/atlas-winui/ATLAS_x86.appinstaller"
+	Version="1.1.1.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	<MainPackage
+		Name="18fb7faa-1616-48a8-9057-3b6d90f83a85"
+		Version="1.1.1.0"
+		Publisher="CN=ATLAS Protection"
+		Uri="https://inthezone006.github.io/atlas-winui/ATLAS_1.1.1.0_x86_Test/ATLAS_1.1.1.0_x86.msix"
+		ProcessorArchitecture="x86" />
+	<Dependencies>
+		<Package
+			Name="Microsoft.WindowsAppRuntime.1.7"
+			Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+			ProcessorArchitecture="x86"
+			Uri="https://inthezone006.github.io/atlas-winui/ATLAS_1.1.1.0_x86_Test/Dependencies/x86/Microsoft.WindowsAppRuntime.1.7.msix"
+			Version="7000.522.1444.0" />
+	</Dependencies>
+	<UpdateSettings>
+		<OnLaunch
+			HoursBetweenUpdateChecks="0" />
+	</UpdateSettings>
+</AppInstaller>

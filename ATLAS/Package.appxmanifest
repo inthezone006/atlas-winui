@@ -10,13 +10,13 @@
   <Identity
     Name="18fb7faa-1616-48a8-9057-3b6d90f83a85"
     Publisher="CN=ATLAS Protection"
-    Version="1.0.0.0" />
+    Version="1.1.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="18fb7faa-1616-48a8-9057-3b6d90f83a85" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>ATLAS</DisplayName>
-    <PublisherDisplayName>rahul</PublisherDisplayName>
+    <PublisherDisplayName>Rahul Menon</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
