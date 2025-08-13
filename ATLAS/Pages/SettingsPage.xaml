@@ -8,27 +8,35 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Spacing="10" Padding="50" MaxWidth="800">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Settings" FontSize="32" FontWeight="SemiBold" Margin="0,0,0,20"/>
+            <StackPanel Grid.Column="1" Spacing="10" Padding="20">
 
-            <TextBlock Text="Appearance" FontSize="20" FontWeight="SemiBold"/>
-            <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20" Margin="0,10,0,20" Spacing="15">
-                <RadioButtons x:Name="ThemeRadioButtons" Header="App Theme" SelectionChanged="ThemeRadioButtons_SelectionChanged">
-                    <RadioButton Content="Light" Tag="Light"/>
-                    <RadioButton Content="Dark" Tag="Dark"/>
-                    <RadioButton Content="Use system setting" Tag="Default"/>
-                </RadioButtons>
+                <TextBlock Text="Settings" FontSize="32" FontWeight="SemiBold" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Appearance" FontSize="20" FontWeight="SemiBold"/>
+                <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20" Margin="0,10,0,20" Spacing="15">
+                    <RadioButtons x:Name="ThemeRadioButtons" Header="App Theme" SelectionChanged="ThemeRadioButtons_SelectionChanged">
+                        <RadioButton Content="Light" Tag="Light"/>
+                        <RadioButton Content="Dark" Tag="Dark"/>
+                        <RadioButton Content="Use system setting" Tag="Default"/>
+                    </RadioButtons>
+                </StackPanel>
+
+                <TextBlock Text="About" FontSize="20" FontWeight="SemiBold"/>
+                <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20" Margin="0,10,0,20" Spacing="10">
+                    <TextBlock x:Name="AppNameText" Text="ATLAS" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="AppVersionText" Text="Version 1.2.1.0"/>
+                    <HyperlinkButton Content="Privacy Policy"/>
+                    <HyperlinkButton Content="Terms of Service"/>
+                </StackPanel>
+
             </StackPanel>
-
-            <TextBlock Text="About" FontSize="20" FontWeight="SemiBold"/>
-            <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20" Margin="0,10,0,20" Spacing="10">
-                <TextBlock x:Name="AppNameText" Text="ATLAS" FontWeight="SemiBold"/>
-                <TextBlock x:Name="AppVersionText" Text="Version 1.0.0.0"/>
-                <HyperlinkButton Content="Privacy Policy"/>
-                <HyperlinkButton Content="Terms of Service"/>
-            </StackPanel>
-
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </Page>
