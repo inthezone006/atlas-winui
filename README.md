@@ -1,4 +1,4 @@
-# ATLAS ???
+# ATLAS 🗺️
 
 ATLAS is a modern Windows desktop application designed to be your digital map to online safety. It provides a suite of tools to help users detect and understand potential online scams by analyzing text, voice, and image content.
 
