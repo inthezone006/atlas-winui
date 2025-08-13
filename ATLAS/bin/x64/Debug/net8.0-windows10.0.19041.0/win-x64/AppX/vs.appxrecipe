@@ -18,36 +18,36 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppX</LayoutDir>
-    <RegisteredManifestChecksum>2D5B7203485FC340B535FA999E796BBE3017B40557C7D7F426F44EEAC408909C</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>18fb7faa-1616-48a8-9057-3b6d90f83a85_1.0.0.0_x64__haeq3tdbew4we</RegisteredPackageMoniker>
+    <RegisteredManifestChecksum>A91AD4867164D42B53A73A74030861081B309132654E13FCEFDBFD171CED3BED</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>18fb7faa-1616-48a8-9057-3b6d90f83a85_1.1.1.0_x64__haeq3tdbew4we</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>18fb7faa-1616-48a8-9057-3b6d90f83a85_haeq3tdbew4we!App</RegisteredUserModeAppID>
     <RegisteredPackageID>18fb7faa-1616-48a8-9057-3b6d90f83a85</RegisteredPackageID>
     <RegisteredPackagePublisher>CN=ATLAS Protection</RegisteredPackagePublisher>
-    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+    <RegisteredVersion>1.1.1.0</RegisteredVersion>
   </PropertyGroup>
   <ItemGroup>
     <AppXManifest Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-08-13T07:08:42.085</Modified>
+      <Modified>2025-08-13T17:20:28.866</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2025-08-13T07:08:41.871</Modified>
+      <Modified>2025-08-13T17:20:28.590</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ATLAS.runtimeconfig.json">
       <PackagePath>ATLAS.runtimeconfig.json</PackagePath>
-      <Modified>2025-08-13T06:18:24.697</Modified>
+      <Modified>2025-08-07T00:13:59.239</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ATLAS.dll">
       <PackagePath>ATLAS.dll</PackagePath>
-      <Modified>2025-08-13T07:08:41.780</Modified>
+      <Modified>2025-08-13T17:20:27.829</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
       <PackagePath>ATLAS.exe</PackagePath>
-      <Modified>2025-08-13T07:08:41.783</Modified>
+      <Modified>2025-08-13T17:20:27.877</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\.nuget\packages\microsoft.netcore.app.runtime.win-x64\8.0.19\runtimes\win-x64\lib\net8.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -907,239 +907,239 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ATLAS.deps.json">
       <PackagePath>ATLAS.deps.json</PackagePath>
-      <Modified>2025-08-13T06:19:41.109</Modified>
+      <Modified>2025-08-13T17:20:28.382</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-100.theme-light.png">
       <PackagePath>Assets\LargeTile.scale-100.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.667</Modified>
+      <Modified>2025-08-13T17:00:05.265</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-125.theme-light.png">
       <PackagePath>Assets\LargeTile.scale-125.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.699</Modified>
+      <Modified>2025-08-13T17:00:05.265</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-150.theme-light.png">
       <PackagePath>Assets\LargeTile.scale-150.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.715</Modified>
+      <Modified>2025-08-13T17:00:05.265</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-200.theme-light.png">
       <PackagePath>Assets\LargeTile.scale-200.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.746</Modified>
+      <Modified>2025-08-13T17:00:05.265</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LargeTile.scale-400.theme-light.png">
       <PackagePath>Assets\LargeTile.scale-400.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.867</Modified>
+      <Modified>2025-08-13T17:00:05.265</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
-      <Modified>2025-08-08T04:30:55.022</Modified>
+      <Modified>2025-06-06T19:41:03.912</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\renamer.py">
       <PackagePath>Assets\renamer.py</PackagePath>
-      <Modified>2025-08-13T05:31:16.968</Modified>
+      <Modified>2025-08-13T17:00:05.328</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-100.theme-light.png">
       <PackagePath>Assets\SmallTile.scale-100.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.382</Modified>
+      <Modified>2025-08-13T17:00:05.265</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-125.theme-light.png">
       <PackagePath>Assets\SmallTile.scale-125.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.398</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-150.theme-light.png">
       <PackagePath>Assets\SmallTile.scale-150.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.413</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-200.theme-light.png">
       <PackagePath>Assets\SmallTile.scale-200.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.429</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SmallTile.scale-400.theme-light.png">
       <PackagePath>Assets\SmallTile.scale-400.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.445</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-100.theme-light.png">
       <PackagePath>Assets\SplashScreen.scale-100.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.144</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-125.theme-light.png">
       <PackagePath>Assets\SplashScreen.scale-125.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.175</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-150.theme-light.png">
       <PackagePath>Assets\SplashScreen.scale-150.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.207</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
-      <Modified>2025-08-13T06:19:08.255</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-200.theme-light.png">
       <PackagePath>Assets\SplashScreen.scale-200.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.255</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\SplashScreen.scale-400.theme-light.png">
       <PackagePath>Assets\SplashScreen.scale-400.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.430</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-100.theme-light.png">
       <PackagePath>Assets\Square150x150Logo.scale-100.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.461</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-125.theme-light.png">
       <PackagePath>Assets\Square150x150Logo.scale-125.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.477</Modified>
+      <Modified>2025-08-13T17:00:05.281</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-150.theme-light.png">
       <PackagePath>Assets\Square150x150Logo.scale-150.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.477</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
-      <Modified>2025-08-13T06:19:07.435</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-200.theme-light.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.493</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square150x150Logo.scale-400.theme-light.png">
       <PackagePath>Assets\Square150x150Logo.scale-400.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.541</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-16.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-16.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.063</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-24.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-24.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.079</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-256.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-256.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.111</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-32.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-32.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.089</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-lightunplated_targetsize-48.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-48.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.095</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-16.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-16.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.002</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-256.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-256.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.047</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-32.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-32.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.016</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.altform-unplated_targetsize-48.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-48.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.031</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-100.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.scale-100.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.880</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-125.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.scale-125.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.889</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-150.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.scale-150.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.905</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
-      <Modified>2025-08-13T06:19:07.863</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-200.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.905</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.scale-400.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.scale-400.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.921</Modified>
+      <Modified>2025-08-13T17:00:05.297</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-16.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-16.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.936</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-24.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.952</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
-      <Modified>2025-08-13T06:19:07.979</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-24_altform-unplated.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.016</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-256.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-256.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.984</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-32.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-32.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.952</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Square44x44Logo.targetsize-48.theme-light.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-48.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.968</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.backup.theme-light.png">
       <PackagePath>Assets\StoreLogo.backup.theme-light.png</PackagePath>
-      <Modified>2025-08-08T04:30:55.029</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-100.theme-light.png">
       <PackagePath>Assets\StoreLogo.scale-100.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.430</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-125.theme-light.png">
       <PackagePath>Assets\StoreLogo.scale-125.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.446</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-150.theme-light.png">
       <PackagePath>Assets\StoreLogo.scale-150.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.462</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-200.theme-light.png">
       <PackagePath>Assets\StoreLogo.scale-200.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.478</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\StoreLogo.scale-400.theme-light.png">
       <PackagePath>Assets\StoreLogo.scale-400.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:43.494</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-100.theme-light.png">
       <PackagePath>Assets\Wide310x150Logo.scale-100.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.556</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-125.theme-light.png">
       <PackagePath>Assets\Wide310x150Logo.scale-125.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.572</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-150.theme-light.png">
       <PackagePath>Assets\Wide310x150Logo.scale-150.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.588</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
-      <Modified>2025-08-13T06:19:07.542</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-200.theme-light.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.604</Modified>
+      <Modified>2025-08-13T17:00:05.313</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\rahul\Programming\atlas-winui\ATLAS\Assets\Wide310x150Logo.scale-400.theme-light.png">
       <PackagePath>Assets\Wide310x150Logo.scale-400.theme-light.png</PackagePath>
-      <Modified>2025-08-13T05:22:42.651</Modified>
+      <Modified>2025-08-13T17:00:05.328</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

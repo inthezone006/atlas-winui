@@ -1,1 +1,61 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+arm64/
+[Aa]rm/
+[Aa]nycpu/
+[Bb]in/
+[Oo]bj/
+[Ll]ogs/
+
+# Visual Studio 2019/2022 cache/options directory
 .vs/
+
+# MSTest test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# MyGet
+.myget/
+
+# Paket dependency manager
+.paket/paket.exe
+paket-files/
+
+# FAKE - F# Make
+.fake/
+
+# ILSpy
+.ilspy/
+
+# Rider
+.idea/
+
+# App packages
+AppPackages/
+Bundle/
+Package.StoreAssociation.xml
+_pkginfo.txt
+*.appx
+*.appxbundle
+*.appxupload
+*.msix
+*.msixbundle
+*.msixupload
+*Test_pkg.appxmanifest
