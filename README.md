@@ -76,7 +76,7 @@ The project is split into a frontend (the WinUI 3 app) and a backend (the Flask 
 
 ---
 
-## Usage ??
+## Usage ✈️
 
 1.  **Start the backend server** using the `flask run` command as described above.
 2.  In Visual Studio, set the solution configuration to **Debug** and the platform to **x64**.
