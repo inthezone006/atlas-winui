@@ -5,6 +5,14 @@
     <AppxShowAllApps>False</AppxShowAllApps>
     <AppxBuildConfigurationSelection>x86|x64</AppxBuildConfigurationSelection>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <Source>C:\Users\rahul\Downloads\logo.png</Source>
+    <SmallTileSource>C:\Users\rahul\Downloads\logo.png</SmallTileSource>
+    <MediumTileSource>C:\Users\rahul\Downloads\logo.png</MediumTileSource>
+    <WideTileSource>C:\Users\rahul\Downloads\logo.png</WideTileSource>
+    <LargeTileSource>C:\Users\rahul\Downloads\logo.png</LargeTileSource>
+    <AppIconSource>C:\Users\rahul\Downloads\logo.png</AppIconSource>
+    <SplashScreenSource>C:\Users\rahul\Downloads\logo.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\rahul\Downloads\logo.png</PackageLogoSource>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
