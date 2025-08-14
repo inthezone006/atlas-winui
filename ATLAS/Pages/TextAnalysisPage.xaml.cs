@@ -77,7 +77,7 @@ namespace ATLAS.Pages
         {
             if (result == null) return;
 
-            ScoreText.Text = $"{(result.Score * 10):F1}/10";
+            ScoreText.Text = $"{result.Score:F2}/10";
 
             if (result.IsScam)
             {

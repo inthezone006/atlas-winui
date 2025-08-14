@@ -110,7 +110,7 @@ namespace ATLAS.Pages
             // Display analysis of the text
             if (result.Analysis != null)
             {
-                ScoreText.Text = $"{(result.Analysis.Score * 10):F1}/10";
+                ScoreText.Text = $"{result.Analysis.Score:F2}/10";
                 InterpretationText.Text = result.Analysis.IsScam ? "Scam Likely" : "Not Likely a Scam";
                 ExplanationText.Text = result.Analysis.Explanation;
                 ResultsBox.Visibility = Visibility.Visible;

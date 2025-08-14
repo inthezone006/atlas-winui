@@ -133,7 +133,7 @@ namespace ATLAS.Pages
                 DisplayError("Could not get an analysis from the server.");
                 return;
             }
-            ScoreText.Text = $"{(result.Score * 10):F1}/10";
+            ScoreText.Text = $"{result.Score:F2}/10";
             InterpretationText.Text = result.IsScam ? "Scam Likely" : "Not Likely a Scam";
             ExplanationText.Text = result.Explanation;
             ResultsBox.Visibility = Visibility.Visible;
