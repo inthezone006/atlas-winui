@@ -44,16 +44,22 @@ namespace ATLAS.Pages
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var stats = JsonSerializer.Deserialize<UserStats>(jsonResponse);
-                    TotalAnalysesText.Text = stats.TotalAnalyses.ToString();
-                    ScamsDetectedText.Text = stats.ScamsDetected.ToString();
-                    SubmissionsText.Text = stats.CommunitySubmissions.ToString();
+                    if (stats != null && TotalAnalysesText != null && ScamsDetectedText != null && SubmissionsText != null)
+                    {
+                        TotalAnalysesText.Text = stats.TotalAnalyses.ToString();
+                        ScamsDetectedText.Text = stats.ScamsDetected.ToString();
+                        SubmissionsText.Text = stats.CommunitySubmissions.ToString();
+                    }
                 }
             }
-            catch (Exception) { /* Handle error */ }
+            catch (Exception) { }
         }
 
         private async Task LoadSubmissionHistory()
         {
+            if (HistoryStatusText == null)
+                return;
+
             HistoryStatusText.Text = "Loading history...";
             try
             {
@@ -66,8 +72,11 @@ namespace ATLAS.Pages
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var history = JsonSerializer.Deserialize<List<ActivityLog>>(jsonResponse);
                     HistoryItemsRepeater.ItemsSource = history;
-                    HistoryStatusText.Visibility = history.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-                    HistoryStatusText.Text = "No submission history found.";
+                    if (history != null)
+                    {
+                        HistoryStatusText.Visibility = history.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                        HistoryStatusText.Text = "No submission history found.";
+                    }
                 }
                 else
                 {
@@ -99,7 +108,7 @@ namespace ATLAS.Pages
                 XamlRoot = this.XamlRoot
             };
 
-            dialog.RequestedTheme = (this.Content as FrameworkElement).ActualTheme;
+            dialog.RequestedTheme = (this.Content as FrameworkElement)?.ActualTheme ?? ElementTheme.Default;
 
             var result = await dialog.ShowAsync();
 

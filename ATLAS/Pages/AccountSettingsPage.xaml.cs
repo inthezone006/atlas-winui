@@ -1,16 +1,14 @@
 using ATLAS.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace ATLAS.Pages
 {
@@ -26,10 +24,9 @@ namespace ATLAS.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (!AuthService.IsLoggedIn)
+            if (!AuthService.IsLoggedIn || AuthService.CurrentUser == null)
             {
-                // Redirect if not logged in
-                (Application.Current as App)?.RootFrame.Navigate(typeof(LoginPage));
+                (Window.Current.Content as Frame)?.Navigate(typeof(LoginPage));
             }
             else
             {
@@ -41,67 +38,82 @@ namespace ATLAS.Pages
         private async void SaveName_Click(object sender, RoutedEventArgs e)
         {
             var payload = new { first_name = FirstNameTextBox.Text, last_name = LastNameTextBox.Text };
-            await UpdateUserSettings("https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/name", payload);
+            await UpdateUserSettings(
+                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/name",
+                payload,
+                "Name updated successfully!");
         }
 
-        private async Task UpdateUserSettings(string url, object payload)
+        private async void SaveUsername_Click(object sender, RoutedEventArgs e)
         {
-            StatusTextBlock.Text = "Saving...";
+            StatusTextBlock.Text = "";
+
+            var oldUsername = OldUsernameTextBox.Text;
+            var newUsername = NewUsernameTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(oldUsername) || string.IsNullOrWhiteSpace(newUsername))
+            {
+                StatusTextBlock.Text = "Both username fields are required.";
+                return;
+            }
+
+            if (AuthService.IsLoggedIn && oldUsername != AuthService.CurrentUser?.Username)
+            {
+                StatusTextBlock.Text = "The 'Current Username' you entered is incorrect.";
+                return;
+            }
+
+            var payload = new { old_username = oldUsername, new_username = newUsername };
+            await UpdateUserSettings(
+                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/username",
+                payload,
+                "Username updated successfully!");
+        }
+
+        private async void SavePassword_Click(object sender, RoutedEventArgs e)
+        {
+            var payload = new { old_password = OldPasswordBox.Password, new_password = NewPasswordBox.Password };
+            await UpdateUserSettings(
+                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/password",
+                payload,
+                "Password updated successfully!");
+        }
+
+        private async Task UpdateUserSettings(string url, object payload, string successMessage)
+        {
+            StatusTextBlock.Text = "";
+            LoadingRing.IsActive = true;
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Put, url);
+                var request = new HttpRequestMessage(HttpMethod.Put, url)
+                {
+                    Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
+                };
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-                request.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
                 var response = await client.SendAsync(request);
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var responseDoc = JsonDocument.Parse(responseBody);
-                var message = responseDoc.RootElement.GetProperty(response.IsSuccessStatusCode ? "message" : "error").GetString();
 
-                StatusTextBlock.Text = message;
+                if (response.IsSuccessStatusCode)
+                {
+                    AuthService.Logout();
+                    (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage), null, new SuppressNavigationTransitionInfo());
+                    NotificationService.Show($"{successMessage} You have been signed out for security.", InfoBarSeverity.Success);
+                }
+                else
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var responseDoc = JsonDocument.Parse(responseBody);
+                    StatusTextBlock.Text = responseDoc.RootElement.GetProperty("error").GetString();
+                }
             }
             catch (Exception ex)
             {
                 StatusTextBlock.Text = $"Error: {ex.Message}";
             }
-        }
-
-        private List<string> ValidatePassword(string password)
-        {
-            var errors = new List<string>();
-
-            if (password.Length < 7)
+            finally
             {
-                errors.Add("Password must be at least 7 characters long.");
+                LoadingRing.IsActive = false;
             }
-            if (!password.Any(char.IsUpper))
-            {
-                errors.Add("Password must contain at least one uppercase letter.");
-            }
-            if (!password.Any(char.IsDigit))
-            {
-                errors.Add("Password must contain at least one number.");
-            }
-
-            return errors;
-        }
-
-        private async void SavePassword_Click(object sender, RoutedEventArgs e)
-        {
-            PasswordErrorTextBlock.Text = ""; // Clear previous errors
-            var newPassword = NewPasswordBox.Password;
-
-            // --- 1. Validate the new password ---
-            var passwordErrors = ValidatePassword(newPassword);
-            if (passwordErrors.Any())
-            {
-                PasswordErrorTextBlock.Text = string.Join("\n", passwordErrors);
-                return; // Stop if invalid
-            }
-
-            // --- 2. If valid, proceed with your API call ---
-            var payload = new { old_password = OldPasswordBox.Password, new_password = newPassword };
-            await UpdateUserSettings("https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/password/api/me/password", payload);
         }
     }
 }

@@ -1,0 +1,65 @@
+<Page
+    x:Class="ATLAS.Pages.LinkAnalysisPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    mc:Ignorable="d"
+    Background="Transparent"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20" MaxWidth="800" Padding="40">
+            <TextBlock Text="Link Analysis" FontSize="32" FontWeight="SemiBold"/>
+            <TextBlock Text="Enter a suspicious URL or link below to check it against a database of known malicious sites." TextWrapping="Wrap"/>
+
+            <TextBox x:Name="UrlTextBox" Header="URL to Analyze" PlaceholderText="https://example.com"/>
+
+            <StackPanel Orientation="Horizontal" Spacing="20" Margin="0,10,0,0">
+                <Button x:Name="AnalyzeButton"
+                        Content="Run Analysis"
+                        Style="{ThemeResource AccentButtonStyle}"
+                        Click="AnalyzeButton_Click"/>
+                <ProgressRing x:Name="LoadingRing" IsActive="False"/>
+            </StackPanel>
+
+            <Border x:Name="ResultsBox"
+        Background="{ThemeResource LayerFillColorDefaultBrush}"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
+        Padding="24" Margin="0,20,0,0" Visibility="Collapsed">
+                <StackPanel Spacing="15">
+                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+
+                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+                        <FontIcon x:Name="StatusIcon" Glyph="&#xE73E;" FontSize="20"/>
+                        <TextBlock x:Name="StatusText" Text="This URL appears to be safe." FontSize="18" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="ExplanationText" HorizontalAlignment="Center" Opacity="0.8"/>
+
+                    <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" Margin="0,10"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBlock Text="Harmless" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="HarmlessCountText" Text="-" FontSize="24" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Text="Suspicious" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="SuspiciousCountText" Text="-" FontSize="24" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBlock Text="Malicious" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="MaliciousCountText" Text="-" FontSize="24" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

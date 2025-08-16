@@ -30,7 +30,6 @@ namespace ATLAS.Pages
             var hwnd = WindowNative.GetWindowHandle(window);
             InitializeWithWindow.Initialize(filePicker, hwnd);
 
-            // Set file type filters for images
             filePicker.FileTypeFilter.Add(".png");
             filePicker.FileTypeFilter.Add(".jpg");
             filePicker.FileTypeFilter.Add(".jpeg");
@@ -48,7 +47,6 @@ namespace ATLAS.Pages
         {
             if (selectedImageFile == null) return;
 
-            // 1. Set UI to loading state
             ExtractedTextBox.Visibility = Visibility.Collapsed;
             ResultsBox.Visibility = Visibility.Collapsed;
             LoadingRing.IsActive = true;
@@ -57,7 +55,6 @@ namespace ATLAS.Pages
 
             try
             {
-                // 2. Prepare and send API request
                 using var content = new MultipartFormDataContent();
                 using var stream = await selectedImageFile.OpenStreamForReadAsync();
                 content.Add(new StreamContent(stream), "image", selectedImageFile.Name);
@@ -70,7 +67,6 @@ namespace ATLAS.Pages
 
                 HttpResponseMessage response = await client.SendAsync(request);
 
-                // 3. Process the response
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -88,7 +84,6 @@ namespace ATLAS.Pages
             }
             finally
             {
-                // 4. Reset UI from loading state
                 LoadingRing.IsActive = false;
                 AnalyzeButton.IsEnabled = true;
                 SelectFileButton.IsEnabled = true;
@@ -103,15 +98,12 @@ namespace ATLAS.Pages
                 return;
             }
 
-            // Display extracted text
             ExtractedText.Text = string.IsNullOrWhiteSpace(result.Text) ? "No text found in the image." : result.Text;
             ExtractedTextBox.Visibility = Visibility.Visible;
-
-            // Display analysis of the text
             if (result.Analysis != null)
             {
                 ScoreText.Text = $"{result.Analysis.Score:F2}/10";
-                InterpretationText.Text = result.Analysis.IsScam ? "Scam Likely" : "Not Likely a Scam";
+                InterpretationText.Text = result.Analysis.IsScam == true ? "Scam Likely" : "Not Likely a Scam";
                 ExplanationText.Text = result.Analysis.Explanation;
                 ResultsBox.Visibility = Visibility.Visible;
             }

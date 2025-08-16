@@ -25,16 +25,22 @@
                         <TextBlock Text="Text Analysis"/>
                     </StackPanel>
                 </ListViewItem>
-                <ListViewItem Tag="Voice">
+                <ListViewItem Tag="Audio">
                     <StackPanel Orientation="Horizontal" Spacing="12">
                         <FontIcon Glyph="&#xE720;"/>
-                        <TextBlock Text="Voice Analysis"/>
+                        <TextBlock Text="Audio Analysis"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem Tag="Image">
                     <StackPanel Orientation="Horizontal" Spacing="12">
                         <FontIcon Glyph="&#xE722;"/>
                         <TextBlock Text="Image Analysis"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Tag="Link">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <FontIcon Glyph="&#xE71B;"/>
+                        <TextBlock Text="Link Analysis"/>
                     </StackPanel>
                 </ListViewItem>
             </ListView>

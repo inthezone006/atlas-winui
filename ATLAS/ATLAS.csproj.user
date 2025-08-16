@@ -13,6 +13,7 @@
     <AppIconSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</AppIconSource>
     <SplashScreenSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</SplashScreenSource>
     <PackageLogoSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</PackageLogoSource>
+    <BadgeLogoSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</BadgeLogoSource>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
@@ -24,6 +25,9 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\LinkAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\AnalysisHubPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -48,7 +52,7 @@
     <Page Update="Pages\ImageAnalysisPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\VoiceAnalysisPage.xaml">
+    <Page Update="Pages\AudioAnalysisPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\TextAnalysisPage.xaml">

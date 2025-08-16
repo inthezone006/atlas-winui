@@ -10,18 +10,18 @@ namespace ATLAS.Models
     public class User
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("first_name")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [JsonPropertyName("last_name")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [JsonPropertyName("username")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [JsonPropertyName("role")]
-        public string Role { get; set; }
+        public string? Role { get; set; }
     }
 }

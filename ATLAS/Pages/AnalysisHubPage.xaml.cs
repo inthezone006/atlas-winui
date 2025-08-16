@@ -11,37 +11,39 @@ namespace ATLAS.Pages
             this.InitializeComponent();
         }
 
-        // This runs when the page is first navigated to
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            // Set the default selection to "Text Analysis"
-            AnalysisSelectionList.SelectedIndex = 0;
-            AnalysisContentFrame.Navigate(typeof(TextAnalysisPage), null, new EntranceNavigationTransitionInfo());
+            if (e.Parameter is int selectedIndex && selectedIndex >= 0)
+            {
+                AnalysisSelectionList.SelectedIndex = selectedIndex;
+            }
+            else
+            {
+                AnalysisSelectionList.SelectedIndex = 0;
+            }
         }
 
-        // This event fires whenever the user clicks a different item in the left-hand list
         private void AnalysisSelectionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
             {
                 var selectedItem = e.AddedItems[0] as ListViewItem;
-                if (selectedItem?.Tag is not null)
+                if (selectedItem?.Tag is string selectedTag)
                 {
-                    string selectedTag = selectedItem.Tag.ToString();
-
-                    // Navigate the right-side frame to the corresponding page
                     switch (selectedTag)
                     {
                         case "Text":
                             AnalysisContentFrame.Navigate(typeof(TextAnalysisPage), null, new DrillInNavigationTransitionInfo());
                             break;
-                        case "Voice":
-                            AnalysisContentFrame.Navigate(typeof(VoiceAnalysisPage), null, new DrillInNavigationTransitionInfo());
+                        case "Audio":
+                            AnalysisContentFrame.Navigate(typeof(AudioAnalysisPage), null, new DrillInNavigationTransitionInfo());
                             break;
                         case "Image":
                             AnalysisContentFrame.Navigate(typeof(ImageAnalysisPage), null, new DrillInNavigationTransitionInfo());
+                            break;
+                        case "Link":
+                            AnalysisContentFrame.Navigate(typeof(LinkAnalysisPage), null, new DrillInNavigationTransitionInfo());
                             break;
                     }
                 }

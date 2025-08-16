@@ -14,7 +14,6 @@ namespace ATLAS.Pages
 
         private void LoadAppSettings()
         {
-            // Set the version number text
             var version = Package.Current.Id.Version;
             AppVersionText.Text = $"Version {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
 
@@ -23,7 +22,7 @@ namespace ATLAS.Pages
             {
                 "Light" => 0,
                 "Dark" => 1,
-                _ => 2 // Default
+                _ => 2
             };
         }
 
@@ -31,16 +30,19 @@ namespace ATLAS.Pages
         {
             if (ThemeRadioButtons.SelectedItem is RadioButton selectedRadioButton)
             {
-                string selectedThemeTag = selectedRadioButton.Tag.ToString();
-                Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppTheme"] = selectedThemeTag;
-
-                ElementTheme newTheme = selectedThemeTag switch
+                string? selectedThemeTag = selectedRadioButton.Tag as string;
+                if (!string.IsNullOrEmpty(selectedThemeTag))
                 {
-                    "Light" => ElementTheme.Light,
-                    "Dark" => ElementTheme.Dark,
-                    _ => ElementTheme.Default
-                };
-                (Application.Current as App)?.SetRequestedTheme(newTheme);
+                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppTheme"] = selectedThemeTag;
+
+                    ElementTheme newTheme = selectedThemeTag switch
+                    {
+                        "Light" => ElementTheme.Light,
+                        "Dark" => ElementTheme.Dark,
+                        _ => ElementTheme.Default
+                    };
+                    (Application.Current as App)?.SetRequestedTheme(newTheme);
+                }
             }
         }
     }

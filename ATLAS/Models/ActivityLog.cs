@@ -10,12 +10,12 @@ namespace ATLAS.Models
     public class ActivityLog
     {
         [JsonPropertyName("approved_on")]
-        public string ApprovedOn { get; set; }
+        public string? ApprovedOn { get; set; }
 
         [JsonPropertyName("approved_user")]
-        public string ApprovedUser { get; set; }
+        public string? ApprovedUser { get; set; }
 
         [JsonPropertyName("text")]
-        public string Text { get; set; }
+        public string? Text { get; set; }
     }
 }

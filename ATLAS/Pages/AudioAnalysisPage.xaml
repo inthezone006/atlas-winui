@@ -1,5 +1,5 @@
 <Page
-    x:Class="ATLAS.Pages.VoiceAnalysisPage"
+    x:Class="ATLAS.Pages.AudioAnalysisPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     mc:Ignorable="d"
@@ -9,7 +9,7 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="20" MaxWidth="800" Padding="40">
-            <TextBlock Text="Voice Analysis" FontSize="32" FontWeight="SemiBold"/>
+            <TextBlock Text="Audio Analysis" FontSize="32" FontWeight="SemiBold"/>
             <TextBlock Text="Select a suspicious audio file (voicemail, recording, etc.) to transcribe it and analyze it for potential signs of a scam." TextWrapping="Wrap"/>
 
             <StackPanel Orientation="Horizontal" Spacing="10">

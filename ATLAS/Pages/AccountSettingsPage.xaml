@@ -1,33 +1,48 @@
 <Page
     x:Class="ATLAS.Pages.AccountSettingsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     mc:Ignorable="d"
     Background="Transparent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 
-    <Grid Padding="40">
-        <StackPanel Spacing="30" MaxWidth="500">
-            <TextBlock Text="Account Settings" FontSize="32" FontWeight="SemiBold"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
-                <TextBlock Text="Change Your Name" FontSize="18" FontWeight="SemiBold"/>
-                <TextBox x:Name="FirstNameTextBox" Header="First Name"/>
-                <TextBox x:Name="LastNameTextBox" Header="Last Name"/>
-                <Button Content="Save Name" Click="SaveName_Click"/>
+            <StackPanel Grid.Column="1" Spacing="30" Padding="20">
+                <TextBlock Text="Account Settings" FontSize="32" FontWeight="SemiBold"/>
+
+                <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
+                    <TextBlock Text="Change Your Name" FontSize="18" FontWeight="SemiBold"/>
+                    <TextBox x:Name="FirstNameTextBox" Header="First Name"/>
+                    <TextBox x:Name="LastNameTextBox" Header="Last Name"/>
+                    <Button Content="Save Name" Click="SaveName_Click" Style="{ThemeResource AccentButtonStyle}"/>
+                </StackPanel>
+
+                <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
+                    <TextBlock Text="Change Your Username" FontSize="18" FontWeight="SemiBold"/>
+                    <TextBox x:Name="OldUsernameTextBox" Header="Current Username" PlaceholderText="Enter your current username to confirm"/>
+                    <TextBox x:Name="NewUsernameTextBox" Header="New Username" PlaceholderText="Enter your new desired username" />
+                    <Button Content="Save Username" Click="SaveUsername_Click" Style="{ThemeResource AccentButtonStyle}" />
+                </StackPanel>
+
+                <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
+                    <TextBlock Text="Change Your Password" FontSize="18" FontWeight="SemiBold"/>
+                    <PasswordBox x:Name="OldPasswordBox" Header="Old Password" PlaceholderText="Enter your current password to confirm" />
+                    <PasswordBox x:Name="NewPasswordBox" Header="New Password" PlaceholderText="Enter your new desired password" />
+                    <Button Content="Save Password" Click="SavePassword_Click" Style="{ThemeResource AccentButtonStyle}"/>
+                </StackPanel>
+
+                <ProgressRing x:Name="LoadingRing" IsActive="False" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="StatusTextBlock" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="Red"/>
+
             </StackPanel>
-
-            <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
-                <TextBlock Text="Change Your Password" FontSize="18" FontWeight="SemiBold"/>
-                <PasswordBox x:Name="OldPasswordBox" Header="Old Password"/>
-                <PasswordBox x:Name="NewPasswordBox" Header="New Password"/>
-                <TextBlock x:Name="PasswordErrorTextBlock" Foreground="Red" TextWrapping="Wrap"/>
-                <Button Content="Save Password" Click="SavePassword_Click"/>
-            </StackPanel>
-
-            <TextBlock x:Name="StatusTextBlock" HorizontalAlignment="Center" FontWeight="SemiBold"/>
-
-        </StackPanel>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

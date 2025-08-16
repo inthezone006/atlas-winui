@@ -21,10 +21,10 @@ namespace ATLAS
 { 
     public partial class App : Application
     {
-        public Frame RootFrame { get; private set; }
-        internal Window _window = default!;
+        public Frame? RootFrame { get; private set; } = default!;
+        internal Window? _window = default!;
 
-        public event Action<ElementTheme> OnThemeChanged;
+        public event Action<ElementTheme>? OnThemeChanged;
 
         public App()
         {
@@ -34,7 +34,7 @@ namespace ATLAS
 
         public void SetRequestedTheme(ElementTheme theme)
         {
-            if (_window.Content is FrameworkElement rootElement)
+            if (_window != null && _window.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = theme;
                 OnThemeChanged?.Invoke(theme);
@@ -44,8 +44,8 @@ namespace ATLAS
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             _window = new MainWindow();
-            RootFrame = (_window as MainWindow).AppFrame;
-            LoadAndApplyTheme();
+            RootFrame = (_window as MainWindow)?.AppFrame;
+
             _window.Activate();
         }
 

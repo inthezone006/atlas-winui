@@ -11,8 +11,14 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\BadgeLogo.scale-100.png" />
+    <Content Remove="Assets\BadgeLogo.scale-125.png" />
+    <Content Remove="Assets\BadgeLogo.scale-150.png" />
+    <Content Remove="Assets\BadgeLogo.scale-200.png" />
+    <Content Remove="Assets\BadgeLogo.scale-400.png" />
     <Content Remove="Assets\LargeTile.scale-100.png" />
     <Content Remove="Assets\LargeTile.scale-125.png" />
     <Content Remove="Assets\LargeTile.scale-150.png" />
@@ -66,12 +72,12 @@
     <None Remove="Pages\AnalysisHubPage.xaml" />
     <None Remove="Pages\DashboardPage.xaml" />
     <None Remove="Pages\ImageAnalysisPage.xaml" />
+    <None Remove="Pages\LinkAnalysisPage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\SignUpPage.xaml" />
     <None Remove="Pages\TextAnalysisPage.xaml" />
     <None Remove="Pages\VisionPage.xaml" />
-    <None Remove="Pages\VoiceAnalysisPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -98,6 +104,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\LinkAnalysisPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\AnalysisHubPage.xaml">
@@ -150,7 +161,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\VoiceAnalysisPage.xaml">
+    <Page Update="Pages\AudioAnalysisPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

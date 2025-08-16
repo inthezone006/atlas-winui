@@ -49,7 +49,17 @@ namespace ATLAS.Pages
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var result = JsonSerializer.Deserialize<AnalysisResult>(jsonResponse);
-                    DisplayResults(result);
+                    if (result != null)
+                    {
+                        DisplayResults(result);
+                    }
+                    else
+                    {
+                        ResultsBox.Visibility = Visibility.Visible;
+                        InterpretationText.Text = "Error";
+                        ScoreText.Text = "-";
+                        ExplanationText.Text = "Received an invalid response from the server.";
+                    }
                 }
                 else
                 {
@@ -79,7 +89,7 @@ namespace ATLAS.Pages
 
             ScoreText.Text = $"{result.Score:F2}/10";
 
-            if (result.IsScam)
+            if (result.IsScam == true)
             {
                 InterpretationText.Text = "Scam Likely";
             }

@@ -21,7 +21,7 @@
                     CornerRadius="8">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
                     <TextBlock Text="Log In" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Welcome back!" HorizontalAlignment="Center" />
+                    <TextBlock Text="Sign in to your account." HorizontalAlignment="Center" />
                     <Button Content="Log In" HorizontalAlignment="Center" Click="LoginButton_Click" Style="{StaticResource AccentButtonStyle}"/>
                 </StackPanel>
             </Border>

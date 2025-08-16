@@ -22,10 +22,13 @@ public sealed partial class SignUpPage : Page
 
     private void LoginLink_Click(object sender, RoutedEventArgs e)
     {
-        (Application.Current as App)?.RootFrame.Navigate(typeof(LoginPage));
+        (Application.Current as App)?.RootFrame?.Navigate(
+            typeof(LoginPage),
+            null,
+            new DrillInNavigationTransitionInfo());
     }
 
-    private List<string> ValidatePassword(string password)
+    private static List<string> ValidatePassword(string password)
     {
         var errors = new List<string>();
 
@@ -47,9 +50,8 @@ public sealed partial class SignUpPage : Page
 
     private async void SignUpButton_Click(object sender, RoutedEventArgs e)
     {
-        ErrorTextBlock.Text = ""; // Clear previous errors
+        ErrorTextBlock.Text = "";
 
-        // --- 1. Get user input ---
         var firstName = FirstNameTextBox.Text;
         var lastName = LastNameTextBox.Text;
         var username = UsernameTextBox.Text;
@@ -61,16 +63,19 @@ public sealed partial class SignUpPage : Page
             return;
         }
 
-        // --- 2. Validate the password ---
         var passwordErrors = ValidatePassword(password);
         if (passwordErrors.Any())
         {
             ErrorTextBlock.Text = string.Join("\n", passwordErrors);
-            return; // Stop if invalid
+            return;
         }
 
-            // --- 3. If valid, proceed with the API call ---
-            (sender as Button).IsEnabled = false; // Disable button during request
+        Button button = (Button)sender;
+        if (button != null)
+        {
+            button.IsEnabled = false;
+        }
+
         try
         {
             var signUpData = new
@@ -85,18 +90,18 @@ public sealed partial class SignUpPage : Page
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await client.PostAsync(backendUrl, content);
-
             if (response.IsSuccessStatusCode)
             {
-                // Success! Navigate user to the login page.
-                (Application.Current as App)?.RootFrame.Navigate(
-                    typeof(LoginPage),
-                    null,
-                    new DrillInNavigationTransitionInfo());
+                if ((Application.Current as App)?.RootFrame != null)
+                {
+                    (Application.Current as App)!.RootFrame!.Navigate(
+                        typeof(LoginPage),
+                        null,
+                        new DrillInNavigationTransitionInfo());
+                }
             }
             else
             {
-                // Handle errors from the backend (e.g., username already exists)
                 var errorBody = await response.Content.ReadAsStringAsync();
                 var errorDoc = JsonDocument.Parse(errorBody);
                 var errorMessage = errorDoc.RootElement.GetProperty("error").GetString();
@@ -109,7 +114,10 @@ public sealed partial class SignUpPage : Page
         }
         finally
         {
-            (sender as Button).IsEnabled = true; // Re-enable button
+            if (button != null)
+            {
+                button.IsEnabled = true;
+            }
         }
     }
 }

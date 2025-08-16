@@ -14,7 +14,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using ATLAS.Pages;
 using ATLAS.Services;
@@ -29,9 +28,16 @@ namespace ATLAS
         {
             this.InitializeComponent();
             this.SystemBackdrop = new MicaBackdrop();
-            (Application.Current as App).OnThemeChanged += (theme) => UpdateTitleBarTheme(theme);
+            var app = Application.Current as App;
+            if (app != null)
+            {
+                app.OnThemeChanged += (theme) => UpdateTitleBarTheme(theme);
+            }
+
             AuthService.OnLoginStateChanged += UpdateAccountNavItem;
             UpdateAccountNavItem();
+
+            NotificationService.OnShowNotification += ShowNotification;
 
             var appWindow = this.AppWindow;
             if (AppWindowTitleBar.IsCustomizationSupported())
@@ -52,9 +58,8 @@ namespace ATLAS
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItemContainer?.Tag is not null)
+            if (args.InvokedItemContainer?.Tag is string navItemTag)
             {
-                var navItemTag = args.InvokedItemContainer.Tag.ToString();
                 NavigateToPage(navItemTag);
             }
         }
@@ -68,7 +73,7 @@ namespace ATLAS
                 return;
             }
 
-            Type pageType = pageTag switch
+            Type? pageType = pageTag switch
             {
                 "Home" => typeof(HomePage),
                 "AnalysisTools" => typeof(AnalysisHubPage),
@@ -92,7 +97,7 @@ namespace ATLAS
             {
                 AccountNavItemLoggedIn.Visibility = Visibility.Visible;
                 AccountNavItemLoggedOut.Visibility = Visibility.Collapsed;
-                AccountNavItemLoggedIn.Content = AuthService.CurrentUser.FirstName;
+                AccountNavItemLoggedIn.Content = AuthService.CurrentUser?.FirstName ?? "Account";
             }
             else
             {
@@ -106,10 +111,26 @@ namespace ATLAS
             if (AppWindowTitleBar.IsCustomizationSupported())
             {
                 var titleBar = this.AppWindow.TitleBar;
-                titleBar.ButtonForegroundColor = (theme == ElementTheme.Dark)
-                    ? Microsoft.UI.Colors.White
-                    : Microsoft.UI.Colors.Black;
+                if (theme == ElementTheme.Dark)
+                {
+                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(32, 255, 255, 255);
+                    titleBar.ButtonPressedBackgroundColor = Color.FromArgb(64, 255, 255, 255);
+                }
+                else
+                {
+                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.Black;
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(26, 0, 0, 0);
+                    titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                }
             }
+        }
+
+        private void ShowNotification(string message, InfoBarSeverity severity)
+        {
+            NotificationInfoBar.Message = message;
+            NotificationInfoBar.Severity = severity;
+            NotificationInfoBar.IsOpen = true;
         }
     }
 }

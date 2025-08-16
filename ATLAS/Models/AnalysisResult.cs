@@ -10,12 +10,12 @@ namespace ATLAS.Models
     public class AnalysisResult
     {
         [JsonPropertyName("score")]
-        public double Score { get; set; }
+        public double? Score { get; set; }
 
         [JsonPropertyName("is_scam")]
-        public bool IsScam { get; set; }
+        public bool? IsScam { get; set; }
 
         [JsonPropertyName("explanation")]
-        public string Explanation { get; set; }
+        public string? Explanation { get; set; }
     }
 }

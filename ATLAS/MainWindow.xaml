@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="ATLAS">
+    Title="ATLAS Protection">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -23,24 +23,19 @@
             </Grid.ColumnDefinitions>
 
             <NavigationView x:Name="NavView"
-                Grid.Column="0"
-                PaneDisplayMode="Top"
-                IsSettingsVisible="False" IsBackButtonVisible="Collapsed"
-                ItemInvoked="NavView_ItemInvoked">
-
+                            Grid.Column="0"
+                            PaneDisplayMode="Top"
+                            IsSettingsVisible="False"
+                            IsBackButtonVisible="Collapsed"
+                            ItemInvoked="NavView_ItemInvoked">
                 <NavigationView.MenuItems>
-
                     <NavigationViewItem Content="Home" Icon="Home" Tag="Home"/>
-
                     <NavigationViewItem Content="Analysis Tools" Icon="GoToStart" Tag="AnalysisTools"/>
-
                     <NavigationViewItem Content="Our Vision" Icon="Flag" Tag="Vision"/>
-
                     <NavigationViewItem x:Name="AccountNavItemLoggedIn"
-                        Icon="Contact"
-                        Tag="AccountLoggedIn"
-                        Visibility="Collapsed">
-                        
+                                        Icon="Contact"
+                                        Tag="AccountLoggedIn"
+                                        Visibility="Collapsed">
                         <NavigationViewItem.MenuItems>
                             <NavigationViewItem Content="Dashboard" Tag="Dashboard" Icon="Home"/>
                             <NavigationViewItem Content="Account Settings" Tag="AccountSettings" Icon="ContactInfo"/>
@@ -48,19 +43,23 @@
                             <NavigationViewItem Content="Sign Out" Tag="SignOut" Icon="LeaveChat"/>
                         </NavigationViewItem.MenuItems>
                     </NavigationViewItem>
-
                     <NavigationViewItem x:Name="AccountNavItemLoggedOut"
-                        Content="Account"
-                        Icon="Contact"
-                        Tag="AccountLoggedOut"/>
-
+                                        Content="Account"
+                                        Icon="Contact"
+                                        Tag="AccountLoggedOut"/>
                     <NavigationViewItem Content="Settings" Icon="Setting" Tag="Settings"/>
-
                 </NavigationView.MenuItems>
             </NavigationView>
         </Grid>
 
         <Frame x:Name="ContentFrame" Grid.Row="1" />
 
+        <InfoBar x:Name="NotificationInfoBar"
+                 Grid.Row="1"
+                 IsOpen="False"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Bottom"
+                 Margin="0,0,0,20"
+                 Shadow="{StaticResource SharedShadow}"/>
     </Grid>
 </Window>
