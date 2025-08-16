@@ -8,14 +8,14 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="18fb7faa-1616-48a8-9057-3b6d90f83a85"
-    Publisher="CN=ATLAS Protection"
-    Version="1.3.3.0" />
+    Name="RahulMenon.43135C579E6FB"
+    Publisher="CN=8396E312-87FF-4162-A4A1-5174BBF98483"
+    Version="1.4.16.0" />
 
-  <mp:PhoneIdentity PhoneProductId="18fb7faa-1616-48a8-9057-3b6d90f83a85" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="6b9a7ebd-2527-4bc7-b422-13982673be67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>ATLAS</DisplayName>
+    <DisplayName>ATLAS Protection</DisplayName>
     <PublisherDisplayName>Rahul Menon</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -34,7 +34,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="ATLAS"
+        DisplayName="ATLAS Protection"
         Description="ATLAS"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
