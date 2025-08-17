@@ -1,8 +1,11 @@
 using ATLAS.Models;
 using ATLAS.Services;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -10,17 +13,15 @@ using System.Text.Json;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
-using Microsoft.UI;
-using Microsoft.UI.Xaml.Media;
 
 namespace ATLAS.Pages
 {
-    public sealed partial class ImageAnalysisPage : Page
+    public sealed partial class FileScanPage : Page
     {
         private static readonly HttpClient client = new HttpClient();
-        private StorageFile? selectedImageFile;
+        private StorageFile? selectedFile;
 
-        public ImageAnalysisPage()
+        public FileScanPage()
         {
             this.InitializeComponent();
         }
@@ -32,14 +33,12 @@ namespace ATLAS.Pages
             var hwnd = WindowNative.GetWindowHandle(window);
             InitializeWithWindow.Initialize(filePicker, hwnd);
 
-            filePicker.FileTypeFilter.Add(".png");
-            filePicker.FileTypeFilter.Add(".jpg");
-            filePicker.FileTypeFilter.Add(".jpeg");
+            filePicker.FileTypeFilter.Add("*"); // Allow all file types
 
             var file = await filePicker.PickSingleFileAsync();
             if (file != null)
             {
-                selectedImageFile = file;
+                selectedFile = file;
                 SelectedFileNameText.Text = file.Name;
                 AnalyzeButton.IsEnabled = true;
             }
@@ -47,9 +46,8 @@ namespace ATLAS.Pages
 
         private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedImageFile == null) return;
+            if (selectedFile == null) return;
 
-            ExtractedTextBox.Visibility = Visibility.Collapsed;
             ResultsBox.Visibility = Visibility.Collapsed;
             LoadingRing.IsActive = true;
             AnalyzeButton.IsEnabled = false;
@@ -58,10 +56,10 @@ namespace ATLAS.Pages
             try
             {
                 using var content = new MultipartFormDataContent();
-                using var stream = await selectedImageFile.OpenStreamForReadAsync();
-                content.Add(new StreamContent(stream), "image", selectedImageFile.Name);
+                using var stream = await selectedFile.OpenStreamForReadAsync();
+                content.Add(new StreamContent(stream), "file", selectedFile.Name);
 
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/image-analyze") { Content = content };
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/scan-file") { Content = content };
                 if (AuthService.IsLoggedIn)
                 {
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
@@ -72,7 +70,7 @@ namespace ATLAS.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<ImageAnalysisResponse>(jsonResponse);
+                    var result = JsonSerializer.Deserialize<LinkAnalysisResult>(jsonResponse); // Reusing the LinkAnalysisResult model
                     DisplayResults(result);
                 }
                 else
@@ -92,7 +90,7 @@ namespace ATLAS.Pages
             }
         }
 
-        private void DisplayResults(ImageAnalysisResponse? result)
+        private void DisplayResults(LinkAnalysisResult? result)
         {
             if (result == null)
             {
@@ -100,40 +98,40 @@ namespace ATLAS.Pages
                 return;
             }
 
-            ExtractedText.Text = string.IsNullOrWhiteSpace(result.Text) ? "No text found in the image." : result.Text;
-            ExtractedTextBox.Visibility = Visibility.Visible;
-
-            if (result.Analysis != null)
+            if (result.IsScam)
             {
-                if (result.Analysis.IsScam == true)
-                {
-                    StatusIcon.Glyph = "\uE7BA";
-                    StatusText.Text = "The text in this image appears to be a scam.";
-                    StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                }
-                else
-                {
-                    StatusIcon.Glyph = "\uE73E";
-                    StatusText.Text = "The text in this image appears to be safe.";
-                    StatusText.Foreground = new SolidColorBrush(Colors.Green);
-                }
-
-                ScoreText.Text = $"{result.Analysis.Score:F2}/10";
-                ExplanationText.Text = result.Analysis.Explanation;
-                ResultsBox.Visibility = Visibility.Visible;
+                StatusIcon.Glyph = "\uE7BA"; // Warning icon
+                StatusText.Text = "This file appears to be malicious.";
+                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
             else
             {
-                ResultsBox.Visibility = Visibility.Collapsed;
+                StatusIcon.Glyph = "\uE73E"; // Checkmark icon
+                StatusText.Text = "This file appears to be safe.";
+                StatusText.Foreground = new SolidColorBrush(Colors.Green);
+                StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
             }
+
+            ExplanationText.Text = result.Explanation;
+
+            if (result.Details != null)
+            {
+                HarmlessCountText.Text = result.Details.GetValueOrDefault("harmless", 0).ToString();
+                SuspiciousCountText.Text = result.Details.GetValueOrDefault("suspicious", 0).ToString();
+                MaliciousCountText.Text = result.Details.GetValueOrDefault("malicious", 0).ToString();
+            }
+
+            ResultsBox.Visibility = Visibility.Visible;
         }
 
         private void DisplayError(string message)
         {
             ResultsBox.Visibility = Visibility.Visible;
-            ExtractedTextBox.Visibility = Visibility.Collapsed;
-            StatusText.Text = "Error";
-            ScoreText.Text = "-";
+            StatusText.Text = "Analysis Failed";
+            StatusIcon.Glyph = "\uE783"; // Error icon
+            StatusText.Foreground = new SolidColorBrush(Colors.Red);
+            StatusIcon.Foreground = new SolidColorBrush(Colors.Red);
             ExplanationText.Text = message;
         }
     }

@@ -34,6 +34,9 @@
                     <TextBlock x:Name="AppVersionText" Text="Version 1.2.1.0"/>
                     <HyperlinkButton Content="Privacy Policy"/>
                     <HyperlinkButton Content="Terms of Service"/>
+
+                    <TextBlock Text="Link Analysis and File Scan provided by:" Opacity="0.8" Margin="0,15,0,0"/>
+                    <HyperlinkButton Content="VirusTotal" NavigateUri="https://www.virustotal.com/" />
                 </StackPanel>
 
             </StackPanel>

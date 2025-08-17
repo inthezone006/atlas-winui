@@ -77,6 +77,7 @@ namespace ATLAS
             {
                 "Home" => typeof(HomePage),
                 "AnalysisTools" => typeof(AnalysisHubPage),
+                "OnDeviceProtection" => typeof(ProtectionHubPage),
                 "Vision" => typeof(VisionPage),
                 "Settings" => typeof(SettingsPage),
                 "Dashboard" => typeof(DashboardPage),

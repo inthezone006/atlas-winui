@@ -7,11 +7,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 
-    <Grid>
+    <Canvas x:Name="BackgroundCanvas" SizeChanged="BackgroundCanvas_SizeChanged">
         <TextBlock Text="ATLAS"
                    FontSize="120"
                    FontWeight="Bold"
                    VerticalAlignment="Center"
-                   HorizontalAlignment="Center" />
-    </Grid>
+                   HorizontalAlignment="Center"
+                   Canvas.ZIndex="1"
+                   x:Name="AtlasTitle" />
+    </Canvas>
 </Page>

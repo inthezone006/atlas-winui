@@ -25,6 +25,12 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\ProtectionHubPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\FileScanPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\LinkAnalysisPage.xaml">
       <SubType>Designer</SubType>
     </Page>

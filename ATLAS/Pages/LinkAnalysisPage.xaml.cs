@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Microsoft.UI.Xaml.Input;
 
 namespace ATLAS.Pages
 {
@@ -108,6 +109,14 @@ namespace ATLAS.Pages
             StatusIcon.Glyph = "\uE783";
             StatusText.Foreground = new SolidColorBrush(Colors.Red);
             ExplanationText.Text = message;
+        }
+
+        private void UrlTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                AnalyzeButton_Click(sender, new RoutedEventArgs());
+            }
         }
     }
 }

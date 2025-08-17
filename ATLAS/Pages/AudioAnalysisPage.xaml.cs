@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Media;
 
 namespace ATLAS.Pages
 {
@@ -127,25 +129,38 @@ namespace ATLAS.Pages
             TranscriptBox.Visibility = Visibility.Visible;
         }
 
-        private void DisplayAnalysis(AnalysisResult result)
+        private void DisplayError(string message)
+        {
+            ResultsBox.Visibility = Visibility.Visible;
+            StatusText.Text = "Error";
+            ScoreText.Text = "-";
+            ExplanationText.Text = message;
+        }
+
+        private void DisplayAnalysis(AnalysisResult? result)
         {
             if (result == null)
             {
                 DisplayError("Could not get an analysis from the server.");
                 return;
             }
+
+            if (result.IsScam == true)
+            {
+                StatusIcon.Glyph = "\uE7BA"; // Warning icon
+                StatusText.Text = "This audio appears to be a scam.";
+                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
+            }
+            else
+            {
+                StatusIcon.Glyph = "\uE73E"; // Checkmark icon
+                StatusText.Text = "This audio appears to be safe.";
+                StatusText.Foreground = new SolidColorBrush(Colors.Green);
+            }
+
             ScoreText.Text = $"{result.Score:F2}/10";
-            InterpretationText.Text = result.IsScam == true ? "Scam Likely" : "Not Likely a Scam";
             ExplanationText.Text = result.Explanation;
             ResultsBox.Visibility = Visibility.Visible;
-        }
-
-        private void DisplayError(string message)
-        {
-            ResultsBox.Visibility = Visibility.Visible;
-            InterpretationText.Text = "Error";
-            ScoreText.Text = "-";
-            ExplanationText.Text = message;
         }
     }
 }

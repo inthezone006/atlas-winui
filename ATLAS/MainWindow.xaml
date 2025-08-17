@@ -31,6 +31,7 @@
                 <NavigationView.MenuItems>
                     <NavigationViewItem Content="Home" Icon="Home" Tag="Home"/>
                     <NavigationViewItem Content="Analysis Tools" Icon="GoToStart" Tag="AnalysisTools"/>
+                    <NavigationViewItem Content="On-Device Protection" Icon="Permissions" Tag="OnDeviceProtection"/>
                     <NavigationViewItem Content="Our Vision" Icon="Flag" Tag="Vision"/>
                     <NavigationViewItem x:Name="AccountNavItemLoggedIn"
                                         Icon="Contact"

@@ -1,13 +1,19 @@
 using ATLAS.Models;
 using ATLAS.Services;
+using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace ATLAS.Pages
 {
@@ -56,7 +62,7 @@ namespace ATLAS.Pages
                     else
                     {
                         ResultsBox.Visibility = Visibility.Visible;
-                        InterpretationText.Text = "Error";
+                        StatusText.Text = "Error";
                         ScoreText.Text = "-";
                         ExplanationText.Text = "Received an invalid response from the server.";
                     }
@@ -64,7 +70,7 @@ namespace ATLAS.Pages
                 else
                 {
                     ResultsBox.Visibility = Visibility.Visible;
-                    InterpretationText.Text = "Error";
+                    StatusText.Text = "Error";
                     ScoreText.Text = "-";
                     ExplanationText.Text = "Could not get a response from the server. Please try again later.";
                 }
@@ -72,7 +78,7 @@ namespace ATLAS.Pages
             catch (Exception ex)
             {
                 ResultsBox.Visibility = Visibility.Visible;
-                InterpretationText.Text = "Connection Error";
+                StatusText.Text = "Connection Error";
                 ScoreText.Text = "-";
                 ExplanationText.Text = $"Could not connect to the analysis service. Details: {ex.Message}";
             }
@@ -83,23 +89,25 @@ namespace ATLAS.Pages
             }
         }
 
-        private void DisplayResults(AnalysisResult result)
+        private void DisplayResults(AnalysisResult? result)
         {
             if (result == null) return;
 
-            ScoreText.Text = $"{result.Score:F2}/10";
-
             if (result.IsScam == true)
             {
-                InterpretationText.Text = "Scam Likely";
+                StatusIcon.Glyph = "\uE7BA";
+                StatusText.Text = "This text appears to be a scam.";
+                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
             else
             {
-                InterpretationText.Text = "Not Likely a Scam";
+                StatusIcon.Glyph = "\uE73E";
+                StatusText.Text = "This text appears to be safe.";
+                StatusText.Foreground = new SolidColorBrush(Colors.Green);
             }
 
+            ScoreText.Text = $"{result.Score:F2}/10";
             ExplanationText.Text = result.Explanation;
-
             ResultsBox.Visibility = Visibility.Visible;
         }
     }
