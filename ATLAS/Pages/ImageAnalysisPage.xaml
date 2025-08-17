@@ -10,7 +10,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="20" Padding="40">
             <TextBlock Text="Image Analysis" FontSize="32" FontWeight="SemiBold"/>
-            <TextBlock Text="Select a suspicious image (screenshot of a message, a QR code, etc.) to extract its text and analyze it for potential signs of a scam." TextWrapping="Wrap"/>
+            <TextBlock Text="Select a suspicious image (screenshot of a message, picture of an email, etc.) to extract its text and analyze it for potential signs of a scam." TextWrapping="Wrap"/>
 
             <StackPanel Orientation="Horizontal" Spacing="10">
                 <Button x:Name="SelectFileButton" Content="Select Image File" Click="SelectFileButton_Click"/>

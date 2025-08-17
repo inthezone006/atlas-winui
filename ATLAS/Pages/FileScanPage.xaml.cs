@@ -4,6 +4,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,14 +101,14 @@ namespace ATLAS.Pages
 
             if (result.IsScam)
             {
-                StatusIcon.Glyph = "\uE7BA"; // Warning icon
+                StatusIcon.Glyph = "\uE7BA";
                 StatusText.Text = "This file appears to be malicious.";
                 StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
                 StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
             else
             {
-                StatusIcon.Glyph = "\uE73E"; // Checkmark icon
+                StatusIcon.Glyph = "\uE73E";
                 StatusText.Text = "This file appears to be safe.";
                 StatusText.Foreground = new SolidColorBrush(Colors.Green);
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
@@ -122,14 +123,39 @@ namespace ATLAS.Pages
                 MaliciousCountText.Text = result.Details.GetValueOrDefault("malicious", 0).ToString();
             }
 
+            var storyboard = new Storyboard();
+
+            var fadeAnimation = new DoubleAnimation
+            {
+                From = 0.0,
+                To = 1.0,
+                Duration = TimeSpan.FromMilliseconds(400)
+            };
+            Storyboard.SetTarget(fadeAnimation, ResultsBox);
+            Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
+            storyboard.Children.Add(fadeAnimation);
+
+            ResultsBox.RenderTransform = new TranslateTransform();
+            var slideAnimation = new DoubleAnimation
+            {
+                From = 50,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(400),
+                EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
+            };
+            Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
+            Storyboard.SetTargetProperty(slideAnimation, "Y");
+            storyboard.Children.Add(slideAnimation);
+
             ResultsBox.Visibility = Visibility.Visible;
+            storyboard.Begin();
         }
 
         private void DisplayError(string message)
         {
             ResultsBox.Visibility = Visibility.Visible;
             StatusText.Text = "Analysis Failed";
-            StatusIcon.Glyph = "\uE783"; // Error icon
+            StatusIcon.Glyph = "\uE783";
             StatusText.Foreground = new SolidColorBrush(Colors.Red);
             StatusIcon.Foreground = new SolidColorBrush(Colors.Red);
             ExplanationText.Text = message;

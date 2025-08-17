@@ -94,6 +94,14 @@ namespace ATLAS.Pages
             }
         }
 
+        private void PasswordBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                LoginButton_Click(sender, new RoutedEventArgs());
+            }
+        }
+
         private void SignUpLink_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current as App)?.RootFrame?.Navigate(typeof(SignUpPage), null, new DrillInNavigationTransitionInfo());

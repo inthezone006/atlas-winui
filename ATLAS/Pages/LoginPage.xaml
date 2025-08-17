@@ -12,7 +12,7 @@
             <TextBlock Text="Log In" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
             <TextBox x:Name="UsernameTextBox" Header="Username" PlaceholderText="Enter your username"/>
-            <PasswordBox x:Name="PasswordBox" Header="Password" PlaceholderText="Enter your password"/>
+            <PasswordBox x:Name="PasswordBox" Header="Password" PlaceholderText="Enter your password" KeyDown="PasswordBox_KeyDown"/>
 
             <Button x:Name="LoginButton" Content="Log In" Click="LoginButton_Click" HorizontalAlignment="Stretch" Margin="0,20,0,0" Style="{ThemeResource AccentButtonStyle}"/>
 

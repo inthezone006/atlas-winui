@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation; // Add this for animations
 using System;
 using System.Collections.Generic;
 
@@ -21,27 +20,25 @@ namespace ATLAS.Pages
 
         private void HomePage_Loaded(object sender, RoutedEventArgs e)
         {
-            // The timer now ticks less frequently
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(200); // How often a new emoji fades in
+            timer.Interval = TimeSpan.FromMilliseconds(50); // Controls animation speed
             timer.Tick += Timer_Tick;
             timer.Start();
         }
 
         private void HomePage_Unloaded(object sender, RoutedEventArgs e)
         {
-            timer?.Stop(); // Clean up the timer
+            timer?.Stop();
         }
 
         private void BackgroundCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Center the main ATLAS title
             Canvas.SetLeft(AtlasTitle, (e.NewSize.Width - AtlasTitle.ActualWidth) / 2);
             Canvas.SetTop(AtlasTitle, (e.NewSize.Height - AtlasTitle.ActualHeight) / 2);
-            InitializeSpottedGrid();
+            InitializeBackground();
         }
 
-        private void InitializeSpottedGrid()
+        private void InitializeBackground()
         {
             foreach (var emoji in emojiList)
             {
@@ -49,59 +46,61 @@ namespace ATLAS.Pages
             }
             emojiList.Clear();
 
-            // Create a grid of initially invisible emojis
+            if (BackgroundCanvas.ActualWidth == 0) return;
+
+            // FIX: Define vertical "lanes" to prevent horizontal overlap
+            int numLanes = (int)(BackgroundCanvas.ActualWidth / 100); // Create a lane every 100 pixels
+            if (numLanes == 0) numLanes = 1;
+            double laneWidth = BackgroundCanvas.ActualWidth / numLanes;
+
             for (int i = 0; i < 50; i++)
             {
                 var emoji = new TextBlock
                 {
                     Text = "🗺️",
                     FontSize = 48,
-                    Opacity = 0.0 // Start completely invisible
+                    Opacity = 0.1
                 };
 
-                Canvas.SetLeft(emoji, random.NextDouble() * BackgroundCanvas.ActualWidth);
-                Canvas.SetTop(emoji, random.NextDouble() * BackgroundCanvas.ActualHeight);
+                // Assign to a random lane
+                int lane = random.Next(numLanes);
+                double horizontalPosition = (lane * laneWidth) + (laneWidth - emoji.FontSize) / 2;
+
+                // Position randomly vertically
+                double verticalPosition = random.NextDouble() * BackgroundCanvas.ActualHeight;
+
+                Canvas.SetLeft(emoji, horizontalPosition);
+                Canvas.SetTop(emoji, verticalPosition);
 
                 emojiList.Add(emoji);
                 BackgroundCanvas.Children.Add(emoji);
             }
         }
 
-        // This method now handles the fade animation
         private void Timer_Tick(object? sender, object e)
         {
-            if (emojiList.Count == 0) return;
+            if (BackgroundCanvas.ActualWidth == 0) return;
 
-            // 1. Pick a random, currently invisible emoji
-            TextBlock? targetEmoji = null;
-            for (int i = 0; i < 5; i++) // Try a few times to find an idle emoji
+            // Recalculate lanes in case window was resized
+            int numLanes = (int)(BackgroundCanvas.ActualWidth / 100);
+            if (numLanes == 0) numLanes = 1;
+            double laneWidth = BackgroundCanvas.ActualWidth / numLanes;
+
+            foreach (var emoji in emojiList)
             {
-                var potentialTarget = emojiList[random.Next(emojiList.Count)];
-                if (potentialTarget.Opacity < 0.01)
+                double top = Canvas.GetTop(emoji);
+                Canvas.SetTop(emoji, top + 1);
+
+                if (top > BackgroundCanvas.ActualHeight)
                 {
-                    targetEmoji = potentialTarget;
-                    break;
+                    // If an emoji goes off-screen, reset it to the top in a new random lane
+                    Canvas.SetTop(emoji, -50);
+
+                    int lane = random.Next(numLanes);
+                    double horizontalPosition = (lane * laneWidth) + (laneWidth - emoji.FontSize) / 2;
+                    Canvas.SetLeft(emoji, horizontalPosition);
                 }
             }
-            if (targetEmoji == null) return; // Skip if no idle emoji was found
-
-            // 2. Create the fade-in and fade-out animation
-            var storyboard = new Storyboard();
-            var fadeAnimation = new DoubleAnimation
-            {
-                From = 0.0,
-                To = 0.15, // Fade to a subtle opacity
-                Duration = new Duration(TimeSpan.FromSeconds(2)), // Fade-in duration
-                AutoReverse = true // Automatically fade back out
-            };
-
-            // 3. Target the animation to the emoji's Opacity property
-            Storyboard.SetTarget(fadeAnimation, targetEmoji);
-            Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
-            storyboard.Children.Add(fadeAnimation);
-
-            // 4. Run the animation
-            storyboard.Begin();
         }
     }
 }

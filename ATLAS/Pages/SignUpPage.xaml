@@ -14,7 +14,7 @@
             <TextBox x:Name="FirstNameTextBox" Header="First Name" PlaceholderText="Enter your first name"/>
             <TextBox x:Name="LastNameTextBox" Header="Last Name" PlaceholderText="Enter your last name"/>
             <TextBox x:Name="UsernameTextBox" Header="Username" PlaceholderText="Choose a username"/>
-            <PasswordBox x:Name="PasswordBox" Header="Password" PlaceholderText="Create a strong password"/>
+            <PasswordBox x:Name="PasswordBox" Header="Password" PlaceholderText="Create a strong password" KeyDown="PasswordBox_KeyDown"/>
             <TextBlock x:Name="ErrorTextBlock" Foreground="Red" TextWrapping="Wrap"/>
 
             <Button Content="Sign Up" HorizontalAlignment="Stretch" Margin="0,20,0,0" Click="SignUpButton_Click" Style="{ThemeResource AccentButtonStyle}"/>

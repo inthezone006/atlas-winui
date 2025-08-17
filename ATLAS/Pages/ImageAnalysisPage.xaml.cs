@@ -1,7 +1,10 @@
 using ATLAS.Models;
 using ATLAS.Services;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -10,8 +13,6 @@ using System.Text.Json;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
-using Microsoft.UI;
-using Microsoft.UI.Xaml.Media;
 
 namespace ATLAS.Pages
 {
@@ -120,7 +121,32 @@ namespace ATLAS.Pages
 
                 ScoreText.Text = $"{result.Analysis.Score:F2}/10";
                 ExplanationText.Text = result.Analysis.Explanation;
+                var storyboard = new Storyboard();
+
+                var fadeAnimation = new DoubleAnimation
+                {
+                    From = 0.0,
+                    To = 1.0,
+                    Duration = TimeSpan.FromMilliseconds(400)
+                };
+                Storyboard.SetTarget(fadeAnimation, ResultsBox);
+                Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
+                storyboard.Children.Add(fadeAnimation);
+
+                ResultsBox.RenderTransform = new TranslateTransform();
+                var slideAnimation = new DoubleAnimation
+                {
+                    From = 50,
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(400),
+                    EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
+                };
+                Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
+                Storyboard.SetTargetProperty(slideAnimation, "Y");
+                storyboard.Children.Add(slideAnimation);
+
                 ResultsBox.Visibility = Visibility.Visible;
+                storyboard.Begin();
             }
             else
             {

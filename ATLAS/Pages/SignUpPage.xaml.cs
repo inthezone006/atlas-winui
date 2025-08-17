@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,14 @@ public sealed partial class SignUpPage : Page
         }
 
         return errors;
+    }
+
+    private void PasswordBox_KeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key == Windows.System.VirtualKey.Enter)
+        {
+            SignUpButton_Click(sender, new RoutedEventArgs());
+        }
     }
 
     private async void SignUpButton_Click(object sender, RoutedEventArgs e)
