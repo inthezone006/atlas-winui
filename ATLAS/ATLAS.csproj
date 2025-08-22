@@ -72,6 +72,7 @@
     <None Remove="Pages\AnalysisHubPage.xaml" />
     <None Remove="Pages\DashboardPage.xaml" />
     <None Remove="Pages\FileScanPage.xaml" />
+    <None Remove="Pages\HistoryPage.xaml" />
     <None Remove="Pages\ImageAnalysisPage.xaml" />
     <None Remove="Pages\LinkAnalysisPage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
@@ -106,6 +107,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\HistoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ProtectionHubPage.xaml">

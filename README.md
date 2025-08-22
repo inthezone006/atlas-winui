@@ -1,12 +1,14 @@
 # ATLAS 🗺️
 
-ATLAS is a modern Windows desktop application designed to be your digital map to online safety. It provides a suite of tools to help users detect and understand potential online scams by analyzing text, voice, and image content.
+ATLAS is a modern Windows desktop application designed to be your digital map to online safety. It provides a suite of tools to help users detect and understand potential online scams by analyzing text, voice, image, and link content. 🛡️
 
-## About The Project
+## About The Project ℹ️
 
-In the current age of widespread misinformation and sophisticated scams, ATLAS empowers users to navigate the digital world with confidence. Using AI and machine learning models, ATLAS examines content you provide for common patterns and indicators of malicious intent. Whether it's a suspicious email, a strange voicemail, or a questionable image from social media, our platform provides a clear analysis to help you make informed decisions and stay safe.
+In the current age of widespread misinformation and sophisticated scams, ATLAS empowers users to navigate the digital world with confidence. Using AI and machine learning models, ATLAS examines content you provide for common patterns and indicators of malicious intent. Whether it's a suspicious email 📧, a strange voicemail 🎙️, or a questionable image 🖼️, our platform provides a clear analysis to help you make informed decisions.
 
-### Built With
+This repository contains the **frontend client** for ATLAS, built with WinUI 3. The **backend server** is located in a separate repository: [https://github.com/inthezone006/atlas](https://github.com/inthezone006/atlas).
+
+### Built With 🛠️
 
 * **Frontend:** C# with WinUI 3 & the Windows App SDK
 * **Backend:** Python with Flask
@@ -14,70 +16,49 @@ In the current age of widespread misinformation and sophisticated scams, ATLAS e
 
 ---
 
-## Getting Started
+## Features ✨
 
-Follow these instructions to set up a local development environment for ATLAS.
-
-### Prerequisites
-
-Before you begin, ensure you have the following software installed on your machine:
-
-1.  **Visual Studio 2022**
-    * During installation, you **must** include the **".NET Multi-platform App UI development"** workload. This will install the necessary components for WinUI 3 and the Windows App SDK. 
-2.  **Windows Developer Mode**
-    * You must enable Developer Mode in your Windows settings to run and debug the application.
-    * Go to **Settings** > **Privacy & security** > **For developers** and turn **Developer Mode** on.
-3.  **Python 3.8+**
-    * Download and install from [python.org](https://www.python.org/). Make sure to add Python to your system's PATH.
-4.  **MongoDB**
-    * Install a local instance of MongoDB Community Server or use a cloud-based service like MongoDB Atlas.
-
-### Installation
-
-The project is split into a frontend (the WinUI 3 app) and a backend (the Flask server). Both must be running for the app to function correctly.
-
-#### 1. Backend Setup (Flask API)
-
-1.  **Clone the repository:**
-    ```sh
-    git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
-    cd your-repository-name/backend-folder
-    ```
-2.  **Create and activate a virtual environment:**
-    ```sh
-    # Windows
-    python -m venv venv
-    .\venv\Scripts\activate
-
-    # macOS/Linux
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-3.  **Install Python dependencies:**
-    ```sh
-    pip install -r requirements.txt
-    ```
-4.  **Configure Environment Variables:**
-    * Set your Flask secret key and any database connection strings as required by the backend code.
-5.  **Run the Flask server:**
-    ```sh
-    flask run
-    ```
-    The backend should now be running, typically on `http://127.0.0.1:5000`.
-
-#### 2. Frontend Setup (WinUI 3 App)
-
-1.  **Open the Solution:**
-    * Navigate to the frontend project folder and open the `.sln` file with Visual Studio 2022.
-2.  **Restore NuGet Packages:**
-    * Visual Studio should automatically restore the required packages. If not, right-click the solution in the Solution Explorer and select "Restore NuGet Packages".
-3.  **Verify Backend URL:**
-    * Ensure the API URLs in the C# page files (e.g., `LoginPage.xaml.cs`, `TextAnalysisPage.xaml.cs`) point to your local Flask server (`http://127.0.0.1:5000`).
+* 🔍 **Multi-Modal Analysis:** Scan text, audio files, images, and links for potential threats.
+* 💻 **On-Device Protection:** Includes a file scanner powered by VirusTotal to check local files.
+* 👤 **User Accounts:** Full authentication system with persistent login sessions.
+* 📊 **Interactive Dashboard:** View personal statistics and contribute to the community.
+* 🎨 **Modern UI:** A clean, responsive interface featuring Mica transparency and custom animations.
+* 🌓 **Light/Dark Mode:** Full support for theme switching.
 
 ---
 
-## Usage ✈️
+## Getting Started 🏁
 
-1.  **Start the backend server** using the `flask run` command as described above.
+Follow these instructions to set up the ATLAS client for local development.
+
+### Prerequisites 📋
+
+Before you begin, ensure you have the following software installed:
+
+1.  **Visual Studio 2022** 🧑‍💻
+    * You **must** include the **".NET Multi-platform App UI development"** workload.
+2.  **Windows Developer Mode** ⚙️
+    * Go to **Settings** > **Privacy & security** > **For developers** and turn **Developer Mode** on.
+
+### Installation & Setup ⚙️
+
+1.  **Clone the Frontend Repository:**
+    ```sh
+    git clone [https://github.com/inthezone006/atlas-winui.git](https://github.com/inthezone006/atlas-winui.git)
+    cd atlas-winui
+    ```
+2.  **Open the Solution:**
+    * Open the `ATLAS.sln` file with Visual Studio 2022. Visual Studio should automatically restore the required NuGet packages.
+3.  **Connect to the Backend:** 🔗
+    * For ease of development, you can connect the client directly to the live, deployed backend.
+    * Go through the C# files in the `Pages` folder and ensure all API URLs point to:
+        `https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/`
+    * **(Optional) Run Local Backend:** If you wish to run the backend locally, clone the [backend repository](https://github.com/inthezone006/atlas) and follow the setup instructions in its `README` file. Remember to update the API URLs in the WinUI 3 app to `http://127.0.0.1:5000`.
+
+---
+
+## Usage 🚀
+
+1.  Ensure you have configured the backend URL in the C# code.
 2.  In Visual Studio, set the solution configuration to **Debug** and the platform to **x64**.
-3.  Press the **Run** button (the green play icon) or **F5** to build and launch the ATLAS application.
+3.  Press the **Run** button (the green play icon ▶️) or **F5** to build and launch the ATLAS application.

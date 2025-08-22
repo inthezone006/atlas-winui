@@ -46,6 +46,22 @@ namespace ATLAS.Pages
             }
         }
 
+        private void ExpandExtractedTextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ExtractedText.MaxLines == 3)
+            {
+                ExtractedText.MaxLines = 0;
+                ExpandExtractedTextLabel.Text = "Show less";
+                ExpandExtractedTextIcon.Glyph = "\uE70E";
+            }
+            else
+            {
+                ExtractedText.MaxLines = 3;
+                ExpandExtractedTextLabel.Text = "Show more";
+                ExpandExtractedTextIcon.Glyph = "\uE70D";
+            }
+        }
+
         private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
         {
             if (selectedImageFile == null) return;

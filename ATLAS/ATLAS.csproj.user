@@ -25,6 +25,9 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\ProtectionHubPage.xaml">
       <SubType>Designer</SubType>
     </Page>

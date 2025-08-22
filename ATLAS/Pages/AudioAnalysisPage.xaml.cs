@@ -188,5 +188,22 @@ namespace ATLAS.Pages
             ResultsBox.Visibility = Visibility.Visible;
             storyboard.Begin();
         }
+
+        private void ExpandTranscriptButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TranscriptText.MaxLines == 3)
+            {
+                TranscriptText.MaxLines = 0;
+                ExpandTranscriptLabel.Text = "Show less";
+                ExpandTranscriptIcon.Glyph = "\uE70E";
+            }
+            else
+            {
+                // Collapse it
+                TranscriptText.MaxLines = 3;
+                ExpandTranscriptLabel.Text = "Show more";
+                ExpandTranscriptIcon.Glyph = "\uE70D";
+            }
+        }
     }
 }

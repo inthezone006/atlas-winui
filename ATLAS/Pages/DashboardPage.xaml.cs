@@ -2,6 +2,7 @@ using ATLAS.Models;
 using ATLAS.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -25,10 +26,32 @@ namespace ATLAS.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (AuthService.IsLoggedIn)
+            if (AuthService.IsLoggedIn && AuthService.CurrentUser != null)
             {
+                WelcomeTextBlock.Text = $"{GetTimeOfDayGreeting()}, {AuthService.CurrentUser.FirstName}!";
+
                 await LoadUserStats();
-                await LoadSubmissionHistory();
+            }
+            else
+            {
+                WelcomeTextBlock.Visibility = Visibility.Collapsed;
+            }
+        }
+        private string GetTimeOfDayGreeting()
+        {
+            int currentHour = DateTime.Now.Hour;
+
+            if (currentHour >= 0 && currentHour < 12)
+            {
+                return "Good morning";
+            }
+            else if (currentHour >= 12 && currentHour < 18)
+            {
+                return "Good afternoon";
+            }
+            else
+            {
+                return "Good evening";
             }
         }
 
@@ -55,40 +78,6 @@ namespace ATLAS.Pages
             catch (Exception) { }
         }
 
-        private async Task LoadSubmissionHistory()
-        {
-            if (HistoryStatusText == null)
-                return;
-
-            HistoryStatusText.Text = "Loading history...";
-            try
-            {
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/dashboard/log");
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-                HttpResponseMessage response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var history = JsonSerializer.Deserialize<List<ActivityLog>>(jsonResponse);
-                    HistoryItemsRepeater.ItemsSource = history;
-                    if (history != null)
-                    {
-                        HistoryStatusText.Visibility = history.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-                        HistoryStatusText.Text = "No submission history found.";
-                    }
-                }
-                else
-                {
-                    HistoryStatusText.Text = "Failed to load submission history.";
-                }
-            }
-            catch (Exception ex)
-            {
-                HistoryStatusText.Text = $"Error: {ex.Message}";
-            }
-        }
-
         private async void SubmitScamButton_Click(object sender, RoutedEventArgs e)
         {
             var submissionTextBox = new TextBox
@@ -105,7 +94,8 @@ namespace ATLAS.Pages
                 Content = submissionTextBox,
                 PrimaryButtonText = "Submit for Review",
                 CloseButtonText = "Cancel",
-                XamlRoot = this.XamlRoot
+                XamlRoot = this.XamlRoot,
+                DefaultButton = ContentDialogButton.Primary
             };
 
             dialog.RequestedTheme = (this.Content as FrameworkElement)?.ActualTheme ?? ElementTheme.Default;
@@ -138,6 +128,18 @@ namespace ATLAS.Pages
                 XamlRoot = this.XamlRoot
             };
             await confirmationDialog.ShowAsync();
+        }
+
+        private void StatCard_Click(object sender, RoutedEventArgs e)
+        {
+            // The 'sender' is now the Button we clicked
+            if (sender is Button button && button.Tag is string filter)
+            {
+                (Application.Current as App)?.RootFrame?.Navigate(
+            typeof(HistoryPage),
+            filter,
+            new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            }
         }
     }
 }

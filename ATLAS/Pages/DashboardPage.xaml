@@ -10,58 +10,38 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="10" Padding="40">
-            <TextBlock Text="Dashboard" FontSize="32" FontWeight="SemiBold" Margin="0,0,0,10"/>
+            <TextBlock x:Name="WelcomeTextBlock"
+                       FontSize="32"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,20"/>
 
-            <GridView
-                SelectionMode="None"
-                IsItemClickEnabled="False"
-                HorizontalAlignment="Stretch">
+            <GridView SelectionMode="None" HorizontalAlignment="Center">
 
-                <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="320" Height="280" Margin="10">
-                    <StackPanel Spacing="15">
-                        <TextBlock Text="Your Statistics" FontSize="18" FontWeight="SemiBold"/>
-                        <StackPanel>
-                            <TextBlock x:Name="TotalAnalysesText" Text="-" FontSize="28"/>
-                            <TextBlock Text="Analyses Ran" Opacity="0.8"/>
+                <Button Tag="total_analyses"
+                        Click="StatCard_Click"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="0"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch">
+                    <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="320" Height="280" Margin="10">
+                        <StackPanel Spacing="15">
+                            <TextBlock Text="Your Statistics" FontSize="18" FontWeight="SemiBold"/>
+                            <StackPanel>
+                                <TextBlock x:Name="TotalAnalysesText" Text="-" FontSize="28"/>
+                                <TextBlock Text="Analyses Ran" Opacity="0.8"/>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock x:Name="ScamsDetectedText" Text="-" FontSize="28"/>
+                                <TextBlock Text="Scams Detected" Opacity="0.8"/>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock x:Name="SubmissionsText" Text="-" FontSize="28"/>
+                                <TextBlock Text="Submissions Approved" Opacity="0.8"/>
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel>
-                            <TextBlock x:Name="ScamsDetectedText" Text="-" FontSize="28"/>
-                            <TextBlock Text="Scams Detected" Opacity="0.8"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock x:Name="SubmissionsText" Text="-" FontSize="28"/>
-                            <TextBlock Text="Submissions Approved" Opacity="0.8"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-
-                <Border Grid.Column="1" Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" Margin="10">
-                    <StackPanel Spacing="15">
-                        <TextBlock Text="Recent Submission History" FontSize="18" FontWeight="SemiBold"/>
-
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <Border Padding="10,0">
-                                <ItemsRepeater x:Name="HistoryItemsRepeater">
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate x:DataType="models:ActivityLog">
-                                            <StackPanel Margin="0,8">
-                                                <TextBlock Text="{x:Bind Text}"
-                                       TextWrapping="NoWrap"
-                                       TextTrimming="CharacterEllipsis">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind Text}"/>
-                                </ToolTipService.ToolTip>
-                                                </TextBlock>
-                                                <TextBlock Text="{x:Bind ApprovedOn}" FontSize="12" Opacity="0.6"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
-                            </Border>
-                        </ScrollViewer>
-                        <TextBlock x:Name="HistoryStatusText" Text="Loading history..."/>
-                    </StackPanel>
-                </Border>
+                    </Border>
+                </Button>
 
                 <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="320" Height="280" Margin="10">
                     <StackPanel Spacing="15" VerticalAlignment="Center">
@@ -70,7 +50,6 @@
                         <Button x:Name="SubmitScamButton" Content="Submit a New Scam" HorizontalAlignment="Center" Click="SubmitScamButton_Click" Style="{ThemeResource AccentButtonStyle}"/>
                     </StackPanel>
                 </Border>
-
             </GridView>
         </StackPanel>
     </ScrollViewer>

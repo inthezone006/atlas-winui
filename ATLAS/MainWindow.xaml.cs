@@ -28,6 +28,7 @@ namespace ATLAS
         {
             this.InitializeComponent();
             this.SystemBackdrop = new MicaBackdrop();
+            //this.SystemBackdrop = new DesktopAcrylicBackdrop();
             var app = Application.Current as App;
             if (app != null)
             {

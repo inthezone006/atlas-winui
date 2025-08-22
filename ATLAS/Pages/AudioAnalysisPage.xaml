@@ -27,11 +27,25 @@
             </StackPanel>
 
             <Border x:Name="TranscriptBox"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                    Padding="20" Margin="0,20,0,0" Visibility="Collapsed">
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
+        Padding="20" Margin="0,20,0,0" Visibility="Collapsed">
                 <StackPanel Spacing="10">
                     <TextBlock Text="Transcript" FontSize="20" FontWeight="SemiBold"/>
-                    <TextBlock x:Name="TranscriptText" Text="..." TextWrapping="Wrap"/>
+
+                    <TextBlock x:Name="TranscriptText"
+                   Text="..."
+                   TextWrapping="Wrap"
+                   MaxLines="3"
+                   TextTrimming="CharacterEllipsis"/>
+
+                    <HyperlinkButton x:Name="ExpandTranscriptButton"
+                         HorizontalAlignment="Left"
+                         Click="ExpandTranscriptButton_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock x:Name="ExpandTranscriptLabel" Text="Show more"/>
+                            <FontIcon x:Name="ExpandTranscriptIcon" Glyph="&#xE70D;" FontSize="12"/>
+                        </StackPanel>
+                    </HyperlinkButton>
                 </StackPanel>
             </Border>
 
