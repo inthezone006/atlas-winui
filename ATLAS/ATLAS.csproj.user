@@ -1,20 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
     <AppxShowAllApps>False</AppxShowAllApps>
-    <AppxBuildConfigurationSelection>x86|x64|arm64</AppxBuildConfigurationSelection>
+    <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
+    <AppxBuildConfigurationSelection>x86|x64</AppxBuildConfigurationSelection>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
-    <Source>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</Source>
-    <SmallTileSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</SmallTileSource>
-    <MediumTileSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</MediumTileSource>
-    <WideTileSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</WideTileSource>
-    <LargeTileSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</LargeTileSource>
-    <AppIconSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</AppIconSource>
-    <SplashScreenSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</SplashScreenSource>
-    <PackageLogoSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</PackageLogoSource>
-    <BadgeLogoSource>C:\Users\rahul\Programming\atlas\frontend\public\logo.png</BadgeLogoSource>
   </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
   <ItemGroup>
     <None Update="App.xaml">
       <SubType>Designer</SubType>
@@ -25,46 +21,57 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Pages\HistoryPage.xaml">
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\ProtectionHubPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\FileScanPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\LinkAnalysisPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\AnalysisHubPage.xaml">
+    <Page Update="Pages\AccountPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\AccountSettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\DashboardPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\LoginPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\SignUpPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\SettingsPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\VisionPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\ImageAnalysisPage.xaml">
+    <Page Update="Pages\AnalysisHubPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\AudioAnalysisPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Pages\DashboardPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\FileScanPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\HomePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\ImageAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\LinkAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\ProtectionHubPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SignUpPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\TextAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\VisionPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

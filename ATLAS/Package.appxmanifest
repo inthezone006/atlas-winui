@@ -10,9 +10,9 @@
   <Identity
     Name="RahulMenon.43135C579E6FB"
     Publisher="CN=8396E312-87FF-4162-A4A1-5174BBF98483"
-    Version="1.5.2.0" />
+    Version="1.0.10.0" />
 
-  <mp:PhoneIdentity PhoneProductId="6b9a7ebd-2527-4bc7-b422-13982673be67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="6534a6c9-4372-4367-8853-8f7f2e9b2d2c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>ATLAS Protection</DisplayName>
@@ -39,9 +39,8 @@
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
-        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
       </uap:VisualElements>
     </Application>
   </Applications>
