@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -20,6 +21,7 @@ namespace ATLAS.Pages
     {
         private static readonly HttpClient client = new HttpClient();
         private StorageFile? selectedImageFile;
+        private string? lastAnalyzedText;
 
         public ImageAnalysisPage()
         {
@@ -65,7 +67,7 @@ namespace ATLAS.Pages
         private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
         {
             if (selectedImageFile == null) return;
-
+            lastAnalyzedText = null;
             ExtractedTextBox.Visibility = Visibility.Collapsed;
             ResultsBox.Visibility = Visibility.Collapsed;
             LoadingRing.IsActive = true;
@@ -106,6 +108,49 @@ namespace ATLAS.Pages
                 LoadingRing.IsActive = false;
                 AnalyzeButton.IsEnabled = true;
                 SelectFileButton.IsEnabled = true;
+            }
+        }
+
+        private async void ReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AuthService.IsLoggedIn)
+            {
+                if (string.IsNullOrWhiteSpace(lastAnalyzedText))
+                {
+                    NotificationService.Show("No content to submit.", InfoBarSeverity.Warning);
+                    return;
+                }
+
+                var payload = new { text = lastAnalyzedText };
+                var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
+                request.Content = content;
+
+                var response = await client.SendAsync(request);
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var responseDoc = JsonDocument.Parse(responseBody);
+                var message = responseDoc.RootElement.GetProperty(response.IsSuccessStatusCode ? "message" : "error").GetString();
+
+                NotificationService.Show(message ?? "...", response.IsSuccessStatusCode ? InfoBarSeverity.Success : InfoBarSeverity.Error);
+            }
+            else
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = "Create an Account to Contribute",
+                    Content = "Help improve ATLAS by creating a free account to submit new scam examples for review.",
+                    PrimaryButtonText = "Sign Up",
+                    CloseButtonText = "Cancel",
+                    XamlRoot = this.XamlRoot
+                };
+
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    (Application.Current as App)?.RootFrame?.Navigate(typeof(SignUpPage));
+                }
             }
         }
 

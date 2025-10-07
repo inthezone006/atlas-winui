@@ -24,18 +24,48 @@ namespace ATLAS.Services
             if (localSettings.Values.TryGetValue("AuthToken", out var tokenObj) &&
                 localSettings.Values.TryGetValue("CurrentUser", out var userJsonObj))
             {
-                AuthToken = tokenObj as string;
-                var userJsonString = userJsonObj as string;
-                if (!string.IsNullOrEmpty(userJsonString))
+                var token = tokenObj as string;
+                if (string.IsNullOrEmpty(token) || IsTokenExpired(token))
                 {
-                    CurrentUser = JsonSerializer.Deserialize<User>(userJsonString);
+                    Logout();
+                    return;
                 }
-                else
-                {
-                    CurrentUser = null;
-                }
+
+                AuthToken = token;
+                CurrentUser = JsonSerializer.Deserialize<User>(userJsonObj as string ?? "");
             }
         }
+
+        private static bool IsTokenExpired(string token)
+        {
+            try
+            {
+                var payload = token.Split('.')[1];
+                var jsonBytes = Convert.FromBase64String(AddPadding(payload));
+                var json = Encoding.UTF8.GetString(jsonBytes);
+
+                using (var doc = JsonDocument.Parse(json))
+                {
+                    if (doc.RootElement.TryGetProperty("exp", out var expClaim) && expClaim.TryGetInt64(out var expSeconds))
+                    {
+                        var expirationTime = DateTimeOffset.FromUnixTimeSeconds(expSeconds);
+                        return expirationTime < DateTimeOffset.UtcNow;
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        private static string AddPadding(string base64)
+        {
+            base64 = base64.Replace('-', '+').Replace('_', '/');
+            return base64.PadRight(base64.Length + (4 - base64.Length % 4) % 4, '=');
+        }
+
 
         public static void Login(User user, string token)
         {

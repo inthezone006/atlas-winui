@@ -32,9 +32,9 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
                     Padding="24" Margin="0,20,0,0" Visibility="Collapsed">
                 <StackPanel Spacing="15">
-                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold"/>
 
-                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10">
                         <FontIcon x:Name="StatusIcon" Glyph="&#xE73E;" FontSize="20"/>
                         <TextBlock x:Name="StatusText" Text="This text appears to be safe." FontSize="18" FontWeight="SemiBold"/>
                     </StackPanel>
@@ -53,6 +53,12 @@
                         <TextBlock Text="Explanation:" FontWeight="SemiBold"/>
                         <TextBlock x:Name="ExplanationText" TextWrapping="Wrap"/>
                     </StackPanel>
+                    <HyperlinkButton x:Name="ReportButton"
+                 Content="Think this is a scam? Submit it for review."
+                 Click="ReportButton_Click"
+                 HorizontalAlignment="Left"
+                 FontSize="12"
+                 Margin="0,15,0,0"/>
                 </StackPanel>
             </Border>
         </StackPanel>

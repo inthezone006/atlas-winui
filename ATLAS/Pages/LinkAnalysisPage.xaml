@@ -27,14 +27,14 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
                     Padding="24" Margin="0,20,0,0" Visibility="Collapsed">
                 <StackPanel Spacing="15">
-                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold" />
 
-                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10" >
                         <FontIcon x:Name="StatusIcon" Glyph="&#xE73E;" FontSize="20"/>
                         <TextBlock x:Name="StatusText" Text="This URL appears to be safe." FontSize="18" FontWeight="SemiBold"/>
                     </StackPanel>
 
-                    <TextBlock x:Name="ExplanationText" HorizontalAlignment="Center" Opacity="0.8"/>
+                    <TextBlock x:Name="ExplanationText" Opacity="0.8"/>
 
                     <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" Margin="0,10"/>
 
