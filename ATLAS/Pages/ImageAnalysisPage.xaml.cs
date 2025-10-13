@@ -91,7 +91,7 @@ namespace ATLAS.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<ImageAnalysisResponse>(jsonResponse);
+                    var result = JsonSerializer.Deserialize<ImageAnalysisResponse>(jsonResponse, JsonContext.Default.ImageAnalysisResponse);
                     DisplayResults(result);
                 }
                 else
@@ -110,7 +110,7 @@ namespace ATLAS.Pages
                 SelectFileButton.IsEnabled = true;
             }
         }
-
+ 
         private async void ReportButton_Click(object sender, RoutedEventArgs e)
         {
             if (AuthService.IsLoggedIn)
@@ -122,7 +122,7 @@ namespace ATLAS.Pages
                 }
 
                 var payload = new { text = lastAnalyzedText };
-                var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json");
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);

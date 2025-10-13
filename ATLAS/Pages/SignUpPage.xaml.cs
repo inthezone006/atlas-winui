@@ -1,3 +1,4 @@
+using ATLAS.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -95,7 +96,7 @@ public sealed partial class SignUpPage : Page
                 password = password
             };
 
-            var jsonPayload = JsonSerializer.Serialize(signUpData);
+            var jsonPayload = JsonSerializer.Serialize(signUpData, JsonContext.Default.DictionaryStringObject);
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await client.PostAsync(backendUrl, content);
