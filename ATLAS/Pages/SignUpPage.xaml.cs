@@ -88,15 +88,15 @@ public sealed partial class SignUpPage : Page
 
         try
         {
-            var signUpData = new
+            var signUpData = new Dictionary<string, string>
             {
-                first_name = firstName,
-                last_name = lastName,
-                username = username,
-                password = password
+                { "first_name", firstName },
+                { "last_name", lastName },
+                { "username", username },
+                { "password", password }
             };
 
-            var jsonPayload = JsonSerializer.Serialize(signUpData, JsonContext.Default.DictionaryStringObject);
+            var jsonPayload = JsonSerializer.Serialize(signUpData, JsonContext.Default.DictionaryStringString);
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await client.PostAsync(backendUrl, content);

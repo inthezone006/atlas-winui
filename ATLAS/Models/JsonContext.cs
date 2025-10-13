@@ -17,6 +17,7 @@ namespace ATLAS.Models
     [JsonSerializable(typeof(LoginResponse))]
     [JsonSerializable(typeof(Dictionary<string, object>))]
     [JsonSerializable(typeof(List<AnalysisHistoryItem>))]
+    [JsonSerializable(typeof(Dictionary<string, string>))]
 
     internal partial class JsonContext : JsonSerializerContext
     {
