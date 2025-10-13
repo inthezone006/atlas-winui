@@ -32,8 +32,8 @@
                 <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20" Margin="0,10,0,20" Spacing="10">
                     <TextBlock x:Name="AppNameText" Text="ATLAS Protection" FontWeight="SemiBold"/>
                     <TextBlock x:Name="AppVersionText" Text="Version 1.2.1.0"/>
-                    <HyperlinkButton Content="Privacy Policy"/>
-                    <HyperlinkButton Content="Terms of Service"/>
+                    <HyperlinkButton Content="Privacy Policy" NavigateUri="https://www.atlasprotection.app/privacy-policy" />
+                    <HyperlinkButton Content="Terms of Service" NavigateUri="https://www.atlasprotection.app/terms-of-service" />
 
                     <TextBlock Text="Link Analysis and File Scan provided by:" Opacity="0.8" Margin="0,15,0,0"/>
                     <HyperlinkButton Content="VirusTotal" NavigateUri="https://www.virustotal.com/" />

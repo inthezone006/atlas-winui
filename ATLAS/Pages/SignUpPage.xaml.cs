@@ -53,7 +53,7 @@ public sealed partial class SignUpPage : Page
     {
         if (e.Key == Windows.System.VirtualKey.Enter)
         {
-            SignUpButton_Click(sender, new RoutedEventArgs());
+            SignUpButton_Click(SignUpButton, new RoutedEventArgs());
         }
     }
 

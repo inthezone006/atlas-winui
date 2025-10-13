@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Title="ATLAS Protection">
 
-    <Grid>
+    <Grid Loaded="MainWindow_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
