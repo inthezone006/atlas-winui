@@ -54,7 +54,7 @@ namespace ATLAS.Pages
             try
             {
                 var loginData = new { username, password };
-                var jsonPayload = JsonSerializer.Serialize(loginData);
+                var jsonPayload = JsonSerializer.Serialize(loginData, JsonContext.Default.DictionaryStringObject);
                 var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync(backendUrl, content);
@@ -63,7 +63,7 @@ namespace ATLAS.Pages
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
 
-                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseBody);
+                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseBody, JsonContext.Default.LoginResponse);
 
                     if (loginResponse?.user != null && loginResponse?.token != null)
                     {

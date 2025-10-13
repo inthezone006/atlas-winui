@@ -66,7 +66,7 @@ namespace ATLAS.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var stats = JsonSerializer.Deserialize<UserStats>(jsonResponse);
+                    var stats = JsonSerializer.Deserialize<UserStats>(jsonResponse, JsonContext.Default.UserStats);
                     if (stats != null && TotalAnalysesText != null && ScamsDetectedText != null && SubmissionsText != null)
                     {
                         TotalAnalysesText.Text = stats.TotalAnalyses.ToString();
@@ -113,7 +113,7 @@ namespace ATLAS.Pages
             if (string.IsNullOrWhiteSpace(scamText)) return;
 
             var payload = new { text = scamText };
-            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json");
 
             var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
@@ -132,7 +132,6 @@ namespace ATLAS.Pages
 
         private void StatCard_Click(object sender, RoutedEventArgs e)
         {
-            // The 'sender' is now the Button we clicked
             if (sender is Button button && button.Tag is string filter)
             {
                 (Application.Current as App)?.RootFrame?.Navigate(

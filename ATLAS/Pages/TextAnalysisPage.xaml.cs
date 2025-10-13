@@ -41,7 +41,7 @@ namespace ATLAS.Pages
             try
             {
                 var requestPayload = new { text = inputText };
-                var jsonPayload = JsonSerializer.Serialize(requestPayload);
+                var jsonPayload = JsonSerializer.Serialize(requestPayload, JsonContext.Default.DictionaryStringObject);
                 var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
                 var request = new HttpRequestMessage(HttpMethod.Post, backendUrl) { Content = content };
@@ -102,7 +102,7 @@ namespace ATLAS.Pages
                 }
 
                 var payload = new { text = lastAnalyzedText };
-                var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json");
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);

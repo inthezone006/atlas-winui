@@ -52,7 +52,7 @@ namespace ATLAS.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var items = JsonSerializer.Deserialize<List<AnalysisHistoryItem>>(jsonResponse);
+                    var items = JsonSerializer.Deserialize<List<AnalysisHistoryItem>>(jsonResponse, JsonContext.Default.ListAnalysisHistoryItem);
                     HistoryListView.ItemsSource = items;
                 }
             }

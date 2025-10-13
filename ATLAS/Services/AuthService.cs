@@ -32,7 +32,7 @@ namespace ATLAS.Services
                 }
 
                 AuthToken = token;
-                CurrentUser = JsonSerializer.Deserialize<User>(userJsonObj as string ?? "");
+                CurrentUser = JsonSerializer.Deserialize<User>(userJsonObj as string ?? "", JsonContext.Default.User);
             }
         }
 
@@ -73,7 +73,7 @@ namespace ATLAS.Services
             AuthToken = token;
             var localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["AuthToken"] = token;
-            localSettings.Values["CurrentUser"] = JsonSerializer.Serialize(user);
+            localSettings.Values["CurrentUser"] = JsonSerializer.Serialize(user, JsonContext.Default.DictionaryStringObject);
 
             OnLoginStateChanged?.Invoke();
         }

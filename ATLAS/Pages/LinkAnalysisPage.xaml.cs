@@ -37,7 +37,7 @@ namespace ATLAS.Pages
             try
             {
                 var requestPayload = new { url = urlToAnalyze };
-                var jsonPayload = JsonSerializer.Serialize(requestPayload);
+                var jsonPayload = JsonSerializer.Serialize(requestPayload, JsonContext.Default.DictionaryStringObject);
                 var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
                 var request = new HttpRequestMessage(HttpMethod.Post, backendUrl) { Content = content };
@@ -51,7 +51,7 @@ namespace ATLAS.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<LinkAnalysisResult>(jsonResponse);
+                    var result = JsonSerializer.Deserialize<LinkAnalysisResult>(jsonResponse, JsonContext.Default.LinkAnalysisResult);
                     DisplayResults(result);
                 }
                 else

@@ -34,7 +34,7 @@ namespace ATLAS.Pages
             var hwnd = WindowNative.GetWindowHandle(window);
             InitializeWithWindow.Initialize(filePicker, hwnd);
 
-            filePicker.FileTypeFilter.Add("*"); // Allow all file types
+            filePicker.FileTypeFilter.Add("*");
 
             var file = await filePicker.PickSingleFileAsync();
             if (file != null)
@@ -71,7 +71,7 @@ namespace ATLAS.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<LinkAnalysisResult>(jsonResponse); // Reusing the LinkAnalysisResult model
+                    var result = JsonSerializer.Deserialize<LinkAnalysisResult>(jsonResponse, JsonContext.Default.LinkAnalysisResult);
                     DisplayResults(result);
                 }
                 else

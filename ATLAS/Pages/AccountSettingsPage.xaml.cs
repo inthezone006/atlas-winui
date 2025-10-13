@@ -1,3 +1,4 @@
+using ATLAS.Models;
 using ATLAS.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -87,7 +88,7 @@ namespace ATLAS.Pages
             {
                 var request = new HttpRequestMessage(HttpMethod.Put, url)
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json")
                 };
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
 
