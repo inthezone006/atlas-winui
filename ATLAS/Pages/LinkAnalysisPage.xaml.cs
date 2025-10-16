@@ -14,8 +14,6 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
-//FileScanPage
-
 namespace ATLAS.Pages
 {
     public sealed partial class LinkAnalysisPage : Page

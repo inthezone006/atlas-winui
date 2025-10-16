@@ -61,7 +61,7 @@ namespace ATLAS.Pages
                 content.Add(new StreamContent(stream), "file", selectedFile.Name);
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/scan-file") { Content = content };
-                if (AuthService.IsLoggedIn)
+                if (AuthService.IsLoggedIn && !string.IsNullOrEmpty(AuthService.AuthToken))
                 {
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
                 }
