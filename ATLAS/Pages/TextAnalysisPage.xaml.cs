@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using System.Collections.Generic;
+using System.Net.Http.Json;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -40,10 +42,9 @@ namespace ATLAS.Pages
 
             try
             {
-                var requestPayload = new { text = inputText };
+                var requestPayload = new Dictionary<string, string> { { "text", lastAnalyzedText } };
                 var jsonPayload = JsonSerializer.Serialize(requestPayload, JsonContext.Default.DictionaryStringObject);
-                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
+                var content = JsonContent.Create(requestPayload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
                 var request = new HttpRequestMessage(HttpMethod.Post, backendUrl) { Content = content };
 
                 if (AuthService.IsLoggedIn)
@@ -56,7 +57,7 @@ namespace ATLAS.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<AnalysisResult>(jsonResponse);
+                    var result = JsonSerializer.Deserialize<AnalysisResult>(jsonResponse, JsonContext.Default.AnalysisResult);
                     if (result != null)
                     {
                         DisplayResults(result);
@@ -101,8 +102,8 @@ namespace ATLAS.Pages
                     return;
                 }
 
-                var payload = new { text = lastAnalyzedText };
-                var content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json");
+                var payload = new Dictionary<string, string> { { "text", lastAnalyzedText } };
+                var content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);

@@ -10,8 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+
+//FileScanPage
 
 namespace ATLAS.Pages
 {
@@ -36,12 +39,11 @@ namespace ATLAS.Pages
 
             try
             {
-                var requestPayload = new { url = urlToAnalyze };
+                var requestPayload = new Dictionary<string, string> { { "url", urlToAnalyze } };
                 var jsonPayload = JsonSerializer.Serialize(requestPayload, JsonContext.Default.DictionaryStringObject);
-                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
+                var content = JsonContent.Create(requestPayload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
                 var request = new HttpRequestMessage(HttpMethod.Post, backendUrl) { Content = content };
-                if (AuthService.IsLoggedIn)
+                if (AuthService.IsLoggedIn && !string.IsNullOrEmpty(AuthService.AuthToken))
                 {
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
                 }
@@ -134,6 +136,7 @@ namespace ATLAS.Pages
             StatusText.Text = "Analysis Failed";
             StatusIcon.Glyph = "\uE783";
             StatusText.Foreground = new SolidColorBrush(Colors.Red);
+            StatusIcon.Foreground = new SolidColorBrush(Colors.Red);
             ExplanationText.Text = message;
         }
 

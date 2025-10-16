@@ -19,6 +19,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 
 namespace ATLAS.Pages
 {
@@ -53,26 +55,24 @@ namespace ATLAS.Pages
 
             try
             {
-                var loginData = new { username, password };
-                var jsonPayload = JsonSerializer.Serialize(loginData, JsonContext.Default.DictionaryStringObject);
-                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                var loginData = new Dictionary<string, string>
+                {
+                    { "username", username },
+                    { "password", password }
+                };
 
+                var content = JsonContent.Create(loginData, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
                 HttpResponseMessage response = await client.PostAsync(backendUrl, content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
-
                     var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseBody, JsonContext.Default.LoginResponse);
 
-                    if (loginResponse?.user != null && loginResponse?.token != null)
+                    if (loginResponse?.User != null && loginResponse?.Token != null)
                     {
-                        AuthService.Login(loginResponse.user, loginResponse.token);
-                        var app = Application.Current as App;
-                        if (app?.RootFrame != null)
-                        {
-                            app.RootFrame.Navigate(typeof(HomePage));
-                        }
+                        AuthService.Login(loginResponse.User, loginResponse.Token);
+                        (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage));
                     }
                 }
                 else
@@ -98,7 +98,7 @@ namespace ATLAS.Pages
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                LoginButton_Click(sender, new RoutedEventArgs());
+                LoginButton_Click(LoginButton, new RoutedEventArgs());
             }
         }
 
@@ -109,8 +109,10 @@ namespace ATLAS.Pages
 
         public class LoginResponse
         {
-            public User? user { get; set; }
-            public string? token { get; set; }
+            [JsonPropertyName("user")]
+            public User? User { get; set; }
+            [JsonPropertyName("token")]
+            public string? Token { get; set; }
         }
     }
 }

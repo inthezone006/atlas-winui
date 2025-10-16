@@ -18,7 +18,6 @@ namespace ATLAS.Pages
     public sealed partial class HistoryPage : Page
     {
         private static readonly HttpClient client = new HttpClient();
-        private bool isDetailsLoaded = false;
 
         public HistoryPage()
         {
@@ -69,36 +68,6 @@ namespace ATLAS.Pages
                 typeof(DashboardPage),
                 null,
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
-        }
-
-        private async void HistoryListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem is AnalysisHistoryItem selectedItem && !string.IsNullOrEmpty(selectedItem.Id))
-            {
-                // Create and show a temporary loading dialog
-                var loadingDialog = new ContentDialog
-                {
-                    Title = "Loading Details...",
-                    Content = new ProgressRing { IsActive = true },
-                    XamlRoot = this.XamlRoot
-                };
-                var loadingTask = loadingDialog.ShowAsync();
-
-                // Fetch the full details from the new backend endpoint
-                string detailsJson = await FetchHistoryDetailsAsync(selectedItem.Id);
-
-                loadingDialog.Hide(); // Hide the loading dialog
-
-                // Create and show the final details dialog
-                var detailsDialog = new ContentDialog
-                {
-                    Title = "Analysis Details",
-                    Content = CreateDetailsContent(detailsJson), // Build the UI for the dialog
-                    CloseButtonText = "Close",
-                    XamlRoot = this.XamlRoot
-                };
-                await detailsDialog.ShowAsync();
-            }
         }
 
         private async Task<string> FetchHistoryDetailsAsync(string analysisId)

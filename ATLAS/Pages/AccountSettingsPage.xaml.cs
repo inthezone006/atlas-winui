@@ -10,6 +10,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net.Http.Json;
 
 namespace ATLAS.Pages
 {
@@ -38,7 +40,11 @@ namespace ATLAS.Pages
 
         private async void SaveName_Click(object sender, RoutedEventArgs e)
         {
-            var payload = new { first_name = FirstNameTextBox.Text, last_name = LastNameTextBox.Text };
+            var payload = new Dictionary<string, string>
+            {
+                { "first_name", FirstNameTextBox.Text },
+                { "last_name", LastNameTextBox.Text }
+            };
             await UpdateUserSettings(
                 "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/name",
                 payload,
@@ -64,7 +70,11 @@ namespace ATLAS.Pages
                 return;
             }
 
-            var payload = new { old_username = oldUsername, new_username = newUsername };
+            var payload = new Dictionary<string, string>
+            {
+                { "old_username", oldUsername },
+                { "new_username", newUsername }
+            };
             await UpdateUserSettings(
                 "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/username",
                 payload,
@@ -73,7 +83,11 @@ namespace ATLAS.Pages
 
         private async void SavePassword_Click(object sender, RoutedEventArgs e)
         {
-            var payload = new { old_password = OldPasswordBox.Password, new_password = NewPasswordBox.Password };
+            var payload = new Dictionary<string, string>
+            {
+                { "old_password", OldPasswordBox.Password },
+                { "new_password", NewPasswordBox.Password }
+            };
             await UpdateUserSettings(
                 "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/password",
                 payload,
@@ -88,7 +102,7 @@ namespace ATLAS.Pages
             {
                 var request = new HttpRequestMessage(HttpMethod.Put, url)
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json")
+                    Content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString)
                 };
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
 

@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Net.Http.Json;
 
 namespace ATLAS.Pages
 {
@@ -67,7 +68,7 @@ namespace ATLAS.Pages
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var stats = JsonSerializer.Deserialize<UserStats>(jsonResponse, JsonContext.Default.UserStats);
-                    if (stats != null && TotalAnalysesText != null && ScamsDetectedText != null && SubmissionsText != null)
+                    if (stats != null)
                     {
                         TotalAnalysesText.Text = stats.TotalAnalyses.ToString();
                         ScamsDetectedText.Text = stats.ScamsDetected.ToString();
@@ -112,8 +113,8 @@ namespace ATLAS.Pages
         {
             if (string.IsNullOrWhiteSpace(scamText)) return;
 
-            var payload = new { text = scamText };
-            var content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json");
+            var payload = new Dictionary<string, string> { { "text", scamText } };
+            var content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
 
             var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
@@ -130,14 +131,14 @@ namespace ATLAS.Pages
             await confirmationDialog.ShowAsync();
         }
 
-        private void StatCard_Click(object sender, RoutedEventArgs e)
+        private void StatCard_Click(object sender, ItemClickEventArgs e)
         {
-            if (sender is Button button && button.Tag is string filter)
+            if (e.ClickedItem is Border card && card.Tag is string filter)
             {
                 (Application.Current as App)?.RootFrame?.Navigate(
-            typeof(HistoryPage),
-            filter,
-            new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                    typeof(HistoryPage),
+                    filter,
+                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
     }

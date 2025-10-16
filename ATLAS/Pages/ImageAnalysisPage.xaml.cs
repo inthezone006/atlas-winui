@@ -14,6 +14,8 @@ using System.Text.Json;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
+using System.Collections.Generic;
+using System.Net.Http.Json;
 
 namespace ATLAS.Pages
 {
@@ -121,8 +123,8 @@ namespace ATLAS.Pages
                     return;
                 }
 
-                var payload = new { text = lastAnalyzedText };
-                var content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json");
+                var payload = new Dictionary<string, string> { { "text", lastAnalyzedText } };
+                var content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
@@ -162,6 +164,7 @@ namespace ATLAS.Pages
                 return;
             }
 
+            lastAnalyzedText = result.Text;
             ExtractedText.Text = string.IsNullOrWhiteSpace(result.Text) ? "No text found in the image." : result.Text;
             ExtractedTextBox.Visibility = Visibility.Visible;
 

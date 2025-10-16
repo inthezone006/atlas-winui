@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
+using System.Collections.Generic;
+using System.Net.Http.Json;
 
 namespace ATLAS.Pages
 {
@@ -97,12 +99,12 @@ namespace ATLAS.Pages
             using var stream = await file.OpenStreamForReadAsync();
             content.Add(new StreamContent(stream), "audio", file.Name);
 
-            var response = await client.PostAsync(
-                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/transcribe", content);
+            var response = await client.PostAsync("https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/transcribe", content);
             if (!response.IsSuccessStatusCode) return "Failed to transcribe audio.";
 
-            var jsonDoc = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
-            return jsonDoc.RootElement.GetProperty("transcript").GetString() ?? "Transcript not found.";
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<TranscriptionResponse>(jsonResponse, JsonContext.Default.TranscriptionResponse);
+            return result?.Transcript ?? "Transcript not found.";
         }
 
         private static async Task<AnalysisResult?> AnalyzeAudioAsync(StorageFile file)
@@ -150,8 +152,8 @@ namespace ATLAS.Pages
                     return;
                 }
 
-                var payload = new { text = lastAnalyzedText };
-                var content = new StringContent(JsonSerializer.Serialize(payload, JsonContext.Default.DictionaryStringObject), Encoding.UTF8, "application/json");
+                var payload = new Dictionary<string, string> { { "text", lastAnalyzedText } };
+                var content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
