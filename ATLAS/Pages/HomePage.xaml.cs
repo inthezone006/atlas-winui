@@ -7,7 +7,7 @@ namespace ATLAS.Pages
 {
     public sealed partial class HomePage : Page
     {
-        private DispatcherTimer timer;
+        private DispatcherTimer? timer;
         private List<TextBlock> emojiList = new List<TextBlock>();
         private Random random = new Random();
 

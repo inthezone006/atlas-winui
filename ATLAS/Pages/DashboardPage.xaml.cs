@@ -131,9 +131,9 @@ namespace ATLAS.Pages
             await confirmationDialog.ShowAsync();
         }
 
-        private void StatCard_Click(object sender, ItemClickEventArgs e)
+        private void StatCard_Click(object sender, RoutedEventArgs e)
         {
-            if (e.ClickedItem is Border card && card.Tag is string filter)
+            if (sender is Button button && button.Tag is string filter)
             {
                 (Application.Current as App)?.RootFrame?.Navigate(
                     typeof(HistoryPage),
