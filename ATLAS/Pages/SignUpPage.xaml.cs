@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -97,7 +98,7 @@ public sealed partial class SignUpPage : Page
             };
 
             var jsonPayload = JsonSerializer.Serialize(signUpData, JsonContext.Default.DictionaryStringString);
-            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+            var content = JsonContent.Create(signUpData, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
 
             HttpResponseMessage response = await client.PostAsync(backendUrl, content);
             if (response.IsSuccessStatusCode)

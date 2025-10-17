@@ -1,13 +1,15 @@
 ﻿using ATLAS.Models;
-using ATLAS.Pages; // Required for LoginResponse if it's defined there
+using ATLAS.Pages;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using static ATLAS.Pages.LoginPage;
 
 namespace ATLAS.Models
 {
-    [JsonSourceGenerationOptions(WriteIndented = true)]
-
+    [JsonSourceGenerationOptions(
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.SnakeCaseLower
+    )]
     [JsonSerializable(typeof(User))]
     [JsonSerializable(typeof(AnalysisHistoryItem))]
     [JsonSerializable(typeof(AnalysisResult))]
