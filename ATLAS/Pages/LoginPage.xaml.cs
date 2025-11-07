@@ -13,14 +13,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 
 namespace ATLAS.Pages
 {
@@ -100,6 +101,61 @@ namespace ATLAS.Pages
             {
                 LoginButton_Click(LoginButton, new RoutedEventArgs());
             }
+        }
+
+        private async void GoogleLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            var webView = new WebView2
+            {
+                Height = 600,
+                Width = 400
+            };
+            await webView.EnsureCoreWebView2Async();
+
+            var dialog = new ContentDialog
+            {
+                Title = "Sign in with Google",
+                Content = webView,
+                CloseButtonText = "Cancel",
+                XamlRoot = this.XamlRoot
+            };
+
+            webView.NavigationStarting += async (s, args) =>
+            {
+                string url = args.Uri.ToString();
+
+                if (url.StartsWith("https://www.atlasprotection.app/dashboard"))
+                {
+                    args.Cancel = true;
+
+                    var match = Regex.Match(url, @"token=([^&]+)");
+                    if (match.Success)
+                    {
+                        var token = match.Groups[1].Value;
+
+                        if (await AuthService.LoginWithTokenAsync(token))
+                        {
+                            dialog.Hide();
+                            (Application.Current as App)?.RootFrame?.Navigate(typeof(DashboardPage));
+                        }
+                        else
+                        {
+                            dialog.Hide();
+                            ErrorTextBlock.Text = "Failed to retrieve user details from token.";
+                        }
+                    }
+                }
+                else if (url.Contains("error=google-login-failed"))
+                {
+                    args.Cancel = true;
+                    dialog.Hide();
+                    ErrorTextBlock.Text = "Google sign-in failed. Please try again.";
+                }
+            };
+
+            webView.CoreWebView2.Navigate("https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/auth/google");
+
+            await dialog.ShowAsync();
         }
 
         private void SignUpLink_Click(object sender, RoutedEventArgs e)

@@ -84,52 +84,53 @@ namespace ATLAS.Pages
 
         private UIElement CreateDetailsContent(string detailsJson)
         {
-            var panel = new StackPanel { Spacing = 10, Padding = new Thickness(20, 10, 20, 10) };
+            var panel = new StackPanel { 
+                Spacing = 10,
+                Padding = new Thickness(20, 10, 20, 10),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
             try
             {
                 var json = JsonNode.Parse(detailsJson)!.AsObject();
-
-                // Get the available data from the JSON
                 var isScam = json["is_scam"]?.GetValue<bool>() ?? false;
                 var score = json["result_score"]?.GetValue<double>() ?? 0;
 
-                // Display the Verdict
                 panel.Children.Add(new TextBlock
                 {
                     Text = $"Verdict: {(isScam ? "Scam Detected" : "Considered Safe")}",
-                    FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
+                    FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+                    HorizontalAlignment = HorizontalAlignment.Left, 
                 });
 
-                // Display the Score
                 panel.Children.Add(new TextBlock
                 {
-                    Text = $"Confidence Score: {score:F2}/10"
+                    Text = $"Confidence Score: {score:F2}/10",
+                    HorizontalAlignment = HorizontalAlignment.Left
                 });
 
-                // Add a note that original content is not available
                 panel.Children.Add(new TextBlock
                 {
                     Text = "\n(Service does not currently host original analysis data.)",
                     Opacity = 0.6,
                     FontSize = 12,
-                    TextWrapping = TextWrapping.Wrap
+                    TextWrapping = TextWrapping.Wrap,
+                    HorizontalAlignment = HorizontalAlignment.Left
                 });
             }
-            catch { panel.Children.Add(new TextBlock { Text = "Failed to parse details." }); }
+            catch { panel.Children.Add(new TextBlock { Text = "Failed to parse details." , HorizontalAlignment = HorizontalAlignment.Left }); }
 
             return panel;
         }
 
         private async void Expander_Expanding(Expander sender, ExpanderExpandingEventArgs args)
         {
-            // Get the history item associated with this expander
             if (sender.DataContext is AnalysisHistoryItem selectedItem && !string.IsNullOrEmpty(selectedItem.Id))
             {
-                // Only load the details the very first time it's expanded
                 if (sender.Content is ProgressRing)
                 {
                     var detailsJson = await FetchHistoryDetailsAsync(selectedItem.Id);
-                    sender.Content = CreateDetailsContent(detailsJson); // Replace the ProgressRing with the details
+                    sender.Content = CreateDetailsContent(detailsJson);
                 }
             }
         }

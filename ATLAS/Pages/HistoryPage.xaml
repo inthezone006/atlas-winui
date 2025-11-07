@@ -25,9 +25,7 @@
                 <ListView x:Name="HistoryListView" SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:AnalysisHistoryItem">
-                            <Expander Margin="0,5"
-                      HorizontalAlignment="Stretch"
-                      Expanding="Expander_Expanding">
+                            <Expander Margin="0,5" HorizontalAlignment="Stretch" Expanding="Expander_Expanding" HorizontalContentAlignment="Left">
                                 <Expander.Header>
                                     <StackPanel Margin="0,5">
                                         <TextBlock Text="{x:Bind AnalysisType, Converter={StaticResource TitleCaseConverter}}" FontWeight="SemiBold"/>

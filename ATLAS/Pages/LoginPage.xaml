@@ -16,6 +16,12 @@
 
             <Button x:Name="LoginButton" Content="Log In" Click="LoginButton_Click" HorizontalAlignment="Stretch" Margin="0,20,0,0" Style="{ThemeResource AccentButtonStyle}"/>
 
+            <Button x:Name="GoogleLoginButton" Click="GoogleLoginButton_Click" HorizontalAlignment="Stretch" Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Sign in with Google"/>
+                </StackPanel>
+            </Button>
+
             <ProgressRing x:Name="LoadingRing" IsActive="False" HorizontalAlignment="Center" Margin="0,10,0,0"/>
             <TextBlock x:Name="ErrorTextBlock" Foreground="Red" HorizontalAlignment="Center" TextWrapping="Wrap"/>
 

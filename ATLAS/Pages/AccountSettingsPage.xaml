@@ -39,7 +39,31 @@
                     <Button Content="Save Password" Click="SavePassword_Click" Style="{ThemeResource AccentButtonStyle}"/>
                 </StackPanel>
 
-                <ProgressRing x:Name="LoadingRing" IsActive="False" HorizontalAlignment="Center"/>
+                <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
+                    <TextBlock Text="Account Linking" FontSize="20" FontWeight="SemiBold" />
+                        <TextBlock x:Name="LinkStatusText" Text="Loading link status..." Opacity="0.8"/>
+
+                        <Button x:Name="LinkGoogleButton" Click="LinkGoogle_Click" Style="{ThemeResource AccentButtonStyle}" Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="Link Google Account"/>
+                            </StackPanel>
+                        </Button>
+
+                    <Button x:Name="UnlinkGoogleButton" Click="UnlinkGoogle_Click" Foreground="Red" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="Unlink Google Account"/>
+                        </StackPanel>
+                    </Button>
+
+                </StackPanel>
+
+                <StackPanel Spacing="10" BorderBrush="{ThemeResource SystemFillColorCriticalBrush}" BorderThickness="1" Padding="20">
+                    <TextBlock Text="Delete Your Account" FontWeight="SemiBold" FontSize="18"/>
+                    <TextBlock Text="This action is permanent and cannot be undone. All your data, including analysis history, will be permanently deleted." TextWrapping="Wrap" Opacity="0.8"/>
+                    <Button x:Name="DeleteAccountButton" Content="Delete My Account" Click="DeleteAccount_Click" Style="{ThemeResource AccentButtonStyle}" Background="{ThemeResource SystemFillColorCriticalBrush}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                </StackPanel>
+
+            <ProgressRing x:Name="LoadingRing" IsActive="False" HorizontalAlignment="Center"/>
                 <TextBlock x:Name="StatusTextBlock" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="Red"/>
 
             </StackPanel>

@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using ATLAS.Models;
 using Windows.Storage;
 using System.Text.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace ATLAS.Services
 {
     public static class AuthService
     {
+        private static readonly HttpClient client = new HttpClient();
         public static User? CurrentUser { get; private set; }
         public static string? AuthToken { get; private set; }
 
@@ -33,6 +36,32 @@ namespace ATLAS.Services
 
                 AuthToken = token;
                 CurrentUser = JsonSerializer.Deserialize<User>(userJsonObj as string ?? "", JsonContext.Default.User);
+            }
+        }
+
+        public static async Task<bool> LoginWithTokenAsync(string token)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me");
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await client.SendAsync(request);
+                if (!response.IsSuccessStatusCode) return false;
+
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var meResponse = JsonSerializer.Deserialize<MeResponse>(jsonResponse, JsonContext.Default.MeResponse);
+
+                if (meResponse?.User != null)
+                {
+                    Login(meResponse.User, token);
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
             }
         }
 

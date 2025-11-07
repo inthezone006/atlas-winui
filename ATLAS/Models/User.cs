@@ -23,5 +23,8 @@ namespace ATLAS.Models
 
         [JsonPropertyName("role")]
         public string? Role { get; set; }
+
+        [JsonPropertyName("google_id")]
+        public string? GoogleId { get; set; }
     }
 }
