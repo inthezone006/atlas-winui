@@ -73,7 +73,7 @@ namespace ATLAS.Pages
                 XamlRoot = this.XamlRoot
             };
 
-            webView.NavigationStarting += async (s, args) =>
+            webView.NavigationStarting += (s, args) =>
             {
                 string url = args.Uri.ToString();
 
@@ -86,7 +86,7 @@ namespace ATLAS.Pages
                     (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage), null, new SuppressNavigationTransitionInfo());
                     NotificationService.Show("Account linked! Please log in again to sync changes.", InfoBarSeverity.Success);
                 }
-            };
+};
 
             string authUrl = $"https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/auth/google?login_token={AuthService.AuthToken}";
             webView.CoreWebView2.Navigate(authUrl);
