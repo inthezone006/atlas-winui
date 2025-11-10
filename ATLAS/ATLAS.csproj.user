@@ -5,6 +5,9 @@
     <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
     <AppxBuildConfigurationSelection>x86|x64|arm64</AppxBuildConfigurationSelection>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <Source>C:\Users\rahul\Programming\atlas\frontend\public\appicon.png</Source>
+    <AppIconSource>C:\Users\rahul\Programming\atlas\frontend\public\appicon.png</AppIconSource>
+    <BadgeLogoSource>C:\Users\rahul\Programming\atlas\frontend\public\appicon.png</BadgeLogoSource>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">
