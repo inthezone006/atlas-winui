@@ -33,10 +33,7 @@
                     <NavigationViewItem Content="Analysis Tools" Icon="GoToStart" Tag="AnalysisTools"/>
                     <NavigationViewItem Content="On-Device Protection" Icon="Permissions" Tag="OnDeviceProtection"/>
                     <NavigationViewItem Content="Our Vision" Icon="Flag" Tag="Vision"/>
-                    <NavigationViewItem x:Name="AccountNavItemLoggedIn"
-                                        Icon="Contact"
-                                        Tag="AccountLoggedIn"
-                                        Visibility="Collapsed">
+                    <NavigationViewItem x:Name="AccountNavItemLoggedIn" Icon="Contact" Tag="AccountLoggedIn" Visibility="Collapsed">
                         <NavigationViewItem.MenuItems>
                             <NavigationViewItem Content="Dashboard" Tag="Dashboard" Icon="Home"/>
                             <NavigationViewItem Content="Account Settings" Tag="AccountSettings" Icon="ContactInfo"/>

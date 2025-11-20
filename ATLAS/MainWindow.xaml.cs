@@ -116,17 +116,26 @@ namespace ATLAS
             if (AppWindowTitleBar.IsCustomizationSupported())
             {
                 var titleBar = this.AppWindow.TitleBar;
+                string iconFile = "";
                 if (theme == ElementTheme.Dark)
                 {
                     titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
                     titleBar.ButtonHoverBackgroundColor = Color.FromArgb(32, 255, 255, 255);
                     titleBar.ButtonPressedBackgroundColor = Color.FromArgb(64, 255, 255, 255);
+                    iconFile = "Assets/logo_dark_simple.ico";
                 }
                 else
                 {
                     titleBar.ButtonForegroundColor = Microsoft.UI.Colors.Black;
                     titleBar.ButtonHoverBackgroundColor = Color.FromArgb(26, 0, 0, 0);
                     titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                    iconFile = "Assets/logo_simple.ico";
+                }
+
+                var iconPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Assets", iconFile);
+                if (File.Exists(iconPath))
+                {
+                    this.AppWindow.SetIcon(iconPath);
                 }
             }
         }

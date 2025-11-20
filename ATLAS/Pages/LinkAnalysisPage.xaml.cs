@@ -38,7 +38,6 @@ namespace ATLAS.Pages
             try
             {
                 var requestPayload = new Dictionary<string, string> { { "url", urlToAnalyze } };
-                var jsonPayload = JsonSerializer.Serialize(requestPayload, JsonContext.Default.DictionaryStringObject);
                 var content = JsonContent.Create(requestPayload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
                 var request = new HttpRequestMessage(HttpMethod.Post, backendUrl) { Content = content };
                 if (AuthService.IsLoggedIn && !string.IsNullOrEmpty(AuthService.AuthToken))
