@@ -133,7 +133,7 @@ namespace ATLAS.Pages
                     {
                         var token = match.Groups[1].Value;
 
-                        if (await AuthService.LoginWithTokenAsync(token))
+                        if (await AuthService.LoginWithEmailAsync(UsernameTextBox.Text, PasswordBox.Password))
                         {
                             dialog.Hide();
                             (Application.Current as App)?.RootFrame?.Navigate(typeof(DashboardPage));

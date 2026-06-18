@@ -45,7 +45,7 @@ namespace ATLAS
         {
             _window = new MainWindow();
             RootFrame = (_window as MainWindow)?.AppFrame;
-
+            ATLAS.Services.AuthService.Initialize();
             _window.Activate();
         }
 

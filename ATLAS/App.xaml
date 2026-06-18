@@ -9,6 +9,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <x:String x:Key="FirebaseApiKey">AIzaSyAG55LnTcmqfFam3FLqToemWb9ecZIyk2Q</x:String>
+            <x:String x:Key="FirebaseAuthDomain">atlas-protection.firebaseapp.com</x:String>
+            <x:String x:Key="FirebaseProjectId">atlas-protection</x:String>
+            
             <converters:StringToTitleCaseConverter x:Key="TitleCaseConverter"/>
         </ResourceDictionary>
     </Application.Resources>

@@ -7,21 +7,18 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Graphics.Imaging;
+using Windows.Media.Ocr;
 using WinRT.Interop;
-using System.Collections.Generic;
-using System.Net.Http.Json;
 
 namespace ATLAS.Pages
 {
     public sealed partial class ImageAnalysisPage : Page
     {
-        private static readonly HttpClient client = new HttpClient();
         private StorageFile? selectedImageFile;
         private string? lastAnalyzedText;
 
@@ -78,32 +75,44 @@ namespace ATLAS.Pages
 
             try
             {
-                using var content = new MultipartFormDataContent();
-                using var stream = await selectedImageFile.OpenStreamForReadAsync();
-                content.Add(new StreamContent(stream), "image", selectedImageFile.Name);
+                // Open file stream natively
+                using var stream = await selectedImageFile.OpenAsync(FileAccessMode.Read);
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+                SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
 
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/image-analyze") { Content = content };
-                if (AuthService.IsLoggedIn)
+                // Native Windows OCR engine execution
+                OcrEngine ocrEngine = OcrEngine.TryCreateFromUserProfileLanguages();
+                if (ocrEngine == null)
                 {
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
+                    throw new InvalidOperationException("Built-in OCR engine failed to load.");
                 }
 
-                HttpResponseMessage response = await client.SendAsync(request);
+                OcrResult ocrResult = await ocrEngine.RecognizeAsync(softwareBitmap);
+                string extractedText = ocrResult.Text;
 
-                if (response.IsSuccessStatusCode)
+                var result = new ImageAnalysisResponse
                 {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<ImageAnalysisResponse>(jsonResponse, JsonContext.Default.ImageAnalysisResponse);
-                    DisplayResults(result);
-                }
-                else
+                    Text = extractedText,
+                    Analysis = new AnalysisResult
+                    {
+                        IsScam = false,
+                        Score = 0f,
+                        Explanation = "No textual contents were detected inside the provided image frame."
+                    }
+                };
+
+                if (!string.IsNullOrWhiteSpace(extractedText))
                 {
-                    DisplayError("Could not get a response from the server.");
+                    // Evaluate via Text page model logic asynchronously
+                    var localAnalysis = await Task.Run(() => PerformLocalTextClassification(extractedText));
+                    result.Analysis = localAnalysis;
                 }
+
+                DisplayResults(result);
             }
             catch (Exception ex)
             {
-                DisplayError($"An error occurred: {ex.Message}");
+                DisplayError($"Analysis Error: {ex.Message}");
             }
             finally
             {
@@ -112,48 +121,31 @@ namespace ATLAS.Pages
                 SelectFileButton.IsEnabled = true;
             }
         }
- 
+
+        private AnalysisResult PerformLocalTextClassification(string text)
+        {
+            // Leverages the exact local Text Page runtime instantiation sequence
+            var textPage = new TextAnalysisPage();
+            var privateMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            if (privateMethod != null)
+            {
+                return (AnalysisResult)privateMethod.Invoke(textPage, new object[] { text })!;
+            }
+            return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run local inference." };
+        }
+
         private async void ReportButton_Click(object sender, RoutedEventArgs e)
         {
-            if (AuthService.IsLoggedIn)
+            var dialog = new ContentDialog
             {
-                if (string.IsNullOrWhiteSpace(lastAnalyzedText))
-                {
-                    NotificationService.Show("No content to submit.", InfoBarSeverity.Warning);
-                    return;
-                }
-
-                var payload = new Dictionary<string, string> { { "text", lastAnalyzedText } };
-                var content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-                request.Content = content;
-
-                var response = await client.SendAsync(request);
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var responseDoc = JsonDocument.Parse(responseBody);
-                var message = responseDoc.RootElement.GetProperty(response.IsSuccessStatusCode ? "message" : "error").GetString();
-
-                NotificationService.Show(message ?? "...", response.IsSuccessStatusCode ? InfoBarSeverity.Success : InfoBarSeverity.Error);
-            }
-            else
-            {
-                var dialog = new ContentDialog
-                {
-                    Title = "Create an Account to Contribute",
-                    Content = "Help improve ATLAS by creating a free account to submit new scam examples for review.",
-                    PrimaryButtonText = "Sign Up",
-                    CloseButtonText = "Cancel",
-                    XamlRoot = this.XamlRoot
-                };
-
-                var result = await dialog.ShowAsync();
-                if (result == ContentDialogResult.Primary)
-                {
-                    (Application.Current as App)?.RootFrame?.Navigate(typeof(SignUpPage));
-                }
-            }
+                Title = "Feature Moved Offline",
+                Content = "All data analytics run securely on your local device. Central cloud synchronization lists are disabled.",
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
         }
 
         private void DisplayResults(ImageAnalysisResponse? result)
@@ -187,12 +179,7 @@ namespace ATLAS.Pages
                 ExplanationText.Text = result.Analysis.Explanation;
                 var storyboard = new Storyboard();
 
-                var fadeAnimation = new DoubleAnimation
-                {
-                    From = 0.0,
-                    To = 1.0,
-                    Duration = TimeSpan.FromMilliseconds(400)
-                };
+                var fadeAnimation = new DoubleAnimation { From = 0.0, To = 1.0, Duration = TimeSpan.FromMilliseconds(400) };
                 Storyboard.SetTarget(fadeAnimation, ResultsBox);
                 Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
                 storyboard.Children.Add(fadeAnimation);
@@ -211,10 +198,6 @@ namespace ATLAS.Pages
 
                 ResultsBox.Visibility = Visibility.Visible;
                 storyboard.Begin();
-            }
-            else
-            {
-                ResultsBox.Visibility = Visibility.Collapsed;
             }
         }
 

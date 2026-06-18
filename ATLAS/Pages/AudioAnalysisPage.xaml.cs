@@ -7,22 +7,16 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
-using System.Collections.Generic;
-using System.Net.Http.Json;
 
 namespace ATLAS.Pages
 {
     public sealed partial class AudioAnalysisPage : Page
     {
-        private static readonly HttpClient client = new HttpClient();
         private StorageFile? selectedAudioFile;
         private string? lastAnalyzedText;
 
@@ -39,8 +33,6 @@ namespace ATLAS.Pages
             InitializeWithWindow.Initialize(filePicker, hwnd);
 
             filePicker.FileTypeFilter.Add(".wav");
-            filePicker.FileTypeFilter.Add(".mp3");
-            filePicker.FileTypeFilter.Add(".m4a");
 
             var file = await filePicker.PickSingleFileAsync();
             if (file != null)
@@ -63,22 +55,21 @@ namespace ATLAS.Pages
 
             try
             {
-                var transcribeTask = TranscribeAudioAsync(selectedAudioFile);
-                var analyzeTask = AnalyzeAudioAsync(selectedAudioFile);
+                string path = selectedAudioFile.Path;
 
-                await Task.WhenAll(transcribeTask, analyzeTask);
-
-                var transcript = await transcribeTask;
-                var analysisResult = await analyzeTask;
+                // Perform client side Vosk extraction on background thread
+                string transcript = await Task.Run(() => PerformVoskTranscription(path));
                 lastAnalyzedText = transcript;
                 DisplayTranscript(transcript);
-                if (analysisResult != null)
+
+                if (!string.IsNullOrWhiteSpace(transcript))
                 {
+                    var analysisResult = await Task.Run(() => PerformLocalTextClassification(transcript));
                     DisplayAnalysis(analysisResult);
                 }
                 else
                 {
-                    DisplayError("Could not get an analysis from the server.");
+                    DisplayError("No language patterns were found inside the wave audio clip.");
                 }
             }
             catch (Exception ex)
@@ -93,39 +84,48 @@ namespace ATLAS.Pages
             }
         }
 
-        private static async Task<string> TranscribeAudioAsync(StorageFile file)
+        private string PerformVoskTranscription(string wavFilePath)
         {
-            using var content = new MultipartFormDataContent();
-            using var stream = await file.OpenStreamForReadAsync();
-            content.Add(new StreamContent(stream), "audio", file.Name);
+            string modelPath = Path.Combine(AppContext.BaseDirectory, "Assets", "model");
+            if (!Directory.Exists(modelPath)) return "Vosk language assets missing from app package directory.";
 
-            var response = await client.PostAsync("https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/transcribe", content);
-            if (!response.IsSuccessStatusCode) return "Failed to transcribe audio.";
+            using var model = new Vosk.Model(modelPath);
+            using var rec = new Vosk.VoskRecognizer(model, 16000.0f);
+            rec.SetWords(true);
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<TranscriptionResponse>(jsonResponse, JsonContext.Default.TranscriptionResponse);
-            return result?.Transcript ?? "Transcript not found.";
-        }
+            using var waveStream = new FileStream(wavFilePath, FileMode.Open, FileAccess.Read);
+            byte[] buffer = new byte[4000];
+            int bytesRead;
+            System.Text.StringBuilder textAccumulator = new System.Text.StringBuilder();
 
-        private static async Task<AnalysisResult?> AnalyzeAudioAsync(StorageFile file)
-        {
-            using var content = new MultipartFormDataContent();
-            using var stream = await file.OpenStreamForReadAsync();
-            content.Add(new StreamContent(stream), "audio", file.Name);
-
-            var request = new HttpRequestMessage(HttpMethod.Post,
-                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/analyze-audio")
-            { Content = content };
-            if (AuthService.IsLoggedIn)
+            while ((bytesRead = waveStream.Read(buffer, 0, buffer.Length)) > 0)
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
+                if (rec.AcceptWaveform(buffer, bytesRead))
+                {
+                    using var chunk = System.Text.Json.JsonDocument.Parse(rec.Result());
+                    if (chunk.RootElement.TryGetProperty("text", out var txt))
+                        textAccumulator.Append(txt.GetString() + " ");
+                }
             }
 
-            var response = await client.SendAsync(request);
-            if (!response.IsSuccessStatusCode) return null;
+            using var finalChunk = System.Text.Json.JsonDocument.Parse(rec.FinalResult());
+            if (finalChunk.RootElement.TryGetProperty("text", out var finalTxt))
+                textAccumulator.Append(finalTxt.GetString());
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<AnalysisResult>(jsonResponse, JsonContext.Default.AnalysisResult);
+            return textAccumulator.ToString().Trim();
+        }
+
+        private AnalysisResult PerformLocalTextClassification(string text)
+        {
+            var textPage = new TextAnalysisPage();
+            var privateMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            if (privateMethod != null)
+            {
+                return (AnalysisResult)privateMethod.Invoke(textPage, new object[] { text })!;
+            }
+            return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run inference." };
         }
 
         private void DisplayTranscript(string transcript)
@@ -144,78 +144,32 @@ namespace ATLAS.Pages
 
         private async void ReportButton_Click(object sender, RoutedEventArgs e)
         {
-            if (AuthService.IsLoggedIn)
-            {
-                if (string.IsNullOrWhiteSpace(lastAnalyzedText))
-                {
-                    NotificationService.Show("No content to submit.", InfoBarSeverity.Warning);
-                    return;
-                }
-
-                var payload = new Dictionary<string, string> { { "text", lastAnalyzedText } };
-                var content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-                request.Content = content;
-
-                var response = await client.SendAsync(request);
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var responseDoc = JsonDocument.Parse(responseBody);
-                var message = responseDoc.RootElement.GetProperty(response.IsSuccessStatusCode ? "message" : "error").GetString();
-
-                NotificationService.Show(message ?? "...", response.IsSuccessStatusCode ? InfoBarSeverity.Success : InfoBarSeverity.Error);
-            }
-            else
-            {
-                var dialog = new ContentDialog
-                {
-                    Title = "Create an Account to Contribute",
-                    Content = "Help improve ATLAS by creating a free account to submit new scam examples for review.",
-                    PrimaryButtonText = "Sign Up",
-                    CloseButtonText = "Cancel",
-                    XamlRoot = this.XamlRoot
-                };
-
-                var result = await dialog.ShowAsync();
-                if (result == ContentDialogResult.Primary)
-                {
-                    (Application.Current as App)?.RootFrame?.Navigate(typeof(SignUpPage));
-                }
-            }
+            var dialog = new ContentDialog { Title = "Offline", Content = "Local execution active.", CloseButtonText = "OK", XamlRoot = this.XamlRoot };
+            await dialog.ShowAsync();
         }
 
         private void DisplayAnalysis(AnalysisResult? result)
         {
-            if (result == null)
-            {
-                DisplayError("Could not get an analysis from the server.");
-                return;
-            }
+            if (result == null) return;
 
             if (result.IsScam == true)
             {
-                StatusIcon.Glyph = "\uE7BA"; // Warning icon
+                StatusIcon.Glyph = "\uE7BA";
                 StatusText.Text = "This audio appears to be a scam.";
                 StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
             else
             {
-                StatusIcon.Glyph = "\uE73E"; // Checkmark icon
+                StatusIcon.Glyph = "\uE73E";
                 StatusText.Text = "This audio appears to be safe.";
                 StatusText.Foreground = new SolidColorBrush(Colors.Green);
             }
 
             ScoreText.Text = $"{result.Score:F2}/10";
             ExplanationText.Text = result.Explanation;
-            var storyboard = new Storyboard();
 
-            var fadeAnimation = new DoubleAnimation
-            {
-                From = 0.0,
-                To = 1.0,
-                Duration = TimeSpan.FromMilliseconds(400)
-            };
+            var storyboard = new Storyboard();
+            var fadeAnimation = new DoubleAnimation { From = 0.0, To = 1.0, Duration = TimeSpan.FromMilliseconds(400) };
             Storyboard.SetTarget(fadeAnimation, ResultsBox);
             Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
             storyboard.Children.Add(fadeAnimation);
@@ -246,7 +200,6 @@ namespace ATLAS.Pages
             }
             else
             {
-                // Collapse it
                 TranscriptText.MaxLines = 3;
                 ExpandTranscriptLabel.Text = "Show more";
                 ExpandTranscriptIcon.Glyph = "\uE70D";

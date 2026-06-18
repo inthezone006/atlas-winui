@@ -1,25 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATLAS.Models;
 using Windows.Storage;
 using System.Text.Json;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using Firebase.Auth;
+using Firebase.Auth.Providers;
 
 namespace ATLAS.Services
 {
     public static class AuthService
     {
-        private static readonly HttpClient client = new HttpClient();
-        public static User? CurrentUser { get; private set; }
-        public static string? AuthToken { get; private set; }
+        private static FirebaseAuthClient? _firebaseClient;
 
+        // Force the app to use your custom User class everywhere to satisfy UI bindings
+        public static ATLAS.Models.User? CurrentUser { get; private set; }
+        public static string? AuthToken { get; private set; }
         public static bool IsLoggedIn => CurrentUser != null;
+        public static string? CurrentUserId => _firebaseClient?.User?.Uid;
 
         public static event Action? OnLoginStateChanged;
+
+        public static void Initialize()
+        {
+            var config = new FirebaseAuthConfig
+            {
+                ApiKey = FirebaseConfig.ApiKey,
+                AuthDomain = FirebaseConfig.AuthDomain,
+                Providers = new[] { new EmailProvider() }
+            };
+
+            _firebaseClient = new FirebaseAuthClient(config);
+        }
 
         public static void TryLoadUserFromStorage()
         {
@@ -27,37 +39,31 @@ namespace ATLAS.Services
             if (localSettings.Values.TryGetValue("AuthToken", out var tokenObj) &&
                 localSettings.Values.TryGetValue("CurrentUser", out var userJsonObj))
             {
-                var token = tokenObj as string;
-                if (string.IsNullOrEmpty(token) || IsTokenExpired(token))
-                {
-                    Logout();
-                    return;
-                }
+                AuthToken = tokenObj as string;
+                var jsonStr = userJsonObj as string ?? "";
 
-                AuthToken = token;
-                CurrentUser = JsonSerializer.Deserialize<User>(userJsonObj as string ?? "", JsonContext.Default.User);
+                // Fixed JSON parsing logic parameters
+                CurrentUser = JsonSerializer.Deserialize<ATLAS.Models.User>(jsonStr, ATLAS.Models.JsonContext.Default.User);
+                OnLoginStateChanged?.Invoke();
             }
         }
 
-        public static async Task<bool> LoginWithTokenAsync(string token)
+        public static async Task<bool> LoginWithEmailAsync(string email, string password)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me");
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var userCredential = await _firebaseClient!.SignInWithEmailAndPasswordAsync(email, password);
+                string token = await userCredential.User.GetIdTokenAsync();
 
-                var response = await client.SendAsync(request);
-                if (!response.IsSuccessStatusCode) return false;
-
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var meResponse = JsonSerializer.Deserialize<MeResponse>(jsonResponse, JsonContext.Default.MeResponse);
-
-                if (meResponse?.User != null)
+                var localUser = new ATLAS.Models.User
                 {
-                    Login(meResponse.User, token);
-                    return true;
-                }
-                return false;
+                    Username = userCredential.User.Info.Email,
+                    FirstName = userCredential.User.Info.DisplayName ?? "User",
+                    LastName = ""
+                };
+
+                Login(localUser, token);
+                return true;
             }
             catch
             {
@@ -65,55 +71,45 @@ namespace ATLAS.Services
             }
         }
 
-        private static bool IsTokenExpired(string token)
+        public static async Task<bool> RegisterWithEmailAsync(string email, string password)
         {
             try
             {
-                var payload = token.Split('.')[1];
-                var jsonBytes = Convert.FromBase64String(AddPadding(payload));
-                var json = Encoding.UTF8.GetString(jsonBytes);
+                var userCredential = await _firebaseClient!.CreateUserWithEmailAndPasswordAsync(email, password);
+                string token = await userCredential.User.GetIdTokenAsync();
 
-                using (var doc = JsonDocument.Parse(json))
-                {
-                    if (doc.RootElement.TryGetProperty("exp", out var expClaim) && expClaim.TryGetInt64(out var expSeconds))
-                    {
-                        var expirationTime = DateTimeOffset.FromUnixTimeSeconds(expSeconds);
-                        return expirationTime < DateTimeOffset.UtcNow;
-                    }
-                }
+                var localUser = new ATLAS.Models.User { Username = email, FirstName = "User", LastName = "" };
+                Login(localUser, token);
                 return true;
             }
             catch
             {
-                return true;
+                return false;
             }
         }
 
-        private static string AddPadding(string base64)
-        {
-            base64 = base64.Replace('-', '+').Replace('_', '/');
-            return base64.PadRight(base64.Length + (4 - base64.Length % 4) % 4, '=');
-        }
-
-
-        public static void Login(User user, string token)
+        public static void Login(ATLAS.Models.User user, string token)
         {
             CurrentUser = user;
             AuthToken = token;
+
             var localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["AuthToken"] = token;
-            localSettings.Values["CurrentUser"] = JsonSerializer.Serialize(user, JsonContext.Default.User);
+            localSettings.Values["CurrentUser"] = JsonSerializer.Serialize(user, ATLAS.Models.JsonContext.Default.User);
 
             OnLoginStateChanged?.Invoke();
         }
 
         public static void Logout()
         {
+            _firebaseClient?.SignOut();
             CurrentUser = null;
             AuthToken = null;
+
             var localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values.Remove("AuthToken");
             localSettings.Values.Remove("CurrentUser");
+
             OnLoginStateChanged?.Invoke();
         }
     }

@@ -38,6 +38,11 @@ namespace ATLAS
                 app.OnThemeChanged += (theme) => UpdateTitleBarTheme(theme);
             }
 
+            if (this.Content is FrameworkElement root)
+            {
+                root.ActualThemeChanged += (s, _) => UpdateTitleBarTheme(root.ActualTheme);
+            }
+
             AuthService.OnLoginStateChanged += UpdateAccountNavItem;
             UpdateAccountNavItem();
 
@@ -113,30 +118,42 @@ namespace ATLAS
 
         private void UpdateTitleBarTheme(ElementTheme theme)
         {
-            if (AppWindowTitleBar.IsCustomizationSupported())
+            if (!AppWindowTitleBar.IsCustomizationSupported())
+                return;
+
+            var titleBar = this.AppWindow.TitleBar;
+            string iconFile;
+
+            if (theme == ElementTheme.Dark)
             {
-                var titleBar = this.AppWindow.TitleBar;
-                string iconFile = "";
-                if (theme == ElementTheme.Dark)
+                titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
+                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(32, 255, 255, 255);
+                titleBar.ButtonPressedBackgroundColor = Color.FromArgb(64, 255, 255, 255);
+                iconFile = "Assets/logo_dark_simple.ico";
+            }
+            else
+            {
+                titleBar.ButtonForegroundColor = Microsoft.UI.Colors.Black;
+                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(26, 0, 0, 0);
+                titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                iconFile = "Assets/logo_simple.ico";
+            }
+
+            try
+            {
+                var iconPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, iconFile);
+                if (!File.Exists(iconPath))
                 {
-                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(32, 255, 255, 255);
-                    titleBar.ButtonPressedBackgroundColor = Color.FromArgb(64, 255, 255, 255);
-                    iconFile = "Assets/logo_dark_simple.ico";
-                }
-                else
-                {
-                    titleBar.ButtonForegroundColor = Microsoft.UI.Colors.Black;
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(26, 0, 0, 0);
-                    titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                    iconFile = "Assets/logo_simple.ico";
+                    iconPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Assets", Path.GetFileName(iconFile));
                 }
 
-                var iconPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Assets", iconFile);
                 if (File.Exists(iconPath))
                 {
                     this.AppWindow.SetIcon(iconPath);
                 }
+            }
+            catch
+            {
             }
         }
 
