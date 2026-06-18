@@ -75,12 +75,21 @@ namespace ATLAS.Pages
 
             try
             {
-                // Open file stream natively
+                // 1. Open file stream natively
                 using var stream = await selectedImageFile.OpenAsync(FileAccessMode.Read);
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-                SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
 
-                // Native Windows OCR engine execution
+                // 2. FIX: Decode with default native values first to prevent COMExceptions on JPEGs
+                SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+
+                // 3. FIX: Safely convert the bitmap only if it isn't already in the right format for OCR
+                if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 ||
+                    softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Premultiplied)
+                {
+                    softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+                }
+
+                // 4. Native Windows OCR engine execution
                 OcrEngine ocrEngine = OcrEngine.TryCreateFromUserProfileLanguages();
                 if (ocrEngine == null)
                 {
