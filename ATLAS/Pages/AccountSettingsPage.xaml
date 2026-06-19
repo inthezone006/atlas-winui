@@ -64,8 +64,7 @@
                 </StackPanel>
 
             <ProgressRing x:Name="LoadingRing" IsActive="False" HorizontalAlignment="Center"/>
-                <TextBlock x:Name="StatusTextBlock" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="Red"/>
-
+                <TextBlock x:Name="ErrorTextBlock" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="Red"/>
             </StackPanel>
         </Grid>
     </ScrollViewer>

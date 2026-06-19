@@ -1,4 +1,5 @@
 using ATLAS.Models;
+using ATLAS.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -6,18 +7,12 @@ using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ATLAS.Pages;
 
 public sealed partial class SignUpPage : Page
 {
-    private static readonly HttpClient client = new HttpClient();
-    private readonly string backendUrl = "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/signup";
     public SignUpPage()
     {
         InitializeComponent();
@@ -65,7 +60,7 @@ public sealed partial class SignUpPage : Page
 
         var firstName = FirstNameTextBox.Text;
         var lastName = LastNameTextBox.Text;
-        var username = UsernameTextBox.Text;
+        var username = EmailTextBox.Text;
         var password = PasswordBox.Password;
 
         if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(username))
@@ -89,39 +84,28 @@ public sealed partial class SignUpPage : Page
 
         try
         {
-            var signUpData = new Dictionary<string, string>
-            {
-                { "first_name", firstName },
-                { "last_name", lastName },
-                { "username", username },
-                { "password", password }
-            };
+            // FIX: Use your local client-side Firebase Auth wrapper
+            bool registrationSuccess = await AuthService.RegisterWithEmailAsync(username, password, firstName, lastName);
 
-            var jsonPayload = JsonSerializer.Serialize(signUpData, JsonContext.Default.DictionaryStringString);
-            var content = JsonContent.Create(signUpData, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
-
-            HttpResponseMessage response = await client.PostAsync(backendUrl, content);
-            if (response.IsSuccessStatusCode)
+            if (registrationSuccess)
             {
                 if ((Application.Current as App)?.RootFrame != null)
                 {
+                    // Redirect directly into the secure app view layout 
                     (Application.Current as App)!.RootFrame!.Navigate(
-                        typeof(LoginPage),
+                        typeof(DashboardPage),
                         null,
                         new DrillInNavigationTransitionInfo());
                 }
             }
             else
             {
-                var errorBody = await response.Content.ReadAsStringAsync();
-                var errorDoc = JsonDocument.Parse(errorBody);
-                var errorMessage = errorDoc.RootElement.GetProperty("error").GetString();
-                ErrorTextBlock.Text = errorMessage ?? "An unknown error occurred.";
+                ErrorTextBlock.Text = "Registration rejected. Please verify your credentials or email format.";
             }
         }
         catch (Exception ex)
         {
-            ErrorTextBlock.Text = $"Could not connect to the server: {ex.Message}";
+            ErrorTextBlock.Text = $"Firebase Connection Error: {ex.Message}";
         }
         finally
         {

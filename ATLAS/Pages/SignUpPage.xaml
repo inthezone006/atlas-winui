@@ -13,7 +13,7 @@
 
             <TextBox x:Name="FirstNameTextBox" Header="First Name" PlaceholderText="Enter your first name"/>
             <TextBox x:Name="LastNameTextBox" Header="Last Name" PlaceholderText="Enter your last name"/>
-            <TextBox x:Name="UsernameTextBox" Header="Username" PlaceholderText="Choose a username"/>
+            <TextBox x:Name="EmailTextBox" Header="Email" PlaceholderText="Enter your email address"/>
             <PasswordBox x:Name="PasswordBox" Header="Password" PlaceholderText="Create a strong password" KeyDown="PasswordBox_KeyDown"/>
             <TextBlock x:Name="ErrorTextBlock" Foreground="Red" TextWrapping="Wrap"/>
 

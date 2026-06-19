@@ -16,7 +16,6 @@ namespace ATLAS.Models
     [JsonSerializable(typeof(ImageAnalysisResponse))]
     [JsonSerializable(typeof(LinkAnalysisResult))]
     [JsonSerializable(typeof(UserStats))]
-    [JsonSerializable(typeof(LoginResponse))]
     [JsonSerializable(typeof(Dictionary<string, object>))]
     [JsonSerializable(typeof(List<AnalysisHistoryItem>))]
     [JsonSerializable(typeof(Dictionary<string, string>))]

@@ -2,36 +2,15 @@ using ATLAS.Models;
 using ATLAS.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace ATLAS.Pages
 {
     public sealed partial class LoginPage : Page
     {
-
-        private static readonly HttpClient client = new HttpClient();
-
-        private readonly string backendUrl = "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/login";
-
         public LoginPage()
         {
             InitializeComponent();
@@ -43,12 +22,12 @@ namespace ATLAS.Pages
             LoadingRing.IsActive = true;
             LoginButton.IsEnabled = false;
 
-            var username = UsernameTextBox.Text;
+            var username = EmailTextBox.Text; // This corresponds to the user's email address
             var password = PasswordBox.Password;
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                ErrorTextBlock.Text = "Username and password cannot be empty.";
+                ErrorTextBlock.Text = "Email and password fields cannot be left blank.";
                 LoadingRing.IsActive = false;
                 LoginButton.IsEnabled = true;
                 return;
@@ -56,37 +35,24 @@ namespace ATLAS.Pages
 
             try
             {
-                var loginData = new Dictionary<string, string>
+                // Native Client side Firebase authentication execution
+                bool loginSuccess = await AuthService.LoginWithEmailAsync(username, password);
+
+                if (loginSuccess)
                 {
-                    { "username", username },
-                    { "password", password }
-                };
-
-                var content = JsonContent.Create(loginData, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
-                HttpResponseMessage response = await client.PostAsync(backendUrl, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseBody, JsonContext.Default.LoginResponse);
-
-                    if (loginResponse?.User != null && loginResponse?.Token != null)
+                    if ((Application.Current as App)?.RootFrame != null)
                     {
-                        AuthService.Login(loginResponse.User, loginResponse.Token);
-                        (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage));
+                        (Application.Current as App)!.RootFrame!.Navigate(typeof(DashboardPage), null, new DrillInNavigationTransitionInfo());
                     }
                 }
                 else
                 {
-                    var errorBody = await response.Content.ReadAsStringAsync();
-                    var errorDoc = JsonDocument.Parse(errorBody);
-                    var errorMessage = errorDoc.RootElement.GetProperty("error").GetString();
-                    ErrorTextBlock.Text = errorMessage ?? "Invalid username or password.";
+                    ErrorTextBlock.Text = "Invalid email formatting or unauthorized password credentials.";
                 }
             }
             catch (Exception ex)
             {
-                ErrorTextBlock.Text = $"An error occurred: {ex.Message}";
+                ErrorTextBlock.Text = $"Connection Fault: {ex.Message}";
             }
             finally
             {
@@ -105,70 +71,21 @@ namespace ATLAS.Pages
 
         private async void GoogleLoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var webView = new WebView2
+            // Note: Since you are eliminating the hosted web server proxy, traditional Web views are disabled.
+            // Google Login inside a Win32 application is natively handled using the Google.Apis.Auth NuGet library.
+            ContentDialog dialog = new ContentDialog
             {
-                Height = 600,
-                Width = 400
-            };
-            await webView.EnsureCoreWebView2Async();
-
-            var dialog = new ContentDialog
-            {
-                Title = "Sign in with Google",
-                Content = webView,
-                CloseButtonText = "Cancel",
+                Title = "Google Authentication",
+                Content = "Google single sign-on requires an active, hosted web authentication redirect proxy server pattern.",
+                CloseButtonText = "OK",
                 XamlRoot = this.XamlRoot
             };
-
-            webView.NavigationStarting += async (s, args) =>
-            {
-                string url = args.Uri.ToString();
-
-                if (url.StartsWith("https://www.atlasprotection.app/dashboard"))
-                {
-                    args.Cancel = true;
-
-                    var match = Regex.Match(url, @"token=([^&]+)");
-                    if (match.Success)
-                    {
-                        var token = match.Groups[1].Value;
-
-                        if (await AuthService.LoginWithEmailAsync(UsernameTextBox.Text, PasswordBox.Password))
-                        {
-                            dialog.Hide();
-                            (Application.Current as App)?.RootFrame?.Navigate(typeof(DashboardPage));
-                        }
-                        else
-                        {
-                            dialog.Hide();
-                            ErrorTextBlock.Text = "Failed to retrieve user details from token.";
-                        }
-                    }
-                }
-                else if (url.Contains("error=google-login-failed"))
-                {
-                    args.Cancel = true;
-                    dialog.Hide();
-                    ErrorTextBlock.Text = "Google sign-in failed. Please try again.";
-                }
-            };
-
-            webView.CoreWebView2.Navigate("https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/auth/google");
-
             await dialog.ShowAsync();
         }
 
         private void SignUpLink_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current as App)?.RootFrame?.Navigate(typeof(SignUpPage), null, new DrillInNavigationTransitionInfo());
-        }
-
-        public class LoginResponse
-        {
-            [JsonPropertyName("user")]
-            public User? User { get; set; }
-            [JsonPropertyName("token")]
-            public string? Token { get; set; }
         }
     }
 }

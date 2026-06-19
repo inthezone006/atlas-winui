@@ -62,36 +62,19 @@ namespace ATLAS.Pages
 
         private async void LinkGoogle_Click(object sender, RoutedEventArgs e)
         {
-            var webView = new WebView2 { Height = 600, Width = 400 };
-            await webView.EnsureCoreWebView2Async();
+            ErrorTextBlock.Text = "";
+            LoadingRing.IsActive = true;
 
-            var dialog = new ContentDialog
+            bool success = await AuthService.SignInWithGoogleAsync();
+            if (success)
             {
-                Title = "Link with Google",
-                Content = webView,
-                CloseButtonText = "Cancel",
-                XamlRoot = this.XamlRoot
-            };
-
-            webView.NavigationStarting += (s, args) =>
+                Frame.Navigate(typeof(DashboardPage));
+            }
+            else
             {
-                string url = args.Uri.ToString();
-
-                if (url.StartsWith("https://www.atlasprotection.app/account?linked=true"))
-                {
-                    args.Cancel = true;
-                    dialog.Hide();
-
-                    AuthService.Logout();
-                    (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage), null, new SuppressNavigationTransitionInfo());
-                    NotificationService.Show("Account linked! Please log in again to sync changes.", InfoBarSeverity.Success);
-                }
-};
-
-            string authUrl = $"https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/auth/google?login_token={AuthService.AuthToken}";
-            webView.CoreWebView2.Navigate(authUrl);
-
-            await dialog.ShowAsync();
+                ErrorTextBlock.Text = "Google authentication aborted or timed out.";
+            }
+            LoadingRing.IsActive = false;
         }
 
         private async void UnlinkGoogle_Click(object sender, RoutedEventArgs e)
@@ -112,12 +95,12 @@ namespace ATLAS.Pages
                 }
                 else
                 {
-                    StatusTextBlock.Text = "Failed to unlink account. Please try again.";
+                    ErrorTextBlock.Text = "Failed to unlink account. Please try again.";
                 }
             }
             catch (Exception ex)
             {
-                StatusTextBlock.Text = $"Error: {ex.Message}";
+                ErrorTextBlock.Text = $"Error: {ex.Message}";
             }
             finally
             {
@@ -140,20 +123,20 @@ namespace ATLAS.Pages
 
         private async void SaveUsername_Click(object sender, RoutedEventArgs e)
         {
-            StatusTextBlock.Text = "";
+            ErrorTextBlock.Text = "";
 
             var oldUsername = OldUsernameTextBox.Text;
             var newUsername = NewUsernameTextBox.Text;
 
             if (string.IsNullOrWhiteSpace(oldUsername) || string.IsNullOrWhiteSpace(newUsername))
             {
-                StatusTextBlock.Text = "Both username fields are required.";
+                ErrorTextBlock.Text = "Both username fields are required.";
                 return;
             }
 
             if (AuthService.IsLoggedIn && oldUsername != AuthService.CurrentUser?.Username)
             {
-                StatusTextBlock.Text = "The 'Current Username' you entered is incorrect.";
+                ErrorTextBlock.Text = "The 'Current Username' you entered is incorrect.";
                 return;
             }
 
@@ -183,58 +166,34 @@ namespace ATLAS.Pages
 
         private async void DeleteAccount_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new ContentDialog
+            ContentDialog confirmationDialog = new ContentDialog
             {
-                Title = "Are you absolutely sure?",
-                Content = "This action is permanent. All your data will be deleted and this cannot be undone. Do you wish to proceed?",
-                PrimaryButtonText = "Delete My Account",
+                Title = "Delete Account permanently?",
+                Content = "This action is irreversible and wipes your scan metrics profile.",
+                PrimaryButtonText = "Delete",
                 CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Close,
                 XamlRoot = this.XamlRoot
             };
 
-            dialog.RequestedTheme = (this.Content as FrameworkElement)?.ActualTheme ?? ElementTheme.Default;
-
-            var result = await dialog.ShowAsync();
-
+            var result = await confirmationDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                StatusTextBlock.Text = "";
-                LoadingRing.IsActive = true;
-                try
+                bool deleted = await AuthService.DeleteCurrentUserAccountAsync();
+                if (deleted)
                 {
-                    var request = new HttpRequestMessage(HttpMethod.Delete, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/delete");
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-
-                    var response = await client.SendAsync(request);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        AuthService.Logout();
-                        (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage), null, new SuppressNavigationTransitionInfo());
-                        NotificationService.Show("Your account has been successfully deleted.", InfoBarSeverity.Success);
-                    }
-                    else
-                    {
-                        var responseBody = await response.Content.ReadAsStringAsync();
-                        var responseDoc = JsonDocument.Parse(responseBody);
-                        StatusTextBlock.Text = responseDoc.RootElement.GetProperty("error").GetString();
-                    }
+                    // Escape back to registration view layout upon account purge
+                    Frame.Navigate(typeof(SignUpPage));
                 }
-                catch (Exception ex)
+                else
                 {
-                    StatusTextBlock.Text = $"An error occurred: {ex.Message}";
-                }
-                finally
-                {
-                    LoadingRing.IsActive = false;
+                    // Show error notice to re-authenticate if token expired
                 }
             }
         }
 
         private async Task UpdateUserSettings(string url, object payload, string successMessage)
         {
-            StatusTextBlock.Text = "";
+            ErrorTextBlock.Text = "";
             LoadingRing.IsActive = true;
             try
             {
@@ -256,12 +215,12 @@ namespace ATLAS.Pages
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var responseDoc = JsonDocument.Parse(responseBody);
-                    StatusTextBlock.Text = responseDoc.RootElement.GetProperty("error").GetString();
+                    ErrorTextBlock.Text = responseDoc.RootElement.GetProperty("error").GetString();
                 }
             }
             catch (Exception ex)
             {
-                StatusTextBlock.Text = $"Error: {ex.Message}";
+                ErrorTextBlock.Text = $"Error: {ex.Message}";
             }
             finally
             {
