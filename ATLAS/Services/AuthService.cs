@@ -221,7 +221,17 @@ namespace ATLAS.Services
 
         public static void Logout()
         {
-            _firebaseClient?.SignOut();
+            try
+            {
+                if (_firebaseClient?.User != null)
+                {
+                    _firebaseClient.SignOut();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Logout Exception Controlled]: {ex.Message}");
+            }
             CurrentUser = null;
             AuthToken = null;
 
