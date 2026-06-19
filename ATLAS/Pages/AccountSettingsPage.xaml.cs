@@ -17,29 +17,24 @@ namespace ATLAS.Pages
 
         private void AccountSettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            // Pre-populate fields using current session values if available
             if (AuthService.CurrentUser != null)
             {
                 FirstNameTextBox.Text = AuthService.CurrentUser.FirstName ?? "";
                 LastNameTextBox.Text = AuthService.CurrentUser.LastName ?? "";
             }
-            UpdateGoogleLinkStatusUI();
         }
 
-        private void UpdateGoogleLinkStatusUI()
+        // Reusable helper to show native WinUI 3 alert confirmation boxes
+        private async Task ShowConfirmationDialogAsync(string title, string message)
         {
-            if (AuthService.CurrentUser != null && !string.IsNullOrEmpty(AuthService.CurrentUser.GoogleId))
+            ContentDialog dialog = new ContentDialog
             {
-                LinkStatusText.Text = "Connected to Google Account";
-                LinkGoogleButton.Visibility = Visibility.Collapsed;
-                UnlinkGoogleButton.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                LinkStatusText.Text = "Not connected to a Google Account";
-                LinkGoogleButton.Visibility = Visibility.Visible;
-                UnlinkGoogleButton.Visibility = Visibility.Collapsed;
-            }
+                Title = title,
+                Content = message,
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
         }
 
         private async void SaveName_Click(object sender, RoutedEventArgs e)
@@ -60,7 +55,8 @@ namespace ATLAS.Pages
 
             if (success)
             {
-                ErrorTextBlock.Text = "Name updated successfully!";
+                // FIX: Native alert confirmation box pop-up trigger
+                await ShowConfirmationDialogAsync("Name Updated", "Your local profile first and last display names have been updated successfully.");
             }
             else
             {
@@ -85,55 +81,14 @@ namespace ATLAS.Pages
 
             if (success)
             {
-                ErrorTextBlock.Text = "Password updated safely!";
+                // FIX: Native alert confirmation box pop-up trigger
+                await ShowConfirmationDialogAsync("Password Changed", "Your password has been securely rotated on the server.");
                 OldPasswordBox.Password = "";
                 NewPasswordBox.Password = "";
             }
             else
             {
                 ErrorTextBlock.Text = "Failed to update password. Try logging out and back in to refresh credentials.";
-            }
-        }
-
-        private async void LinkGoogle_Click(object sender, RoutedEventArgs e)
-        {
-            ErrorTextBlock.Text = "";
-            LoadingRing.IsActive = true;
-            bool success = await AuthService.LinkAccountWithGoogleAsync();
-            LoadingRing.IsActive = false;
-
-            if (success)
-            {
-                UpdateGoogleLinkStatusUI();
-                ErrorTextBlock.Text = "Google account linked successfully!";
-            }
-            else
-            {
-                ErrorTextBlock.Text = "Google linking was cancelled or failed.";
-            }
-        }
-
-        private async void UnlinkGoogle_Click(object sender, RoutedEventArgs e)
-        {
-            // Provides visual unlinking placeholder handling
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Unlink Google Account",
-                Content = "Are you sure you want to disconnect Google authentication methods from this profile?",
-                PrimaryButtonText = "Unlink",
-                CloseButtonText = "Cancel",
-                XamlRoot = this.XamlRoot
-            };
-
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-            {
-                if (AuthService.CurrentUser != null)
-                {
-                    AuthService.CurrentUser.GoogleId = null;
-                    AuthService.Login(AuthService.CurrentUser, AuthService.AuthToken!);
-                    UpdateGoogleLinkStatusUI();
-                    ErrorTextBlock.Text = "Google account unlinked.";
-                }
             }
         }
 

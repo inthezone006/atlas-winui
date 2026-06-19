@@ -69,20 +69,6 @@ namespace ATLAS.Pages
             }
         }
 
-        private async void GoogleLoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Note: Since you are eliminating the hosted web server proxy, traditional Web views are disabled.
-            // Google Login inside a Win32 application is natively handled using the Google.Apis.Auth NuGet library.
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Google Authentication",
-                Content = "Google single sign-on requires an active, hosted web authentication redirect proxy server pattern.",
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot
-            };
-            await dialog.ShowAsync();
-        }
-
         private void SignUpLink_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current as App)?.RootFrame?.Navigate(typeof(SignUpPage), null, new DrillInNavigationTransitionInfo());
