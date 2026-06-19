@@ -26,13 +26,6 @@
                 </StackPanel>
 
                 <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
-                    <TextBlock Text="Change Your Username" FontSize="18" FontWeight="SemiBold"/>
-                    <TextBox x:Name="OldUsernameTextBox" Header="Current Username" PlaceholderText="Enter your current username to confirm"/>
-                    <TextBox x:Name="NewUsernameTextBox" Header="New Username" PlaceholderText="Enter your new desired username" />
-                    <Button Content="Save Username" Click="SaveUsername_Click" Style="{ThemeResource AccentButtonStyle}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="20">
                     <TextBlock Text="Change Your Password" FontSize="18" FontWeight="SemiBold"/>
                     <PasswordBox x:Name="OldPasswordBox" Header="Old Password" PlaceholderText="Enter your current password to confirm" />
                     <PasswordBox x:Name="NewPasswordBox" Header="New Password" PlaceholderText="Enter your new desired password" />

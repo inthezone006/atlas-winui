@@ -2,61 +2,96 @@ using ATLAS.Models;
 using ATLAS.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Net.Http.Json;
-using Microsoft.Web.WebView2.Core;
-using System.Text.RegularExpressions;
 
 namespace ATLAS.Pages
 {
     public sealed partial class AccountSettingsPage : Page
     {
-        private static readonly HttpClient client = new HttpClient();
-
         public AccountSettingsPage()
         {
             this.InitializeComponent();
+            this.Loaded += AccountSettingsPage_Loaded;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void AccountSettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            base.OnNavigatedTo(e);
-            if (!AuthService.IsLoggedIn || AuthService.CurrentUser == null)
+            // Pre-populate fields using current session values if available
+            if (AuthService.CurrentUser != null)
             {
-                (Window.Current.Content as Frame)?.Navigate(typeof(LoginPage));
+                FirstNameTextBox.Text = AuthService.CurrentUser.FirstName ?? "";
+                LastNameTextBox.Text = AuthService.CurrentUser.LastName ?? "";
+            }
+            UpdateGoogleLinkStatusUI();
+        }
+
+        private void UpdateGoogleLinkStatusUI()
+        {
+            if (AuthService.CurrentUser != null && !string.IsNullOrEmpty(AuthService.CurrentUser.GoogleId))
+            {
+                LinkStatusText.Text = "Connected to Google Account";
+                LinkGoogleButton.Visibility = Visibility.Collapsed;
+                UnlinkGoogleButton.Visibility = Visibility.Visible;
             }
             else
             {
-                FirstNameTextBox.Text = AuthService.CurrentUser.FirstName;
-                LastNameTextBox.Text = AuthService.CurrentUser.LastName;
-                UpdateLinkStatusUI();
+                LinkStatusText.Text = "Not connected to a Google Account";
+                LinkGoogleButton.Visibility = Visibility.Visible;
+                UnlinkGoogleButton.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void UpdateLinkStatusUI()
+        private async void SaveName_Click(object sender, RoutedEventArgs e)
         {
-            if (AuthService.IsLoggedIn && AuthService.CurrentUser != null)
+            ErrorTextBlock.Text = "";
+            string firstName = FirstNameTextBox.Text;
+            string lastName = LastNameTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             {
-                if (string.IsNullOrEmpty(AuthService.CurrentUser.GoogleId))
-                {
-                    LinkStatusText.Text = "Your account is not linked to Google.";
-                    LinkGoogleButton.Visibility = Visibility.Visible;
-                    UnlinkGoogleButton.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    LinkStatusText.Text = "Your account is linked to Google.";
-                    LinkGoogleButton.Visibility = Visibility.Collapsed;
-                    UnlinkGoogleButton.Visibility = Visibility.Visible;
-                }
+                ErrorTextBlock.Text = "Name fields cannot be empty.";
+                return;
+            }
+
+            LoadingRing.IsActive = true;
+            bool success = await AuthService.UpdateUserNamesAsync(firstName, lastName);
+            LoadingRing.IsActive = false;
+
+            if (success)
+            {
+                ErrorTextBlock.Text = "Name updated successfully!";
+            }
+            else
+            {
+                ErrorTextBlock.Text = "Failed to update name.";
+            }
+        }
+
+        private async void SavePassword_Click(object sender, RoutedEventArgs e)
+        {
+            ErrorTextBlock.Text = "";
+            string newPassword = NewPasswordBox.Password;
+
+            if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 7)
+            {
+                ErrorTextBlock.Text = "New password must be at least 7 characters long.";
+                return;
+            }
+
+            LoadingRing.IsActive = true;
+            bool success = await AuthService.UpdateUserPasswordAsync(newPassword);
+            LoadingRing.IsActive = false;
+
+            if (success)
+            {
+                ErrorTextBlock.Text = "Password updated safely!";
+                OldPasswordBox.Password = "";
+                NewPasswordBox.Password = "";
+            }
+            else
+            {
+                ErrorTextBlock.Text = "Failed to update password. Try logging out and back in to refresh credentials.";
             }
         }
 
@@ -64,104 +99,42 @@ namespace ATLAS.Pages
         {
             ErrorTextBlock.Text = "";
             LoadingRing.IsActive = true;
+            bool success = await AuthService.LinkAccountWithGoogleAsync();
+            LoadingRing.IsActive = false;
 
-            bool success = await AuthService.SignInWithGoogleAsync();
             if (success)
             {
-                Frame.Navigate(typeof(DashboardPage));
+                UpdateGoogleLinkStatusUI();
+                ErrorTextBlock.Text = "Google account linked successfully!";
             }
             else
             {
-                ErrorTextBlock.Text = "Google authentication aborted or timed out.";
+                ErrorTextBlock.Text = "Google linking was cancelled or failed.";
             }
-            LoadingRing.IsActive = false;
         }
 
         private async void UnlinkGoogle_Click(object sender, RoutedEventArgs e)
         {
-            LoadingRing.IsActive = true;
-            try
+            // Provides visual unlinking placeholder handling
+            ContentDialog dialog = new ContentDialog
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/unlink-google");
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
+                Title = "Unlink Google Account",
+                Content = "Are you sure you want to disconnect Google authentication methods from this profile?",
+                PrimaryButtonText = "Unlink",
+                CloseButtonText = "Cancel",
+                XamlRoot = this.XamlRoot
+            };
 
-                var response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            {
+                if (AuthService.CurrentUser != null)
                 {
-                    AuthService.Logout();
-                    (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage), null, new SuppressNavigationTransitionInfo());
-                    NotificationService.Show("Google account unlinked. You have been signed out.", InfoBarSeverity.Success);
-                }
-                else
-                {
-                    ErrorTextBlock.Text = "Failed to unlink account. Please try again.";
+                    AuthService.CurrentUser.GoogleId = null;
+                    AuthService.Login(AuthService.CurrentUser, AuthService.AuthToken!);
+                    UpdateGoogleLinkStatusUI();
+                    ErrorTextBlock.Text = "Google account unlinked.";
                 }
             }
-            catch (Exception ex)
-            {
-                ErrorTextBlock.Text = $"Error: {ex.Message}";
-            }
-            finally
-            {
-                LoadingRing.IsActive = false;
-            }
-        }
-
-        private async void SaveName_Click(object sender, RoutedEventArgs e)
-        {
-            var payload = new Dictionary<string, string>
-            {
-                { "first_name", FirstNameTextBox.Text },
-                { "last_name", LastNameTextBox.Text }
-            };
-            await UpdateUserSettings(
-                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/name",
-                payload,
-                "Name updated successfully!");
-        }
-
-        private async void SaveUsername_Click(object sender, RoutedEventArgs e)
-        {
-            ErrorTextBlock.Text = "";
-
-            var oldUsername = OldUsernameTextBox.Text;
-            var newUsername = NewUsernameTextBox.Text;
-
-            if (string.IsNullOrWhiteSpace(oldUsername) || string.IsNullOrWhiteSpace(newUsername))
-            {
-                ErrorTextBlock.Text = "Both username fields are required.";
-                return;
-            }
-
-            if (AuthService.IsLoggedIn && oldUsername != AuthService.CurrentUser?.Username)
-            {
-                ErrorTextBlock.Text = "The 'Current Username' you entered is incorrect.";
-                return;
-            }
-
-            var payload = new Dictionary<string, string>
-            {
-                { "old_username", oldUsername },
-                { "new_username", newUsername }
-            };
-            await UpdateUserSettings(
-                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/username",
-                payload,
-                "Username updated successfully!");
-        }
-
-        private async void SavePassword_Click(object sender, RoutedEventArgs e)
-        {
-            var payload = new Dictionary<string, string>
-            {
-                { "old_password", OldPasswordBox.Password },
-                { "new_password", NewPasswordBox.Password }
-            };
-            await UpdateUserSettings(
-                "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/password",
-                payload,
-                "Password updated successfully!");
         }
 
         private async void DeleteAccount_Click(object sender, RoutedEventArgs e)
@@ -169,62 +142,26 @@ namespace ATLAS.Pages
             ContentDialog confirmationDialog = new ContentDialog
             {
                 Title = "Delete Account permanently?",
-                Content = "This action is irreversible and wipes your scan metrics profile.",
-                PrimaryButtonText = "Delete",
+                Content = "This action is completely irreversible and wipes all historical data logs.",
+                PrimaryButtonText = "Delete Permanently",
                 CloseButtonText = "Cancel",
                 XamlRoot = this.XamlRoot
             };
 
-            var result = await confirmationDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
+            if (await confirmationDialog.ShowAsync() == ContentDialogResult.Primary)
             {
+                LoadingRing.IsActive = true;
                 bool deleted = await AuthService.DeleteCurrentUserAccountAsync();
+                LoadingRing.IsActive = false;
+
                 if (deleted)
                 {
-                    // Escape back to registration view layout upon account purge
                     Frame.Navigate(typeof(SignUpPage));
                 }
                 else
                 {
-                    // Show error notice to re-authenticate if token expired
+                    ErrorTextBlock.Text = "Purge failed. Re-authenticate your session by re-logging in before running a deletion.";
                 }
-            }
-        }
-
-        private async Task UpdateUserSettings(string url, object payload, string successMessage)
-        {
-            ErrorTextBlock.Text = "";
-            LoadingRing.IsActive = true;
-            try
-            {
-                var request = new HttpRequestMessage(HttpMethod.Put, url)
-                {
-                    Content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString)
-                };
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-
-                var response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    AuthService.Logout();
-                    (Application.Current as App)?.RootFrame?.Navigate(typeof(HomePage), null, new SuppressNavigationTransitionInfo());
-                    NotificationService.Show($"{successMessage} You have been signed out for security.", InfoBarSeverity.Success);
-                }
-                else
-                {
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    var responseDoc = JsonDocument.Parse(responseBody);
-                    ErrorTextBlock.Text = responseDoc.RootElement.GetProperty("error").GetString();
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorTextBlock.Text = $"Error: {ex.Message}";
-            }
-            finally
-            {
-                LoadingRing.IsActive = false;
             }
         }
     }

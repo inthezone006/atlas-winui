@@ -241,5 +241,47 @@ namespace ATLAS.Services
 
             OnLoginStateChanged?.Invoke();
         }
+
+        public static async Task<bool> UpdateUserNamesAsync(string firstName, string lastName)
+        {
+            try
+            {
+                if (_firebaseClient?.User == null || CurrentUser == null) return false;
+
+                // 1. Combine inputs to update the core Firebase record profile DisplayName
+                string fullName = $"{firstName} {lastName}".Trim();
+                await _firebaseClient.User.ChangeDisplayNameAsync(fullName);
+
+                // 2. Synchronize your custom local session memory tracker properties
+                CurrentUser.FirstName = firstName;
+                CurrentUser.LastName = lastName;
+
+                // 3. Persist the updated configuration cache to the system layout registry
+                Login(CurrentUser, AuthToken!);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Update Names Error]: {ex.Message}");
+                return false;
+            }
+        }
+
+        public static async Task<bool> UpdateUserPasswordAsync(string newPassword)
+        {
+            try
+            {
+                if (_firebaseClient?.User == null) return false;
+
+                // Executes native client-side password credential rotation
+                await _firebaseClient.User.ChangePasswordAsync(newPassword);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Update Password Error]: {ex.Message}");
+                return false;
+            }
+        }
     }
 }
