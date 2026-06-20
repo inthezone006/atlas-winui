@@ -4,8 +4,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
+using Vosk;
+using NAudio.Wave; // Added for universal client-side audio conversion
 
 namespace ATLAS.Pages
 {
@@ -13,31 +16,73 @@ namespace ATLAS.Pages
     {
         private string? _selectedAudioPath;
 
+        private static Vosk.Model? _voskModel;
+        private static readonly object _voskLock = new object();
+        private static Task? _voskInitializationTask;
+
         public AudioAnalysisPage()
         {
             this.InitializeComponent();
+            this.Loaded += AudioAnalysisPage_Loaded;
+        }
+
+        private void AudioAnalysisPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            EnsureVoskInitializedAsync();
+        }
+
+        private static Task EnsureVoskInitializedAsync()
+        {
+            lock (_voskLock)
+            {
+                if (_voskInitializationTask == null)
+                {
+                    _voskInitializationTask = Task.Run(() =>
+                    {
+                        try
+                        {
+                            string installedPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
+                            string modelPath = Path.Combine(installedPath, "Assets", "model");
+
+                            if (Directory.Exists(modelPath))
+                            {
+                                Vosk.Vosk.SetLogLevel(-1);
+                                _voskModel = new Vosk.Model(modelPath);
+                                System.Diagnostics.Debug.WriteLine("[Vosk]: Acoustic speech models prepared.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[Vosk Init Exception]: {ex.Message}");
+                        }
+                    });
+                }
+                return _voskInitializationTask;
+            }
         }
 
         private async void SelectFileButton_Click(object sender, RoutedEventArgs e)
         {
             var openPicker = new FileOpenPicker();
             var app = Application.Current as App;
-
-            // FIX: Target the exact internal _window field handle from App.xaml.cs
             var window = app?._window;
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
 
             openPicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
-            openPicker.FileTypeFilter.Add(".wav");
+
+            // FIX: Added universal audio extension filters to picker parameters
             openPicker.FileTypeFilter.Add(".mp3");
+            openPicker.FileTypeFilter.Add(".wav");
+            openPicker.FileTypeFilter.Add(".m4a");
+            openPicker.FileTypeFilter.Add(".wma");
+            openPicker.FileTypeFilter.Add(".ogg");
+            openPicker.FileTypeFilter.Add(".aac");
 
             var file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
                 _selectedAudioPath = file.Path;
-
-                // FIX: Mapped to the correct XAML element name 'SelectedFileNameText'
                 SelectedFileNameText.Text = file.Name;
                 AnalyzeButton.IsEnabled = true;
 
@@ -52,18 +97,26 @@ namespace ATLAS.Pages
 
             LoadingRing.IsActive = true;
             AnalyzeButton.IsEnabled = false;
-
-            // FIX: Mapped to the correct XAML element name 'SelectFileButton'
             SelectFileButton.IsEnabled = false;
 
             try
             {
-                // Local speech-to-text offline simulator pipeline processing loop
-                await Task.Delay(2000);
+                await EnsureVoskInitializedAsync();
+                await TextAnalysisPage.EnsureModelInitializedAsync();
 
-                string simulatedTranscription = "Hello, this is your bank tracking department. We have detected a highly suspicious transfer pattern on your routing account setup. Please verify your profile security passcode immediately.";
+                if (_voskModel == null)
+                {
+                    throw new InvalidOperationException("Vosk transcription pipeline is unavailable or unconfigured.");
+                }
 
-                // Instantiate and invoke your local ONNX pipeline text classifier
+                // Process decoding and transcription in a separate thread task pool
+                string transcribedResultText = await Task.Run(() => PerformAudioTranscription(_selectedAudioPath));
+
+                if (string.IsNullOrWhiteSpace(transcribedResultText))
+                {
+                    transcribedResultText = "[No readable spoken vocal structures were parsed from the audio file source context]";
+                }
+
                 var textPage = new TextAnalysisPage();
                 var privateInferenceMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -71,47 +124,36 @@ namespace ATLAS.Pages
                 AnalysisResult analysisResult;
                 if (privateInferenceMethod != null)
                 {
-                    analysisResult = (AnalysisResult)privateInferenceMethod.Invoke(textPage, new object[] { simulatedTranscription })!;
+                    analysisResult = (AnalysisResult)privateInferenceMethod.Invoke(textPage, new object[] { transcribedResultText })!;
                 }
                 else
                 {
                     analysisResult = new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Local text classifier uninitialized." };
                 }
 
-                // Make containers visible
                 TranscriptBox.Visibility = Visibility.Visible;
                 ResultsBox.Visibility = Visibility.Visible;
 
-                // FIX: Mapped to the correct XAML element name 'TranscriptText'
-                TranscriptText.Text = simulatedTranscription;
-
-                // FIX: Map ScoreText formatting handle safely
+                TranscriptText.Text = transcribedResultText;
                 ScoreText.Text = $"{(analysisResult.Score ?? 0.0):F2}/10";
 
-                // FIX: Handle safe explicit conversion from bool? to bool using null-coalescing loops
                 bool isThreatScam = analysisResult.IsScam ?? false;
 
                 if (isThreatScam)
                 {
                     StatusText.Text = "Voice Print Threat Flagged";
-                    StatusIcon.Glyph = "\xE7BA"; // Warning glyph
-
-                    // FIX: Mapped to the correct XAML element name 'ExplanationText'
+                    StatusIcon.Glyph = "\xE7BA";
                     ExplanationText.Text = analysisResult.Explanation ?? "Heuristic analysis detected structural scam patterns.";
                 }
                 else
                 {
                     StatusText.Text = "Voice Print Clear";
-                    StatusIcon.Glyph = "\xE73E"; // Checkmark glyph
-
-                    // FIX: Mapped to the correct XAML element name 'ExplanationText'
+                    StatusIcon.Glyph = "\xE73E";
                     ExplanationText.Text = "No structural conversational scam models were matched in the audio sample.";
                 }
 
-                // Log the telemetry record to Firestore securely
                 if (AuthService.IsLoggedIn)
                 {
-                    // FIX: Explicitly cast parameters to resolve conversion errors
                     float telemetryScore = (float)(analysisResult.Score ?? 0.0);
                     await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Audio Scan", telemetryScore, isThreatScam);
                 }
@@ -120,18 +162,59 @@ namespace ATLAS.Pages
             {
                 ResultsBox.Visibility = Visibility.Visible;
                 StatusText.Text = "Audio Analysis Error";
-
-                // FIX: Mapped to the correct XAML element name 'ExplanationText'
                 ExplanationText.Text = ex.Message;
             }
             finally
             {
                 LoadingRing.IsActive = false;
                 AnalyzeButton.IsEnabled = true;
-
-                // FIX: Mapped to the correct XAML element name 'SelectFileButton'
                 SelectFileButton.IsEnabled = true;
             }
+        }
+
+        // FIX: Universally transforms any audio variant into the raw 16kHz PCM data Vosk requires
+        private string PerformAudioTranscription(string audioPath)
+        {
+            try
+            {
+                using var recognizer = new VoskRecognizer(_voskModel, 16000.0f);
+                recognizer.SetWords(false);
+
+                // AudioFileReader natively implements IDisposable and handles file locking streams
+                using var audioReader = new AudioFileReader(audioPath);
+
+                // Define target format context: 16000Hz, 16-bit, Mono PCM
+                var outFormat = new WaveFormat(16000, 16, 1);
+
+                // MediaFoundationResampler natively handles unmanaged decoder resources via IDisposable
+                using var resampler = new MediaFoundationResampler(audioReader, outFormat);
+
+                // Fine-tune standard conversion quality optimization parameters
+                resampler.ResamplerQuality = 60;
+
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+
+                // FIX: MediaFoundationResampler is already an IWaveProvider, so read from it directly
+                // without wrapping it in a redundant nested using block.
+                while ((bytesRead = resampler.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    recognizer.AcceptWaveform(buffer, bytesRead);
+                }
+
+                string finalJsonResult = recognizer.FinalResult();
+                using var jsonDoc = JsonDocument.Parse(finalJsonResult);
+
+                if (jsonDoc.RootElement.TryGetProperty("text", out var textProperty))
+                {
+                    return textProperty.GetString() ?? "";
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Universal Decoding Error]: {ex.Message}");
+            }
+            return "";
         }
 
         private void ExpandTranscriptButton_Click(object sender, RoutedEventArgs e)
