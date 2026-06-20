@@ -58,25 +58,16 @@ namespace ATLAS.Pages
 
         private async Task LoadUserStats()
         {
-            try
+            if (AuthService.IsLoggedIn)
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/me/stats");
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-                HttpResponseMessage response = await client.SendAsync(request);
+                // Pull aggregated calculation sets live from the Firestore collection context
+                var stats = await FirestoreTelemetryService.Instance.GetUserStatsAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var stats = JsonSerializer.Deserialize<UserStats>(jsonResponse, JsonContext.Default.UserStats);
-                    if (stats != null)
-                    {
-                        TotalAnalysesText.Text = stats.TotalAnalyses.ToString();
-                        ScamsDetectedText.Text = stats.ScamsDetected.ToString();
-                        SubmissionsText.Text = stats.CommunitySubmissions.ToString();
-                    }
-                }
+                // Bind the results directly into your dashboard XAML metric cards
+                TotalAnalysesText.Text = stats.TotalScans.ToString();
+                ScamsDetectedText.Text = stats.ScamCount.ToString();
+                SubmissionsText.Text = stats.SafeCount.ToString();
             }
-            catch (Exception) { }
         }
 
         private async void SubmitScamButton_Click(object sender, RoutedEventArgs e)

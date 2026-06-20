@@ -215,10 +215,5 @@ namespace ATLAS.Pages
             ResultsBox.Visibility = Visibility.Visible;
             storyboard.Begin();
         }
-
-        private void ReportButton_Click(object sender, RoutedEventArgs e)
-        {
-            NotificationService.Show("Reporting functionality is offline.", InfoBarSeverity.Warning);
-        }
     }
 }

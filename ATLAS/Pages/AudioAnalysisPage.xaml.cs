@@ -137,6 +137,19 @@ namespace ATLAS.Pages
                 TranscriptText.Text = transcribedResultText;
                 ScoreText.Text = $"{(analysisResult.Score ?? 0.0):F2}/10";
 
+                if (!string.IsNullOrWhiteSpace(transcribedResultText) && transcribedResultText.Length > 180)
+                {
+                    ExpandTranscriptButton.Visibility = Visibility.Visible;
+                    TranscriptText.MaxLines = 3;
+                    ExpandTranscriptLabel.Text = "Show more";
+                    ExpandTranscriptIcon.Glyph = "\uE70D";
+                }
+                else
+                {
+                    ExpandTranscriptButton.Visibility = Visibility.Collapsed;
+                    TranscriptText.MaxLines = 0;
+                }
+
                 bool isThreatScam = analysisResult.IsScam ?? false;
 
                 if (isThreatScam)
@@ -231,18 +244,6 @@ namespace ATLAS.Pages
                 ExpandTranscriptLabel.Text = "Show more";
                 ExpandTranscriptIcon.Glyph = "\uE70D";
             }
-        }
-
-        private async void ReportButton_Click(object sender, RoutedEventArgs e)
-        {
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Feature Moved Offline",
-                Content = "All telemetry and scanning runs strictly locally on this build.",
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot
-            };
-            await dialog.ShowAsync();
         }
     }
 }

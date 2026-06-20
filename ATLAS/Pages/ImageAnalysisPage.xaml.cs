@@ -155,18 +155,6 @@ namespace ATLAS.Pages
             return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run local model text inference." };
         }
 
-        private async void ReportButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ContentDialog
-            {
-                Title = "Feature Moved Offline",
-                Content = "All data analytics run securely on your local device. Central cloud synchronization lists are disabled.",
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot
-            };
-            await dialog.ShowAsync();
-        }
-
         private void DisplayResults(ImageAnalysisResponse? result)
         {
             if (result == null)
@@ -178,6 +166,19 @@ namespace ATLAS.Pages
             lastAnalyzedText = result.Text;
             ExtractedText.Text = string.IsNullOrWhiteSpace(result.Text) ? "No text found in the image." : result.Text;
             ExtractedTextBox.Visibility = Visibility.Visible;
+
+            if (!string.IsNullOrWhiteSpace(result.Text) && result.Text.Length > 180)
+            {
+                ExpandButton.Visibility = Visibility.Visible;
+                ExtractedText.MaxLines = 3;
+                ExpandExtractedTextLabel.Text = "Show more";
+                ExpandExtractedTextIcon.Glyph = "\uE70D";
+            }
+            else
+            {
+                ExpandButton.Visibility = Visibility.Collapsed;
+                ExtractedText.MaxLines = 0; // Let it render fully without limits if short
+            }
 
             var analysis = result.Analysis ?? new AnalysisResult
             {

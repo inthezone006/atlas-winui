@@ -74,5 +74,37 @@ namespace ATLAS.Services
                 System.Diagnostics.Debug.WriteLine($"[Firestore Database Sync Blocked]: {ex.Message}");
             }
         }
+
+        public async Task<(int TotalScans, int ScamCount, int SafeCount)> GetUserStatsAsync()
+        {
+            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
+                return (0, 0, 0);
+
+            try
+            {
+                // Query all analysis records corresponding to the logged-in User ID
+                Query query = _firestoreDb.Collection("analyses").WhereEqualTo("user_id", AuthService.CurrentUserId);
+                QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
+                int total = snapshot.Count;
+                int scams = 0;
+                int safe = 0;
+
+                foreach (DocumentSnapshot doc in snapshot.Documents)
+                {
+                    if (doc.TryGetValue("is_scam", out bool isScam))
+                    {
+                        if (isScam) scams++;
+                        else safe++;
+                    }
+                }
+                return (total, scams, safe);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error retrieving Firestore statistics: {ex.Message}");
+                return (0, 0, 0);
+            }
+        }
     }
 }
