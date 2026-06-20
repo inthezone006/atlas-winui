@@ -112,8 +112,11 @@ namespace ATLAS.Pages
 
                 if (!string.IsNullOrWhiteSpace(extractedText))
                 {
-                    // Evaluate via Text page model logic asynchronously
-                    var localAnalysis = await Task.Run(() => PerformLocalTextClassification(extractedText));
+                    // Instantiation happens safely on the UI Thread here
+                    var textPageInstance = new TextAnalysisPage();
+
+                    // Pass the UI-created instance into the background thread pool task runner safely
+                    var localAnalysis = await Task.Run(() => PerformLocalTextClassification(extractedText, textPageInstance));
                     result.Analysis = localAnalysis;
                 }
 
@@ -131,18 +134,25 @@ namespace ATLAS.Pages
             }
         }
 
-        private AnalysisResult PerformLocalTextClassification(string text)
+        private AnalysisResult PerformLocalTextClassification(string text, TextAnalysisPage textPage)
         {
-            // Leverages the exact local Text Page runtime instantiation sequence
-            var textPage = new TextAnalysisPage();
-            var privateMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            if (privateMethod != null)
+            try
             {
-                return (AnalysisResult)privateMethod.Invoke(textPage, new object[] { text })!;
+                // Leverages the reflection execution loop safely on the background worker
+                var privateMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+                if (privateMethod != null)
+                {
+                    return (AnalysisResult)privateMethod.Invoke(textPage, new object[] { text })!;
+                }
             }
-            return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run local inference." };
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Image OCR Classification Error]: {ex.Message}");
+            }
+
+            return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run local model text inference." };
         }
 
         private async void ReportButton_Click(object sender, RoutedEventArgs e)
@@ -169,45 +179,57 @@ namespace ATLAS.Pages
             ExtractedText.Text = string.IsNullOrWhiteSpace(result.Text) ? "No text found in the image." : result.Text;
             ExtractedTextBox.Visibility = Visibility.Visible;
 
-            if (result.Analysis != null)
+            var analysis = result.Analysis ?? new AnalysisResult
             {
-                if (result.Analysis.IsScam == true)
-                {
-                    StatusIcon.Glyph = "\uE7BA";
-                    StatusText.Text = "The text in this image appears to be a scam.";
-                    StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                }
-                else
-                {
-                    StatusIcon.Glyph = "\uE73E";
-                    StatusText.Text = "The text in this image appears to be safe.";
-                    StatusText.Foreground = new SolidColorBrush(Colors.Green);
-                }
+                IsScam = false,
+                Score = 0f,
+                Explanation = "Local text heuristics returned an empty profile or processing timed out."
+            };
 
-                ScoreText.Text = $"{result.Analysis.Score:F2}/10";
-                ExplanationText.Text = result.Analysis.Explanation;
-                var storyboard = new Storyboard();
-
-                var fadeAnimation = new DoubleAnimation { From = 0.0, To = 1.0, Duration = TimeSpan.FromMilliseconds(400) };
-                Storyboard.SetTarget(fadeAnimation, ResultsBox);
-                Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
-                storyboard.Children.Add(fadeAnimation);
-
-                ResultsBox.RenderTransform = new TranslateTransform();
-                var slideAnimation = new DoubleAnimation
-                {
-                    From = 50,
-                    To = 0,
-                    Duration = TimeSpan.FromMilliseconds(400),
-                    EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
-                };
-                Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
-                Storyboard.SetTargetProperty(slideAnimation, "Y");
-                storyboard.Children.Add(slideAnimation);
-
-                ResultsBox.Visibility = Visibility.Visible;
-                storyboard.Begin();
+            if (analysis.IsScam == true)
+            {
+                StatusIcon.Glyph = "\uE7BA";
+                StatusText.Text = "The text in this image appears to be a scam.";
+                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
+            else
+            {
+                StatusIcon.Glyph = "\uE73E";
+                StatusText.Text = "The text in this image appears to be safe.";
+                StatusText.Foreground = new SolidColorBrush(Colors.Green);
+            }
+
+            ScoreText.Text = $"{analysis.Score:F2}/10";
+            ExplanationText.Text = analysis.Explanation;
+
+            // Set visibility to Visible first so the framework instantiates rendering components
+            ResultsBox.Visibility = Visibility.Visible;
+
+            // FIX: Guard against null RenderTransform instances on collapsed XAML layouts
+            if (ResultsBox.RenderTransform == null || !(ResultsBox.RenderTransform is TranslateTransform))
+            {
+                ResultsBox.RenderTransform = new TranslateTransform();
+            }
+
+            var storyboard = new Storyboard();
+
+            var fadeAnimation = new DoubleAnimation { From = 0.0, To = 1.0, Duration = TimeSpan.FromMilliseconds(400) };
+            Storyboard.SetTarget(fadeAnimation, ResultsBox);
+            Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
+            storyboard.Children.Add(fadeAnimation);
+
+            var slideAnimation = new DoubleAnimation
+            {
+                From = 50,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(400),
+                EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
+            };
+            Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
+            Storyboard.SetTargetProperty(slideAnimation, "Y");
+            storyboard.Children.Add(slideAnimation);
+
+            storyboard.Begin();
         }
 
         private void DisplayError(string message)

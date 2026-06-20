@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
 using Microsoft.ML.Tokenizers;
@@ -18,10 +19,12 @@ namespace ATLAS.Pages
     public sealed partial class TextAnalysisPage : Page
     {
         private string? lastAnalyzedText;
-        private InferenceSession? _onnxSession;
 
-        // Use the base Tokenizer class type for the instance field
-        private Tokenizer? _tokenizer;
+        // FIX: Made these static so the heavy model is shared globally across Text and Image analysis views
+        private static InferenceSession? _onnxSession;
+        private static Tokenizer? _tokenizer;
+        private static readonly object _initLock = new object();
+        private static Task? _initializationTask;
 
         public TextAnalysisPage()
         {
@@ -29,23 +32,52 @@ namespace ATLAS.Pages
             this.Loaded += TextAnalysisPage_Loaded;
         }
 
-        private async void TextAnalysisPage_Loaded(object sender, RoutedEventArgs e)
+        private void TextAnalysisPage_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
-                string modelPath = Path.Combine(assetsPath, "model.onnx");
-                string vocabPath = Path.Combine(assetsPath, "vocab.txt");
+            // Trigger global initialization asynchronously without blocking UI render streams
+            EnsureModelInitializedAsync();
+        }
 
-                if (File.Exists(modelPath) && File.Exists(vocabPath))
-                {
-                    _onnxSession = new InferenceSession(modelPath);
-                    _tokenizer = Microsoft.ML.Tokenizers.BertTokenizer.Create(vocabPath);
-                }
-            }
-            catch (Exception ex)
+        // FIX: Thread-safe initialization gate accessible by external analysis components
+        public static Task EnsureModelInitializedAsync()
+        {
+            lock (_initLock)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading model components: {ex.Message}");
+                if (_initializationTask == null)
+                {
+                    _initializationTask = Task.Run(() =>
+                    {
+                        try
+                        {
+                            // Using absolute installation package context mapping strings to guarantee path resolution
+                            string installedPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
+                            string modelPath = Path.Combine(installedPath, "Assets", "model.onnx");
+                            string vocabPath = Path.Combine(installedPath, "Assets", "vocab.txt");
+
+                            if (File.Exists(modelPath) && File.Exists(vocabPath))
+                            {
+                                if (_onnxSession == null)
+                                {
+                                    _onnxSession = new InferenceSession(modelPath);
+                                }
+                                if (_tokenizer == null)
+                                {
+                                    _tokenizer = Microsoft.ML.Tokenizers.BertTokenizer.Create(vocabPath);
+                                }
+                                System.Diagnostics.Debug.WriteLine("[ONNX]: Shared pipeline pipelines loaded cleanly.");
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.WriteLine("[ONNX Error]: Assets missing from deployment directory.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Error initializing ONNX runtime static context: {ex.Message}");
+                        }
+                    });
+                }
+                return _initializationTask;
             }
         }
 
@@ -60,13 +92,15 @@ namespace ATLAS.Pages
 
             try
             {
+                // FIX: Ensure initialization finishes completely before pulling values
+                await EnsureModelInitializedAsync();
+
                 if (_onnxSession == null || _tokenizer == null)
                 {
                     throw new InvalidOperationException("Local analysis components are still initializing or missing.");
                 }
 
-                // Run inference out on a background worker thread
-                var result = await System.Threading.Tasks.Task.Run(() => PerformLocalInference(lastAnalyzedText));
+                var result = await Task.Run(() => PerformLocalInference(lastAnalyzedText));
 
                 if (result != null)
                 {
@@ -89,30 +123,35 @@ namespace ATLAS.Pages
 
         private AnalysisResult PerformLocalInference(string text)
         {
-            // FIX: Using the correct high-performance array tokenizer streaming method
-            IReadOnlyList<int> nativeIds = _tokenizer!.EncodeToIds(text);
+            // FIX: Block until static references are guaranteed available if triggered externally
+            EnsureModelInitializedAsync().Wait();
 
-            // Map list elements into standard Int64 primitives for our ONNX Layer
+            if (_tokenizer == null || _onnxSession == null)
+            {
+                return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Local AI model metrics are uninitialized." };
+            }
+
+            IReadOnlyList<int> nativeIds = _tokenizer.EncodeToIds(text);
+
             long[] tokenIds = nativeIds.Select(id => (long)id).ToArray();
             long[] attentionMask = Enumerable.Repeat(1L, tokenIds.Length).ToArray();
 
-            // Structure safe 2D bounds shape matrix
             int[] dimensions = new int[] { 1, tokenIds.Length };
 
             var inputIdsTensor = new DenseTensor<long>(tokenIds, dimensions);
             var attentionMaskTensor = new DenseTensor<long>(attentionMask, dimensions);
 
             var inputs = new List<NamedOnnxValue>
-    {
-        NamedOnnxValue.CreateFromTensor("input_ids", inputIdsTensor),
-        NamedOnnxValue.CreateFromTensor("attention_mask", attentionMaskTensor)
-    };
+            {
+                NamedOnnxValue.CreateFromTensor("input_ids", inputIdsTensor),
+                NamedOnnxValue.CreateFromTensor("attention_mask", attentionMaskTensor)
+            };
 
-            using var outputs = _onnxSession!.Run(inputs);
+            using var outputs = _onnxSession.Run(inputs);
             var outputTensor = outputs.First(o => o.Name == "logits").AsTensor<float>();
 
             float logit0 = outputTensor[0, 0];
-            float logit1 = outputTensor[0, 1]; // Flagged Scam Class Logit
+            float logit1 = outputTensor[0, 1];
 
             double maxLogit = Math.Max(logit0, logit1);
             double exp0 = Math.Exp(logit0 - maxLogit);
@@ -134,6 +173,11 @@ namespace ATLAS.Pages
         {
             if (result == null) return;
 
+            if (ResultsBox.RenderTransform == null || !(ResultsBox.RenderTransform is TranslateTransform))
+            {
+                ResultsBox.RenderTransform = new TranslateTransform();
+            }
+
             if (result.IsScam == true)
             {
                 StatusIcon.Glyph = "\uE7BA";
@@ -149,6 +193,7 @@ namespace ATLAS.Pages
 
             ScoreText.Text = $"{result.Score:F2}/10";
             ExplanationText.Text = result.Explanation;
+
             var storyboard = new Storyboard();
 
             var fadeAnimation = new DoubleAnimation { From = 0.0, To = 1.0, Duration = TimeSpan.FromMilliseconds(400) };
@@ -156,7 +201,6 @@ namespace ATLAS.Pages
             Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
             storyboard.Children.Add(fadeAnimation);
 
-            ResultsBox.RenderTransform = new TranslateTransform();
             var slideAnimation = new DoubleAnimation
             {
                 From = 50,
