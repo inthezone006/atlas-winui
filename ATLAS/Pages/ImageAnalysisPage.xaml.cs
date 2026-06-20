@@ -121,6 +121,14 @@ namespace ATLAS.Pages
                 }
 
                 DisplayResults(result);
+
+                if (AuthService.IsLoggedIn && result.Analysis != null)
+                {
+                    float telemetryScore = (float)(result.Analysis.Score ?? 0.0);
+                    bool isThreatScam = result.Analysis.IsScam ?? false;
+
+                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Image Scan", telemetryScore, isThreatScam);
+                }
             }
             catch (Exception ex)
             {

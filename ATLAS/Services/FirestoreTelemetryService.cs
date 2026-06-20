@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Google.Cloud.Firestore;
 
 namespace ATLAS.Services
 {
     public class FirestoreTelemetryService
     {
-        private FirestoreDb? _firestoreDb;
         private static FirestoreTelemetryService? _instance;
         private static readonly object _lock = new object();
+        private readonly HttpClient _httpClient;
 
-        // Thread-safe Lazy Initialization Singleton Pattern
         public static FirestoreTelemetryService Instance
         {
             get
@@ -29,21 +30,7 @@ namespace ATLAS.Services
 
         private FirestoreTelemetryService()
         {
-            // Constructor is intentionally left lightweight to prevent early startup crashes
-        }
-
-        private void EnsureInitialized()
-        {
-            if (_firestoreDb == null)
-            {
-                if (string.IsNullOrWhiteSpace(FirebaseConfig.ProjectId))
-                {
-                    throw new InvalidOperationException("Firebase Project ID is missing or unconfigured in FirebaseConfig.cs");
-                }
-
-                // Initialize context on-demand only when a scanning action triggers
-                _firestoreDb = FirestoreDb.Create(FirebaseConfig.ProjectId);
-            }
+            _httpClient = new HttpClient();
         }
 
         public async Task SaveScanTelemetryAsync(string analysisType, float resultScore, bool isScam)
@@ -53,25 +40,41 @@ namespace ATLAS.Services
 
             try
             {
-                // Defer database connection validation safely until this line
-                EnsureInitialized();
+                // Construct the Firestore REST URL endpoint for your project collection
+                string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents/analyses";
 
-                CollectionReference collection = _firestoreDb!.Collection("analyses");
-
-                var documentData = new Dictionary<string, object>
+                // Structure a compliant Firestore REST JSON payload format
+                var payload = new
                 {
-                    { "user_id", AuthService.CurrentUserId },
-                    { "analysis_type", analysisType },
-                    { "result_score", resultScore },
-                    { "is_scam", isScam },
-                    { "created_at", DateTime.UtcNow }
+                    fields = new
+                    {
+                        user_id = new { stringValue = AuthService.CurrentUserId },
+                        analysis_type = new { stringValue = analysisType },
+                        result_score = new { doubleValue = (double)resultScore },
+                        is_scam = new { booleanValue = isScam },
+                        created_at = new { stringValue = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ") }
+                    }
                 };
 
-                await collection.AddAsync(documentData);
+                string jsonContent = JsonSerializer.Serialize(payload);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                // Post directly to your database instance
+                var response = await _httpClient.PostAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorDetails = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[Firestore REST Upload Error]: {response.StatusCode} - {errorDetails}");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("[Firestore REST]: Analysis document logged successfully!");
+                }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[Firestore Database Sync Blocked]: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[Firestore Network Crash]: {ex.Message}");
             }
         }
 
@@ -82,29 +85,144 @@ namespace ATLAS.Services
 
             try
             {
-                // Query all analysis records corresponding to the logged-in User ID
-                Query query = _firestoreDb.Collection("analyses").WhereEqualTo("user_id", AuthService.CurrentUserId);
-                QuerySnapshot snapshot = await query.GetSnapshotAsync();
+                // Structured query endpoint via the Google REST API
+                string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents:runQuery";
 
-                int total = snapshot.Count;
+                var queryPayload = new
+                {
+                    structuredQuery = new
+                    {
+                        from = new[] { new { collectionId = "analyses" } },
+                        where = new
+                        {
+                            fieldFilter = new
+                            {
+                                field = new { fieldPath = "user_id" },
+                                op = "EQUAL",
+                                value = new { stringValue = AuthService.CurrentUserId }
+                            }
+                        }
+                    }
+                };
+
+                string jsonContent = JsonSerializer.Serialize(queryPayload);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync(url, content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorDetails = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[Firestore REST Query Error]: {errorDetails}");
+                    return (0, 0, 0);
+                }
+
+                string responseJson = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseJson);
+
+                int total = 0;
                 int scams = 0;
                 int safe = 0;
 
-                foreach (DocumentSnapshot doc in snapshot.Documents)
+                // Loop through the query documents array results returned by Firestore
+                foreach (var element in doc.RootElement.EnumerateArray())
                 {
-                    if (doc.TryGetValue("is_scam", out bool isScam))
+                    if (element.TryGetProperty("document", out var documentElement))
                     {
-                        if (isScam) scams++;
-                        else safe++;
+                        if (documentElement.TryGetProperty("fields", out var fieldsElement))
+                        {
+                            total++;
+                            if (fieldsElement.TryGetProperty("is_scam", out var scamProp) &&
+                                scamProp.TryGetProperty("booleanValue", out var boolVal))
+                            {
+                                if (boolVal.GetBoolean()) scams++;
+                                else safe++;
+                            }
+                        }
                     }
                 }
+
                 return (total, scams, safe);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error retrieving Firestore statistics: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error parsing Firestore statistics: {ex.Message}");
                 return (0, 0, 0);
             }
+        }
+
+        public async Task<List<Models.AnalysisHistoryItem>> GetUserHistoryAsync()
+        {
+            var historyList = new List<Models.AnalysisHistoryItem>();
+            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
+                return historyList;
+
+            try
+            {
+                string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents:runQuery";
+
+                // Query ordered by creation date desc
+                var queryPayload = new
+                {
+                    structuredQuery = new
+                    {
+                        from = new[] { new { collectionId = "analyses" } },
+                        where = new
+                        {
+                            fieldFilter = new
+                            {
+                                field = new { fieldPath = "user_id" },
+                                op = "EQUAL",
+                                value = new { stringValue = AuthService.CurrentUserId }
+                            }
+                        },
+                        order = new[]
+                        {
+                            new { field = new { fieldPath = "created_at" }, direction = "DESCENDING" }
+                        }
+                    }
+                };
+
+                string jsonContent = JsonSerializer.Serialize(queryPayload);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync(url, content);
+                if (!response.IsSuccessStatusCode) return historyList;
+
+                string responseJson = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseJson);
+
+                foreach (var element in doc.RootElement.EnumerateArray())
+                {
+                    if (element.TryGetProperty("document", out var documentElement) &&
+                        documentElement.TryGetProperty("fields", out var fieldsElement))
+                    {
+                        fieldsElement.TryGetProperty("analysis_type", out var typeProp);
+                        fieldsElement.TryGetProperty("result_score", out var scoreProp);
+                        fieldsElement.TryGetProperty("is_scam", out var scamProp);
+                        fieldsElement.TryGetProperty("created_at", out var timeProp);
+
+                        string type = typeProp.TryGetProperty("stringValue", out var tVal) ? tVal.GetString() ?? "Unknown" : "Unknown";
+                        double score = scoreProp.TryGetProperty("doubleValue", out var sVal) ? sVal.GetDouble() : 0.0;
+                        bool isScam = scamProp.TryGetProperty("booleanValue", out var bVal) && bVal.GetBoolean();
+                        string rawTime = timeProp.TryGetProperty("stringValue", out var dVal) ? dVal.GetString() ?? "" : "";
+
+                        DateTime.TryParse(rawTime, out DateTime parsedTime);
+
+                        historyList.Add(new Models.AnalysisHistoryItem
+                        {
+                            AnalysisType = type,
+                            Score = (float)score,
+                            IsScam = isScam,
+                            CreatedAt = parsedTime.ToLocalTime().ToString("g") // Formatted date string
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"History query processing fault: {ex.Message}");
+            }
+            return historyList;
         }
     }
 }

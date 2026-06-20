@@ -105,6 +105,13 @@ namespace ATLAS.Pages
                 if (result != null)
                 {
                     DisplayResults(result);
+                    if (AuthService.IsLoggedIn)
+                    {
+                        float scoreValue = (float)(result.Score ?? 0.0);
+                        bool scamValue = result.IsScam ?? false;
+
+                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Text Analysis", scoreValue, scamValue);
+                    }
                 }
             }
             catch (Exception ex)

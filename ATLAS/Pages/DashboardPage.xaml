@@ -42,14 +42,6 @@
                         </StackPanel>
                     </Border>
                 </Button>
-
-                <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="4" Padding="20" MinWidth="320" Height="280" Margin="10">
-                    <StackPanel Spacing="15" VerticalAlignment="Center">
-                        <TextBlock Text="Submit New Scam" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Help improve ATLAS by submitting new scam examples you might encounter." TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <Button x:Name="SubmitScamButton" Content="Submit a New Scam" HorizontalAlignment="Center" Click="SubmitScamButton_Click" Style="{ThemeResource AccentButtonStyle}"/>
-                    </StackPanel>
-                </Border>
             </GridView>
         </StackPanel>
     </ScrollViewer>

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace ATLAS.Models
 {
@@ -13,7 +14,16 @@ namespace ATLAS.Models
         [JsonPropertyName("is_scam")]
         public bool IsScam { get; set; }
 
+        [JsonPropertyName("result_score")]
+        public float Score { get; set; }
+
         [JsonPropertyName("created_at")]
         public string? CreatedAt { get; set; }
+
+        // FIX: Clean backend formatting helper to bypass XAML binding limitations
+        public string ScoreDisplay => $"Score: {Score:F2}/10";
+
+        // Bonus helper to render scan status nicely
+        public string ScamStatusDisplay => IsScam ? "Status: Threat Detected" : "Status: Verified Clear";
     }
 }
