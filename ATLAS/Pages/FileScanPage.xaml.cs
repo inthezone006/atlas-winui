@@ -1,26 +1,20 @@
-using ATLAS.Models;
 using ATLAS.Services;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using WinRT.Interop;
 
 namespace ATLAS.Pages
 {
     public sealed partial class FileScanPage : Page
     {
-        private static readonly HttpClient client = new HttpClient();
-        private StorageFile? selectedFile;
+        private StorageFile? _selectedFile;
 
         public FileScanPage()
         {
@@ -29,59 +23,107 @@ namespace ATLAS.Pages
 
         private async void SelectFileButton_Click(object sender, RoutedEventArgs e)
         {
-            var filePicker = new FileOpenPicker();
-            var window = (Application.Current as App)?._window as MainWindow;
-            var hwnd = WindowNative.GetWindowHandle(window);
-            InitializeWithWindow.Initialize(filePicker, hwnd);
+            var openPicker = new FileOpenPicker();
 
-            filePicker.FileTypeFilter.Add("*");
+            // FIX: Use your App instance's Window handle natively
+            var app = Application.Current as App;
+            var window = app?._window;
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
 
-            var file = await filePicker.PickSingleFileAsync();
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.Downloads;
+            openPicker.FileTypeFilter.Add("*");
+
+            var file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                selectedFile = file;
+                _selectedFile = file;
                 SelectedFileNameText.Text = file.Name;
                 AnalyzeButton.IsEnabled = true;
+                ResultsBox.Visibility = Visibility.Collapsed;
             }
         }
 
         private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedFile == null) return;
+            if (_selectedFile == null) return;
 
-            ResultsBox.Visibility = Visibility.Collapsed;
             LoadingRing.IsActive = true;
             AnalyzeButton.IsEnabled = false;
             SelectFileButton.IsEnabled = false;
 
             try
             {
-                using var content = new MultipartFormDataContent();
-                using var stream = await selectedFile.OpenStreamForReadAsync();
-                content.Add(new StreamContent(stream), "file", selectedFile.Name);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/scan-file") { Content = content };
-                if (AuthService.IsLoggedIn && !string.IsNullOrEmpty(AuthService.AuthToken))
+                string fileHash = "";
+                using (var stream = await _selectedFile.OpenStreamForReadAsync())
                 {
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
+                    using var sha256 = SHA256.Create();
+                    byte[] hashBytes = sha256.ComputeHash(stream);
+                    var sb = new StringBuilder();
+                    foreach (byte b in hashBytes)
+                    {
+                        sb.Append(b.ToString("x2"));
+                    }
+                    fileHash = sb.ToString();
                 }
 
-                HttpResponseMessage response = await client.SendAsync(request);
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("x-apikey", FirebaseConfig.VirusTotalApiKey);
+
+                string vtApiUrl = $"https://www.virustotal.com/api/v3/files/{fileHash}";
+                var response = await client.GetAsync(vtApiUrl);
+
+                ResultsBox.Visibility = Visibility.Visible;
+
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    StatusText.Text = "Unknown Signature";
+                    StatusIcon.Glyph = "\xE9CE"; // Help/Unknown Info Icon
+                    ExplanationText.Text = "This file footprint has never been seen by VirusTotal engines before.";
+                    HarmlessCountText.Text = "0";
+                    SuspiciousCountText.Text = "0";
+                    MaliciousCountText.Text = "0";
+                    return;
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<LinkAnalysisResult>(jsonResponse, JsonContext.Default.LinkAnalysisResult);
-                    DisplayResults(result);
-                }
-                else
-                {
-                    DisplayError("Could not get a response from the server.");
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    using var doc = JsonDocument.Parse(jsonResponse);
+                    var stats = doc.RootElement.GetProperty("data").GetProperty("attributes").GetProperty("last_analysis_stats");
+
+                    int malicious = stats.GetProperty("malicious").GetInt32();
+                    int suspicious = stats.GetProperty("suspicious").GetInt32();
+                    int harmless = stats.GetProperty("harmless").GetInt32();
+
+                    HarmlessCountText.Text = harmless.ToString();
+                    SuspiciousCountText.Text = suspicious.ToString();
+                    MaliciousCountText.Text = malicious.ToString();
+
+                    if (malicious > 0)
+                    {
+                        StatusText.Text = "Threat Detected";
+                        StatusIcon.Glyph = "\xE7BA"; // Warning Icon
+                        ExplanationText.Text = $"Flagged by {malicious} engine signatures. SHA-256: {fileHash.Substring(0, 16)}...";
+                    }
+                    else
+                    {
+                        StatusText.Text = "Verified Safe";
+                        StatusIcon.Glyph = "\xE73E"; // Checkmark Icon
+                        ExplanationText.Text = "No antivirus engine variants flagged this file asset.";
+                    }
+
+                    if (AuthService.IsLoggedIn)
+                    {
+                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("File Scan", malicious > 0 ? 100f : 0f, malicious > 0);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                DisplayError($"An error occurred: {ex.Message}");
+                StatusText.Text = "Scan Error";
+                ExplanationText.Text = ex.Message;
             }
             finally
             {
@@ -89,76 +131,6 @@ namespace ATLAS.Pages
                 AnalyzeButton.IsEnabled = true;
                 SelectFileButton.IsEnabled = true;
             }
-        }
-
-        private void DisplayResults(LinkAnalysisResult? result)
-        {
-            if (result == null)
-            {
-                DisplayError("Failed to parse the analysis result.");
-                return;
-            }
-
-            if (result.IsScam)
-            {
-                StatusIcon.Glyph = "\uE7BA";
-                StatusText.Text = "This file appears to be malicious.";
-                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
-            }
-            else
-            {
-                StatusIcon.Glyph = "\uE73E";
-                StatusText.Text = "This file appears to be safe.";
-                StatusText.Foreground = new SolidColorBrush(Colors.Green);
-                StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            }
-
-            ExplanationText.Text = result.Explanation;
-
-            if (result.Details != null)
-            {
-                HarmlessCountText.Text = result.Details.GetValueOrDefault("harmless", 0).ToString();
-                SuspiciousCountText.Text = result.Details.GetValueOrDefault("suspicious", 0).ToString();
-                MaliciousCountText.Text = result.Details.GetValueOrDefault("malicious", 0).ToString();
-            }
-
-            var storyboard = new Storyboard();
-
-            var fadeAnimation = new DoubleAnimation
-            {
-                From = 0.0,
-                To = 1.0,
-                Duration = TimeSpan.FromMilliseconds(400)
-            };
-            Storyboard.SetTarget(fadeAnimation, ResultsBox);
-            Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
-            storyboard.Children.Add(fadeAnimation);
-
-            ResultsBox.RenderTransform = new TranslateTransform();
-            var slideAnimation = new DoubleAnimation
-            {
-                From = 50,
-                To = 0,
-                Duration = TimeSpan.FromMilliseconds(400),
-                EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
-            };
-            Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
-            Storyboard.SetTargetProperty(slideAnimation, "Y");
-            storyboard.Children.Add(slideAnimation);
-
-            ResultsBox.Visibility = Visibility.Visible;
-            storyboard.Begin();
-        }
-
-        private void DisplayError(string message)
-        {
-            ResultsBox.Visibility = Visibility.Visible;
-            StatusText.Text = "Analysis Failed";
-            StatusIcon.Glyph = "\uE783";
-            StatusText.Foreground = new SolidColorBrush(Colors.Red);
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Red);
-            ExplanationText.Text = message;
         }
     }
 }

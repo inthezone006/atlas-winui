@@ -1,16 +1,9 @@
-using ATLAS.Models;
 using ATLAS.Services;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -18,130 +11,103 @@ namespace ATLAS.Pages
 {
     public sealed partial class LinkAnalysisPage : Page
     {
-        private static readonly HttpClient client = new HttpClient();
-        private readonly string backendUrl = "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/analyze-link";
-
         public LinkAnalysisPage()
         {
             this.InitializeComponent();
-        }
-
-        private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
-        {
-            var urlToAnalyze = UrlTextBox.Text;
-            if (string.IsNullOrWhiteSpace(urlToAnalyze)) return;
-
-            ResultsBox.Visibility = Visibility.Collapsed;
-            LoadingRing.IsActive = true;
-            AnalyzeButton.IsEnabled = false;
-
-            try
-            {
-                var requestPayload = new Dictionary<string, string> { { "url", urlToAnalyze } };
-                var content = JsonContent.Create(requestPayload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
-                var request = new HttpRequestMessage(HttpMethod.Post, backendUrl) { Content = content };
-                if (AuthService.IsLoggedIn && !string.IsNullOrEmpty(AuthService.AuthToken))
-                {
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-                }
-
-                HttpResponseMessage response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<LinkAnalysisResult>(jsonResponse, JsonContext.Default.LinkAnalysisResult);
-                    DisplayResults(result);
-                }
-                else
-                {
-                    DisplayError("Could not get a response from the server.");
-                }
-            }
-            catch (Exception ex)
-            {
-                DisplayError($"An error occurred: {ex.Message}");
-            }
-            finally
-            {
-                LoadingRing.IsActive = false;
-                AnalyzeButton.IsEnabled = true;
-            }
-        }
-
-        private void DisplayResults(LinkAnalysisResult? result)
-        {
-            if (result == null)
-            {
-                DisplayError("Failed to parse the analysis result.");
-                return;
-            }
-
-            if (result.IsScam)
-            {
-                StatusIcon.Glyph = "\uE7BA";
-                StatusText.Text = "This URL appears to be malicious.";
-                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
-            }
-            else
-            {
-                StatusIcon.Glyph = "\uE73E";
-                StatusText.Text = "This URL appears to be safe.";
-                StatusText.Foreground = new SolidColorBrush(Colors.Green);
-            }
-
-            ExplanationText.Text = result.Explanation;
-
-            if (result.Details != null)
-            {
-                HarmlessCountText.Text = result.Details.GetValueOrDefault("harmless", 0).ToString();
-                SuspiciousCountText.Text = result.Details.GetValueOrDefault("suspicious", 0).ToString();
-                MaliciousCountText.Text = result.Details.GetValueOrDefault("malicious", 0).ToString();
-            }
-
-            var storyboard = new Storyboard();
-
-            var fadeAnimation = new DoubleAnimation
-            {
-                From = 0.0,
-                To = 1.0,
-                Duration = TimeSpan.FromMilliseconds(400)
-            };
-            Storyboard.SetTarget(fadeAnimation, ResultsBox);
-            Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
-            storyboard.Children.Add(fadeAnimation);
-
-            ResultsBox.RenderTransform = new TranslateTransform();
-            var slideAnimation = new DoubleAnimation
-            {
-                From = 50,
-                To = 0,
-                Duration = TimeSpan.FromMilliseconds(400),
-                EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
-            };
-            Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
-            Storyboard.SetTargetProperty(slideAnimation, "Y");
-            storyboard.Children.Add(slideAnimation);
-
-            ResultsBox.Visibility = Visibility.Visible;
-            storyboard.Begin();
-        }
-
-        private void DisplayError(string message)
-        {
-            ResultsBox.Visibility = Visibility.Visible;
-            StatusText.Text = "Analysis Failed";
-            StatusIcon.Glyph = "\uE783";
-            StatusText.Foreground = new SolidColorBrush(Colors.Red);
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Red);
-            ExplanationText.Text = message;
         }
 
         private void UrlTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                AnalyzeButton_Click(sender, new RoutedEventArgs());
+                AnalyzeButton_Click(AnalyzeButton, new RoutedEventArgs());
+            }
+        }
+
+        private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string targetUrl = UrlTextBox.Text?.Trim() ?? "";
+            if (string.IsNullOrWhiteSpace(targetUrl))
+            {
+                return;
+            }
+
+            LoadingRing.IsActive = true;
+            AnalyzeButton.IsEnabled = false;
+            ResultsBox.Visibility = Visibility.Collapsed;
+
+            try
+            {
+                byte[] plainTextBytes = Encoding.UTF8.GetBytes(targetUrl);
+                string base64Url = Convert.ToBase64String(plainTextBytes)
+                    .Replace("+", "-").Replace("/", "_").TrimEnd('=');
+
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("x-apikey", FirebaseConfig.VirusTotalApiKey);
+
+                string vtApiUrl = $"https://www.virustotal.com/api/v3/urls/{base64Url}";
+                var response = await client.GetAsync(vtApiUrl);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    var scanContent = new MultipartFormDataContent();
+                    scanContent.Add(new StringContent(targetUrl), "url");
+
+                    var postResponse = await client.PostAsync("https://www.virustotal.com/api/v3/urls", scanContent);
+
+                    ResultsBox.Visibility = Visibility.Visible;
+                    StatusText.Text = "Scan Dispatched";
+                    ExplanationText.Text = "This link wasn't in the database history cache. Scan requested. Re-run in 1 minute.";
+                    HarmlessCountText.Text = "-";
+                    SuspiciousCountText.Text = "-";
+                    MaliciousCountText.Text = "-";
+                    return;
+                }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    using var doc = JsonDocument.Parse(jsonResponse);
+                    var stats = doc.RootElement.GetProperty("data").GetProperty("attributes").GetProperty("last_analysis_stats");
+
+                    int malicious = stats.GetProperty("malicious").GetInt32();
+                    int suspicious = stats.GetProperty("suspicious").GetInt32();
+                    int harmless = stats.GetProperty("harmless").GetInt32();
+
+                    ResultsBox.Visibility = Visibility.Visible;
+                    HarmlessCountText.Text = harmless.ToString();
+                    SuspiciousCountText.Text = suspicious.ToString();
+                    MaliciousCountText.Text = malicious.ToString();
+
+                    if (malicious > 0)
+                    {
+                        StatusText.Text = "Suspicious / Threat Detected";
+                        StatusIcon.Glyph = "\xE7BA"; // Warning Icon
+                        ExplanationText.Text = $"Flagged as dangerous by structural scan engines. Target: {targetUrl}";
+                    }
+                    else
+                    {
+                        StatusText.Text = "Verified Safe";
+                        StatusIcon.Glyph = "\xE73E"; // Checkmark Icon
+                        ExplanationText.Text = "No engines flagged this link as a known security risk.";
+                    }
+
+                    if (AuthService.IsLoggedIn)
+                    {
+                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Link Analysis", malicious > 0 ? 100f : 0f, malicious > 0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ResultsBox.Visibility = Visibility.Visible;
+                StatusText.Text = "Scan Error";
+                ExplanationText.Text = ex.Message;
+            }
+            finally
+            {
+                LoadingRing.IsActive = false;
+                AnalyzeButton.IsEnabled = true;
             }
         }
     }

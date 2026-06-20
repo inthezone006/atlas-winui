@@ -7,39 +7,71 @@ namespace ATLAS.Services
 {
     public class FirestoreTelemetryService
     {
-        private readonly FirestoreDb _firestoreDb;
+        private FirestoreDb? _firestoreDb;
+        private static FirestoreTelemetryService? _instance;
+        private static readonly object _lock = new object();
 
-        public FirestoreTelemetryService()
+        // Thread-safe Lazy Initialization Singleton Pattern
+        public static FirestoreTelemetryService Instance
         {
-            // Initializes connection to your Firestore database space
-            _firestoreDb = FirestoreDb.Create(FirebaseConfig.ProjectId);
+            get
+            {
+                lock (_lock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new FirestoreTelemetryService();
+                    }
+                    return _instance;
+                }
+            }
+        }
+
+        private FirestoreTelemetryService()
+        {
+            // Constructor is intentionally left lightweight to prevent early startup crashes
+        }
+
+        private void EnsureInitialized()
+        {
+            if (_firestoreDb == null)
+            {
+                if (string.IsNullOrWhiteSpace(FirebaseConfig.ProjectId))
+                {
+                    throw new InvalidOperationException("Firebase Project ID is missing or unconfigured in FirebaseConfig.cs");
+                }
+
+                // Initialize context on-demand only when a scanning action triggers
+                _firestoreDb = FirestoreDb.Create(FirebaseConfig.ProjectId);
+            }
         }
 
         public async Task SaveScanTelemetryAsync(string analysisType, float resultScore, bool isScam)
         {
-            // If the user isn't logged in, skip cloud logging (or keep it local only)
             if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
                 return;
 
             try
             {
-                // References the "analyses" collection we provisioned in Firebase Console
-                CollectionReference collection = _firestoreDb.Collection("analyses");
+                // Defer database connection validation safely until this line
+                EnsureInitialized();
+
+                CollectionReference collection = _firestoreDb!.Collection("analyses");
 
                 var documentData = new Dictionary<string, object>
                 {
                     { "user_id", AuthService.CurrentUserId },
-                    { "analysis_type", analysisType }, // e.g. "text", "image", "audio"
+                    { "analysis_type", analysisType },
                     { "result_score", resultScore },
                     { "is_scam", isScam },
-                    { "created_at", DateTime.UtcNow } // Stored in ISO UTC
+                    { "created_at", DateTime.UtcNow }
                 };
 
                 await collection.AddAsync(documentData);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Firestore DB Sync Failure: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[Firestore Database Sync Blocked]: {ex.Message}");
             }
         }
     }
