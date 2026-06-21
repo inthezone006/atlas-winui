@@ -24,7 +24,9 @@
 
                 <ProgressRing x:Name="LoadingRing" IsActive="True" HorizontalAlignment="Center"/>
 
-                <ListView x:Name="HistoryListView" SelectionMode="None">
+                <ListView x:Name="HistoryListView" 
+                  SelectionMode="None" 
+                  ItemsSource="{x:Bind HistoryItems}">  
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:AnalysisHistoryItem">
                             <Expander Margin="0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">

@@ -60,10 +60,15 @@ namespace ATLAS.Pages
                     }
                     else
                     {
-                        foreach (var record in records)
+                        // FIX: Marshal collection binding updates cleanly back onto the Main WinUI UI Thread context
+                        this.DispatcherQueue.TryEnqueue(() =>
                         {
-                            HistoryItems.Add(record);
-                        }
+                            foreach (var record in records)
+                            {
+                                HistoryItems.Add(record);
+                            }
+                            System.Diagnostics.Debug.WriteLine($"[DEBUG HISTORY UI]: Hydrated ObservableCollection with {HistoryItems.Count} elements on UI stream.");
+                        });
                     }
                 }
                 else
