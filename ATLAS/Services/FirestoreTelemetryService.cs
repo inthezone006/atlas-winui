@@ -35,20 +35,25 @@ namespace ATLAS.Services
 
         public async Task SaveScanTelemetryAsync(string analysisType, float resultScore, bool isScam)
         {
-            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
+            if (!AuthService.IsLoggedIn || (string.IsNullOrEmpty(AuthService.CurrentUserId) && AuthService.CurrentUser == null))
                 return;
 
             try
             {
-                // Construct the Firestore REST URL endpoint for your project collection
+                // FIX: Fall back to local user caching safely if background network initialization is delayed
+                string targetUserId = !string.IsNullOrEmpty(AuthService.CurrentUserId)
+                    ? AuthService.CurrentUserId
+                    : (AuthService.CurrentUser?.Username ?? "");
+
+                if (string.IsNullOrEmpty(targetUserId)) return;
+
                 string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents/analyses";
 
-                // Structure a compliant Firestore REST JSON payload format
                 var payload = new
                 {
                     fields = new
                     {
-                        user_id = new { stringValue = AuthService.CurrentUserId },
+                        user_id = new { stringValue = targetUserId },
                         analysis_type = new { stringValue = analysisType },
                         result_score = new { doubleValue = (double)resultScore },
                         is_scam = new { booleanValue = isScam },
@@ -59,7 +64,6 @@ namespace ATLAS.Services
                 string jsonContent = JsonSerializer.Serialize(payload);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                // Post directly to your database instance
                 var response = await _httpClient.PostAsync(url, content);
 
                 if (!response.IsSuccessStatusCode)
@@ -80,12 +84,18 @@ namespace ATLAS.Services
 
         public async Task<(int TotalScans, int ScamCount, int SafeCount)> GetUserStatsAsync()
         {
-            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
+            if (!AuthService.IsLoggedIn || (string.IsNullOrEmpty(AuthService.CurrentUserId) && AuthService.CurrentUser == null))
                 return (0, 0, 0);
 
             try
             {
-                // Structured query endpoint via the Google REST API
+                // FIX: Unify the User ID selector token target to ensure matching payload variables aren't null
+                string targetUserId = !string.IsNullOrEmpty(AuthService.CurrentUserId)
+                    ? AuthService.CurrentUserId
+                    : (AuthService.CurrentUser?.Username ?? "");
+
+                if (string.IsNullOrEmpty(targetUserId)) return (0, 0, 0);
+
                 string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents:runQuery";
 
                 var queryPayload = new
@@ -99,7 +109,7 @@ namespace ATLAS.Services
                             {
                                 field = new { fieldPath = "user_id" },
                                 op = "EQUAL",
-                                value = new { stringValue = AuthService.CurrentUserId }
+                                value = new { stringValue = targetUserId } // FIX: Points to populated string reference variable token
                             }
                         }
                     }
@@ -123,7 +133,6 @@ namespace ATLAS.Services
                 int scams = 0;
                 int safe = 0;
 
-                // Loop through the query documents array results returned by Firestore
                 foreach (var element in doc.RootElement.EnumerateArray())
                 {
                     if (element.TryGetProperty("document", out var documentElement))
@@ -145,7 +154,7 @@ namespace ATLAS.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error parsing Firestore statistics: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error retrieving Firestore statistics: {ex.Message}");
                 return (0, 0, 0);
             }
         }
@@ -153,14 +162,20 @@ namespace ATLAS.Services
         public async Task<List<Models.AnalysisHistoryItem>> GetUserHistoryAsync()
         {
             var historyList = new List<Models.AnalysisHistoryItem>();
-            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
+            if (!AuthService.IsLoggedIn || (string.IsNullOrEmpty(AuthService.CurrentUserId) && AuthService.CurrentUser == null))
                 return historyList;
 
             try
             {
+                // FIX: Unify the User ID selector token target for history lookups
+                string targetUserId = !string.IsNullOrEmpty(AuthService.CurrentUserId)
+                    ? AuthService.CurrentUserId
+                    : (AuthService.CurrentUser?.Username ?? "");
+
+                if (string.IsNullOrEmpty(targetUserId)) return historyList;
+
                 string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents:runQuery";
 
-                // Query ordered by creation date desc
                 var queryPayload = new
                 {
                     structuredQuery = new
@@ -172,7 +187,7 @@ namespace ATLAS.Services
                             {
                                 field = new { fieldPath = "user_id" },
                                 op = "EQUAL",
-                                value = new { stringValue = AuthService.CurrentUserId }
+                                value = new { stringValue = targetUserId } // FIX: Points to populated string reference variable token
                             }
                         },
                         order = new[]
@@ -213,7 +228,7 @@ namespace ATLAS.Services
                             AnalysisType = type,
                             Score = (float)score,
                             IsScam = isScam,
-                            CreatedAt = parsedTime.ToLocalTime().ToString("g") // Formatted date string
+                            CreatedAt = parsedTime.ToLocalTime().ToString("g")
                         });
                     }
                 }

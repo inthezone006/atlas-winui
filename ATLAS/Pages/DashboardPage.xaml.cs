@@ -5,30 +5,54 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Net.Http.Json;
 
 namespace ATLAS.Pages
 {
     public sealed partial class DashboardPage : Page
     {
-        private static readonly HttpClient client = new HttpClient();
-
         public DashboardPage()
         {
             this.InitializeComponent();
+            this.Loaded += DashboardPage_Loaded;
+            this.Unloaded += DashboardPage_Unloaded;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private void DashboardPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Subscribe to the correct AuthService state change event
+            AuthService.OnLoginStateChanged += OnLoginStateChangedHandler;
+
+            // Trigger data populating immediately
+            RefreshDashboardUI();
+        }
+
+        private void DashboardPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // Unsubscribe to prevent unmanaged thread layout memory leaks
+            AuthService.OnLoginStateChanged -= OnLoginStateChangedHandler;
+        }
+
+        private void OnLoginStateChangedHandler()
+        {
+            // Marshall the thread execution cleanly back onto the main WinUI UI thread
+            this.DispatcherQueue.TryEnqueue(() =>
+            {
+                RefreshDashboardUI();
+            });
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            RefreshDashboardUI();
+        }
+
+        private async void RefreshDashboardUI()
+        {
             if (AuthService.IsLoggedIn && AuthService.CurrentUser != null)
             {
+                WelcomeTextBlock.Visibility = Visibility.Visible;
                 WelcomeTextBlock.Text = $"{GetTimeOfDayGreeting()}, {AuthService.CurrentUser.FirstName}!";
 
                 await LoadUserStats();
@@ -38,88 +62,31 @@ namespace ATLAS.Pages
                 WelcomeTextBlock.Visibility = Visibility.Collapsed;
             }
         }
+
         private string GetTimeOfDayGreeting()
         {
             int currentHour = DateTime.Now.Hour;
-
-            if (currentHour >= 0 && currentHour < 12)
-            {
-                return "Good morning";
-            }
-            else if (currentHour >= 12 && currentHour < 18)
-            {
-                return "Good afternoon";
-            }
-            else
-            {
-                return "Good evening";
-            }
+            if (currentHour >= 0 && currentHour < 12) return "Good morning";
+            if (currentHour >= 12 && currentHour < 18) return "Good afternoon";
+            return "Good evening";
         }
 
         private async Task LoadUserStats()
         {
-            if (AuthService.IsLoggedIn)
+            try
             {
-                // Pull aggregated calculation sets live from the Firestore collection context
+                // Pull aggregated metric indices from your direct Firestore REST client service
                 var stats = await FirestoreTelemetryService.Instance.GetUserStatsAsync();
 
-                // Bind the results directly into your dashboard XAML metric cards
+                // Safely update the metric UI cards layout blocks
                 TotalAnalysesText.Text = stats.TotalScans.ToString();
                 ScamsDetectedText.Text = stats.ScamCount.ToString();
                 SubmissionsText.Text = stats.SafeCount.ToString();
             }
-        }
-
-        private async void SubmitScamButton_Click(object sender, RoutedEventArgs e)
-        {
-            var submissionTextBox = new TextBox
+            catch (Exception ex)
             {
-                AcceptsReturn = true,
-                TextWrapping = TextWrapping.Wrap,
-                Height = 200,
-                PlaceholderText = "Paste the full text of a scam email, text, or message below. This will be reviewed by our team and used to improve ATLAS for everyone."
-            };
-
-            var dialog = new ContentDialog
-            {
-                Title = "Submit a Scam Example",
-                Content = submissionTextBox,
-                PrimaryButtonText = "Submit for Review",
-                CloseButtonText = "Cancel",
-                XamlRoot = this.XamlRoot,
-                DefaultButton = ContentDialogButton.Primary
-            };
-
-            dialog.RequestedTheme = (this.Content as FrameworkElement)?.ActualTheme ?? ElementTheme.Default;
-
-            var result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                await HandleScamSubmission(submissionTextBox.Text);
+                System.Diagnostics.Debug.WriteLine($"Dashboard sync error: {ex.Message}");
             }
-        }
-
-        private async Task HandleScamSubmission(string scamText)
-        {
-            if (string.IsNullOrWhiteSpace(scamText)) return;
-
-            var payload = new Dictionary<string, string> { { "text", scamText } };
-            var content = JsonContent.Create(payload, jsonTypeInfo: JsonContext.Default.DictionaryStringString);
-
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/api/submit-scam");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.AuthToken);
-            request.Content = content;
-
-            var response = await client.SendAsync(request);
-            var confirmationDialog = new ContentDialog
-            {
-                Title = response.IsSuccessStatusCode ? "Submission Successful" : "Submission Failed",
-                Content = response.IsSuccessStatusCode ? "Thank you for your contribution!" : "There was an error submitting your request.",
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot
-            };
-            await confirmationDialog.ShowAsync();
         }
 
         private void StatCard_Click(object sender, RoutedEventArgs e)
