@@ -20,22 +20,20 @@ namespace ATLAS.Pages
 
         private void DashboardPage_Loaded(object sender, RoutedEventArgs e)
         {
-            // Subscribe to the correct AuthService state change event
+            // Subscribe to the correct AuthService login state event
             AuthService.OnLoginStateChanged += OnLoginStateChangedHandler;
-
-            // Trigger data populating immediately
             RefreshDashboardUI();
         }
 
         private void DashboardPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            // Unsubscribe to prevent unmanaged thread layout memory leaks
+            // Unsubscribe to protect against unmanaged thread leaks
             AuthService.OnLoginStateChanged -= OnLoginStateChangedHandler;
         }
 
         private void OnLoginStateChangedHandler()
         {
-            // Marshall the thread execution cleanly back onto the main WinUI UI thread
+            // Safely marshal execution back to the WinUI UI thread
             this.DispatcherQueue.TryEnqueue(() =>
             {
                 RefreshDashboardUI();
@@ -54,7 +52,6 @@ namespace ATLAS.Pages
             {
                 WelcomeTextBlock.Visibility = Visibility.Visible;
                 WelcomeTextBlock.Text = $"{GetTimeOfDayGreeting()}, {AuthService.CurrentUser.FirstName}!";
-
                 await LoadUserStats();
             }
             else
@@ -75,17 +72,15 @@ namespace ATLAS.Pages
         {
             try
             {
-                // Pull aggregated metric indices from your direct Firestore REST client service
                 var stats = await FirestoreTelemetryService.Instance.GetUserStatsAsync();
 
-                // Safely update the metric UI cards layout blocks
                 TotalAnalysesText.Text = stats.TotalScans.ToString();
                 ScamsDetectedText.Text = stats.ScamCount.ToString();
                 SubmissionsText.Text = stats.SafeCount.ToString();
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Dashboard sync error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Dashboard stats sync delay: {ex.Message}");
             }
         }
 

@@ -43,7 +43,7 @@ namespace ATLAS.Services
                 // FIX: Fall back to local user caching safely if background network initialization is delayed
                 string targetUserId = !string.IsNullOrEmpty(AuthService.CurrentUserId)
                     ? AuthService.CurrentUserId
-                    : (AuthService.CurrentUser?.Username ?? "");
+                    : (AuthService.CurrentUser?.Id ?? AuthService.CurrentUser?.Username ?? "");
 
                 if (string.IsNullOrEmpty(targetUserId)) return;
 
@@ -109,7 +109,7 @@ namespace ATLAS.Services
                             {
                                 field = new { fieldPath = "user_id" },
                                 op = "EQUAL",
-                                value = new { stringValue = targetUserId } // FIX: Points to populated string reference variable token
+                                value = new { stringValue = AuthService.CurrentUserId } // FIX: Points to populated string reference variable token
                             }
                         }
                     }
@@ -187,7 +187,7 @@ namespace ATLAS.Services
                             {
                                 field = new { fieldPath = "user_id" },
                                 op = "EQUAL",
-                                value = new { stringValue = targetUserId } // FIX: Points to populated string reference variable token
+                                value = new { stringValue = AuthService.CurrentUserId } // FIX: Points to populated string reference variable token
                             }
                         },
                         order = new[]

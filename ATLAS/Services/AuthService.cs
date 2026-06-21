@@ -16,7 +16,9 @@ namespace ATLAS.Services
         public static ATLAS.Models.User? CurrentUser { get; private set; }
         public static string? AuthToken { get; private set; }
         public static bool IsLoggedIn => CurrentUser != null;
-        public static string? CurrentUserId => _firebaseClient?.User?.Uid;
+
+        // FIX: Falls back immediately to cached storage data if the network handshake is still completing
+        public static string? CurrentUserId => _firebaseClient?.User?.Uid ?? CurrentUser?.Id;
 
         public static event Action? OnLoginStateChanged;
 
@@ -26,7 +28,6 @@ namespace ATLAS.Services
             {
                 ApiKey = FirebaseConfig.ApiKey,
                 AuthDomain = FirebaseConfig.AuthDomain,
-                // Added GoogleProvider alongside EmailProvider to authorize social credential handshakes
                 Providers = new FirebaseAuthProvider[]
                 {
                     new EmailProvider(),
@@ -58,14 +59,15 @@ namespace ATLAS.Services
                 var userCredential = await _firebaseClient!.SignInWithEmailAndPasswordAsync(email, password);
                 string token = await userCredential.User.GetIdTokenAsync();
 
-                // Unpack the DisplayName back into its native First and Last name fragments for the dashboard UI
                 string fullDisplayName = userCredential.User.Info.DisplayName ?? "User";
                 var nameParts = fullDisplayName.Split(' ', 2);
                 string firstName = nameParts[0];
                 string lastName = nameParts.Length > 1 ? nameParts[1] : "";
 
+                // FIX: Map the unique Firebase Uid onto the local model instance descriptor
                 var localUser = new ATLAS.Models.User
                 {
+                    Id = userCredential.User.Uid,
                     Username = userCredential.User.Info.Email,
                     FirstName = firstName,
                     LastName = lastName
@@ -80,21 +82,21 @@ namespace ATLAS.Services
             }
         }
 
-        // FIX: Added explicit firstName and lastName parameter controls to replace generic placeholder definitions
         public static async Task<bool> RegisterWithEmailAsync(string email, string password, string firstName, string lastName)
         {
             try
             {
                 var userCredential = await _firebaseClient!.CreateUserWithEmailAndPasswordAsync(email, password);
 
-                // FIX: Applies the unified name fields straight to the Firebase profile sync context
                 string fullName = $"{firstName} {lastName}".Trim();
                 await _firebaseClient.User.ChangeDisplayNameAsync(fullName);
 
                 string token = await userCredential.User.GetIdTokenAsync();
 
+                // FIX: Map the unique Firebase Uid onto the local model instance descriptor
                 var localUser = new ATLAS.Models.User
                 {
+                    Id = userCredential.User.Uid,
                     Username = email,
                     FirstName = firstName,
                     LastName = lastName
@@ -109,14 +111,12 @@ namespace ATLAS.Services
             }
         }
 
-        // NEW: Standard Standalone Google Identity Provider Login Routine
         public static async Task<bool> SignInWithGoogleAsync()
         {
             try
             {
                 if (_firebaseClient == null) return false;
 
-                // Launches an external browser loop back handler to acquire authentication authorization securely
                 var userCredential = await _firebaseClient.SignInWithRedirectAsync(FirebaseProviderType.Google, uri =>
                 {
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
@@ -133,8 +133,10 @@ namespace ATLAS.Services
                     string fullDisplayName = userCredential.User.Info.DisplayName ?? "Google User";
                     var nameParts = fullDisplayName.Split(' ', 2);
 
+                    // FIX: Map the unique Firebase Uid onto the local model instance descriptor
                     var localUser = new ATLAS.Models.User
                     {
+                        Id = userCredential.User.Uid,
                         Username = userCredential.User.Info.Email,
                         FirstName = nameParts[0],
                         LastName = nameParts.Length > 1 ? nameParts[1] : "",
@@ -153,7 +155,6 @@ namespace ATLAS.Services
             }
         }
 
-        // NEW: Connects/Links an already logged-in Email/Password account onto a Google SSO credential block
         public static async Task<bool> LinkAccountWithGoogleAsync()
         {
             try
@@ -173,7 +174,7 @@ namespace ATLAS.Services
                 if (userCredential?.User != null && CurrentUser != null)
                 {
                     CurrentUser.GoogleId = userCredential.User.Uid;
-                    // Refresh storage mapping parameters
+                    CurrentUser.Id = userCredential.User.Uid;
                     Login(CurrentUser, AuthToken!);
                     return true;
                 }
@@ -186,17 +187,12 @@ namespace ATLAS.Services
             }
         }
 
-        // NEW: Permanently purges user profiles from the cloud authentication server database
         public static async Task<bool> DeleteCurrentUserAccountAsync()
         {
             try
             {
                 if (_firebaseClient?.User == null) return false;
-
-                // Calls the library's native destruction routine safely
                 await _firebaseClient.User.DeleteAsync();
-
-                // Instantly purges standard system variables and memory registry tokens from the device cache
                 Logout();
                 return true;
             }
@@ -248,15 +244,12 @@ namespace ATLAS.Services
             {
                 if (_firebaseClient?.User == null || CurrentUser == null) return false;
 
-                // 1. Combine inputs to update the core Firebase record profile DisplayName
                 string fullName = $"{firstName} {lastName}".Trim();
                 await _firebaseClient.User.ChangeDisplayNameAsync(fullName);
 
-                // 2. Synchronize your custom local session memory tracker properties
                 CurrentUser.FirstName = firstName;
                 CurrentUser.LastName = lastName;
 
-                // 3. Persist the updated configuration cache to the system layout registry
                 Login(CurrentUser, AuthToken!);
                 return true;
             }
@@ -272,8 +265,6 @@ namespace ATLAS.Services
             try
             {
                 if (_firebaseClient?.User == null) return false;
-
-                // Executes native client-side password credential rotation
                 await _firebaseClient.User.ChangePasswordAsync(newPassword);
                 return true;
             }

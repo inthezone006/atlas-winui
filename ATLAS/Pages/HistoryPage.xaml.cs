@@ -14,9 +14,29 @@ namespace ATLAS.Pages
         {
             this.InitializeComponent();
             this.Loaded += HistoryPage_Loaded;
+            this.Unloaded += HistoryPage_Unloaded;
         }
 
-        private async void HistoryPage_Loaded(object sender, RoutedEventArgs e)
+        private void HistoryPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            AuthService.OnLoginStateChanged += OnLoginStateChangedHandler;
+            LoadHistoryRecords();
+        }
+
+        private void HistoryPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            AuthService.OnLoginStateChanged -= OnLoginStateChangedHandler;
+        }
+
+        private void OnLoginStateChangedHandler()
+        {
+            this.DispatcherQueue.TryEnqueue(() =>
+            {
+                LoadHistoryRecords();
+            });
+        }
+
+        private async void LoadHistoryRecords()
         {
             LoadingRing.IsActive = true;
             NoHistoryText.Visibility = Visibility.Collapsed;
@@ -42,7 +62,7 @@ namespace ATLAS.Pages
                 }
                 else
                 {
-                    NoHistoryText.Text = "Please log in to view analysis logs telemetry history.";
+                    NoHistoryText.Text = "Please log in to view analysis logs history.";
                     NoHistoryText.Visibility = Visibility.Visible;
                 }
             }
@@ -57,7 +77,6 @@ namespace ATLAS.Pages
             }
         }
 
-        // FIX: Missing navigation method event handler definition added
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.Frame.CanGoBack)
