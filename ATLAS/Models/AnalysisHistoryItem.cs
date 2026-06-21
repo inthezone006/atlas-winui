@@ -20,10 +20,10 @@ namespace ATLAS.Models
         [JsonPropertyName("created_at")]
         public string? CreatedAt { get; set; }
 
-        // FIX: Clean backend formatting helper to bypass XAML binding limitations
-        public string ScoreDisplay => $"Score: {Score:F2}/10";
+        // FIX: Provide a concrete DateTime structure for robust timeline sorting loops
+        public DateTime SortingDate { get; set; }
 
-        // Bonus helper to render scan status nicely
+        public string ScoreDisplay => $"Score: {Score:F2}/10";
         public string ScamStatusDisplay => IsScam ? "Status: Threat Detected" : "Status: Verified Clear";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -35,25 +36,18 @@ namespace ATLAS.Services
 
         public async Task SaveScanTelemetryAsync(string analysisType, float resultScore, bool isScam)
         {
-            if (!AuthService.IsLoggedIn || (string.IsNullOrEmpty(AuthService.CurrentUserId) && AuthService.CurrentUser == null))
+            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
                 return;
 
             try
             {
-                // FIX: Fall back to local user caching safely if background network initialization is delayed
-                string targetUserId = !string.IsNullOrEmpty(AuthService.CurrentUserId)
-                    ? AuthService.CurrentUserId
-                    : (AuthService.CurrentUser?.Id ?? AuthService.CurrentUser?.Username ?? "");
-
-                if (string.IsNullOrEmpty(targetUserId)) return;
-
                 string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents/analyses";
 
                 var payload = new
                 {
                     fields = new
                     {
-                        user_id = new { stringValue = targetUserId },
+                        user_id = new { stringValue = AuthService.CurrentUserId },
                         analysis_type = new { stringValue = analysisType },
                         result_score = new { doubleValue = (double)resultScore },
                         is_scam = new { booleanValue = isScam },
@@ -71,10 +65,6 @@ namespace ATLAS.Services
                     string errorDetails = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine($"[Firestore REST Upload Error]: {response.StatusCode} - {errorDetails}");
                 }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine("[Firestore REST]: Analysis document logged successfully!");
-                }
             }
             catch (Exception ex)
             {
@@ -84,18 +74,11 @@ namespace ATLAS.Services
 
         public async Task<(int TotalScans, int ScamCount, int SafeCount)> GetUserStatsAsync()
         {
-            if (!AuthService.IsLoggedIn || (string.IsNullOrEmpty(AuthService.CurrentUserId) && AuthService.CurrentUser == null))
+            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
                 return (0, 0, 0);
 
             try
             {
-                // FIX: Unify the User ID selector token target to ensure matching payload variables aren't null
-                string targetUserId = !string.IsNullOrEmpty(AuthService.CurrentUserId)
-                    ? AuthService.CurrentUserId
-                    : (AuthService.CurrentUser?.Username ?? "");
-
-                if (string.IsNullOrEmpty(targetUserId)) return (0, 0, 0);
-
                 string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents:runQuery";
 
                 var queryPayload = new
@@ -109,7 +92,7 @@ namespace ATLAS.Services
                             {
                                 field = new { fieldPath = "user_id" },
                                 op = "EQUAL",
-                                value = new { stringValue = AuthService.CurrentUserId } // FIX: Points to populated string reference variable token
+                                value = new { stringValue = AuthService.CurrentUserId }
                             }
                         }
                     }
@@ -119,12 +102,7 @@ namespace ATLAS.Services
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync(url, content);
-                if (!response.IsSuccessStatusCode)
-                {
-                    string errorDetails = await response.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine($"[Firestore REST Query Error]: {errorDetails}");
-                    return (0, 0, 0);
-                }
+                if (!response.IsSuccessStatusCode) return (0, 0, 0);
 
                 string responseJson = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(responseJson);
@@ -135,17 +113,15 @@ namespace ATLAS.Services
 
                 foreach (var element in doc.RootElement.EnumerateArray())
                 {
-                    if (element.TryGetProperty("document", out var documentElement))
+                    if (element.TryGetProperty("document", out var documentElement) &&
+                        documentElement.TryGetProperty("fields", out var fieldsElement))
                     {
-                        if (documentElement.TryGetProperty("fields", out var fieldsElement))
+                        total++;
+                        if (fieldsElement.TryGetProperty("is_scam", out var scamProp) &&
+                            scamProp.TryGetProperty("booleanValue", out var boolVal))
                         {
-                            total++;
-                            if (fieldsElement.TryGetProperty("is_scam", out var scamProp) &&
-                                scamProp.TryGetProperty("booleanValue", out var boolVal))
-                            {
-                                if (boolVal.GetBoolean()) scams++;
-                                else safe++;
-                            }
+                            if (boolVal.GetBoolean()) scams++;
+                            else safe++;
                         }
                     }
                 }
@@ -162,18 +138,14 @@ namespace ATLAS.Services
         public async Task<List<Models.AnalysisHistoryItem>> GetUserHistoryAsync()
         {
             var historyList = new List<Models.AnalysisHistoryItem>();
-            if (!AuthService.IsLoggedIn || (string.IsNullOrEmpty(AuthService.CurrentUserId) && AuthService.CurrentUser == null))
+            if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
+            {
+                System.Diagnostics.Debug.WriteLine("[DEBUG TELEMETRY]: GetUserHistoryAsync blocked - Not logged in or CurrentUserId is null.");
                 return historyList;
+            }
 
             try
             {
-                // FIX: Unify the User ID selector token target for history lookups
-                string targetUserId = !string.IsNullOrEmpty(AuthService.CurrentUserId)
-                    ? AuthService.CurrentUserId
-                    : (AuthService.CurrentUser?.Username ?? "");
-
-                if (string.IsNullOrEmpty(targetUserId)) return historyList;
-
                 string url = $"https://firestore.googleapis.com/v1/projects/{FirebaseConfig.ProjectId}/databases/(default)/documents:runQuery";
 
                 var queryPayload = new
@@ -187,23 +159,29 @@ namespace ATLAS.Services
                             {
                                 field = new { fieldPath = "user_id" },
                                 op = "EQUAL",
-                                value = new { stringValue = AuthService.CurrentUserId } // FIX: Points to populated string reference variable token
+                                value = new { stringValue = AuthService.CurrentUserId }
                             }
-                        },
-                        order = new[]
-                        {
-                            new { field = new { fieldPath = "created_at" }, direction = "DESCENDING" }
                         }
                     }
                 };
 
                 string jsonContent = JsonSerializer.Serialize(queryPayload);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Query payload target: {jsonContent}");
 
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(url, content);
-                if (!response.IsSuccessStatusCode) return historyList;
+
+                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Server response status code: {response.StatusCode}");
 
                 string responseJson = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Raw JSON output payload: {responseJson}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY ERROR]: HTTP query status error string returned: {responseJson}");
+                    return historyList;
+                }
+
                 using var doc = JsonDocument.Parse(responseJson);
 
                 foreach (var element in doc.RootElement.EnumerateArray())
@@ -217,25 +195,42 @@ namespace ATLAS.Services
                         fieldsElement.TryGetProperty("created_at", out var timeProp);
 
                         string type = typeProp.TryGetProperty("stringValue", out var tVal) ? tVal.GetString() ?? "Unknown" : "Unknown";
-                        double score = scoreProp.TryGetProperty("doubleValue", out var sVal) ? sVal.GetDouble() : 0.0;
+
+                        double score = 0.0;
+                        if (scoreProp.TryGetProperty("doubleValue", out var sDouble)) score = sDouble.GetDouble();
+                        else if (scoreProp.TryGetProperty("integerValue", out var sInt) && double.TryParse(sInt.GetString(), out double parsedScore)) score = parsedScore;
+
                         bool isScam = scamProp.TryGetProperty("booleanValue", out var bVal) && bVal.GetBoolean();
                         string rawTime = timeProp.TryGetProperty("stringValue", out var dVal) ? dVal.GetString() ?? "" : "";
 
-                        DateTime.TryParse(rawTime, out DateTime parsedTime);
+                        string formattedDisplayDate = rawTime;
+                        DateTime sortingDateValue = DateTime.MinValue;
+
+                        if (DateTimeOffset.TryParse(rawTime, out DateTimeOffset parsedOffset))
+                        {
+                            var localTime = parsedOffset.ToLocalTime();
+                            formattedDisplayDate = localTime.ToString("g");
+                            sortingDateValue = localTime.DateTime;
+                        }
 
                         historyList.Add(new Models.AnalysisHistoryItem
                         {
                             AnalysisType = type,
                             Score = (float)score,
                             IsScam = isScam,
-                            CreatedAt = parsedTime.ToLocalTime().ToString("g")
+                            CreatedAt = formattedDisplayDate,
+                            SortingDate = sortingDateValue
                         });
                     }
                 }
+
+                var sortedList = historyList.OrderByDescending(item => item.SortingDate).ToList();
+                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Successfully parsed and sorted {sortedList.Count} history items.");
+                return sortedList;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"History query processing fault: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY HISTORY CRASH]: {ex}");
             }
             return historyList;
         }

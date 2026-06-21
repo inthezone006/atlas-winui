@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace ATLAS.Pages
 {
@@ -38,18 +39,23 @@ namespace ATLAS.Pages
 
         private async void LoadHistoryRecords()
         {
+            System.Diagnostics.Debug.WriteLine("[DEBUG HISTORY]: LoadHistoryRecords called.");
             LoadingRing.IsActive = true;
             NoHistoryText.Visibility = Visibility.Collapsed;
             HistoryItems.Clear();
 
             try
             {
+                System.Diagnostics.Debug.WriteLine($"[DEBUG HISTORY]: IsLoggedIn={AuthService.IsLoggedIn}, CurrentUserId='{AuthService.CurrentUserId}'");
+
                 if (AuthService.IsLoggedIn)
                 {
                     var records = await FirestoreTelemetryService.Instance.GetUserHistoryAsync();
+                    System.Diagnostics.Debug.WriteLine($"[DEBUG HISTORY]: Returned records count = {records.Count}");
 
                     if (records.Count == 0)
                     {
+                        NoHistoryText.Text = "No history records found in your Firestore collection.";
                         NoHistoryText.Visibility = Visibility.Visible;
                     }
                     else
@@ -68,6 +74,7 @@ namespace ATLAS.Pages
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[DEBUG HISTORY EXCEPTION]: {ex}");
                 NoHistoryText.Text = $"Failed to load history metrics: {ex.Message}";
                 NoHistoryText.Visibility = Visibility.Visible;
             }
