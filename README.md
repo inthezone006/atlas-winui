@@ -46,6 +46,7 @@ Before you begin, ensure you have the following software installed:
     ```sh
     git lfs install
     git clone [https://github.com/inthezone006/atlas-winui.git](https://github.com/inthezone006/atlas-winui.git)
+	git lfs pull
     cd atlas-winui
     ```
 2.  **Open the Solution:**

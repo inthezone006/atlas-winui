@@ -37,9 +37,19 @@
                                     </StackPanel>
                                 </Expander.Header>
                                 <Expander.Content>
-                                    <StackPanel Spacing="5" Padding="10">
+                                    <StackPanel Spacing="8" Padding="12">
                                         <TextBlock Text="{x:Bind ScamStatusDisplay}" FontWeight="SemiBold"/>
                                         <TextBlock Text="{x:Bind ScoreDisplay}" Opacity="0.8"/>
+
+                                        <MenuFlyoutSeparator Margin="0,5"/>
+
+                                        <TextBlock Text="Scanned Subject:" FontSize="11" FontWeight="Medium" Opacity="0.5"/>
+                                        <TextBlock Text="{x:Bind ScannedContent}" 
+                                           TextWrapping="Wrap" 
+                                           FontSize="13" 
+                                           Opacity="0.9"
+                                           IsTextSelectionEnabled="True"
+                                           FontStyle="Italic"/>
                                     </StackPanel>
                                 </Expander.Content>
                             </Expander>

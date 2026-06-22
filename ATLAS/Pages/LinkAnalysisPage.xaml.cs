@@ -82,7 +82,7 @@ namespace ATLAS.Pages
                     if (malicious > 0)
                     {
                         StatusText.Text = "Suspicious / Threat Detected";
-                        StatusIcon.Glyph = "\xE7BA"; // Warning Icon
+                        StatusIcon.Glyph = "\xE7BA";
                         ExplanationText.Text = $"Flagged as dangerous by structural scan engines. Target: {targetUrl}";
                     }
                     else
@@ -94,7 +94,10 @@ namespace ATLAS.Pages
 
                     if (AuthService.IsLoggedIn)
                     {
-                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Link Analysis", malicious > 0 ? 100f : 0f, malicious > 0);
+                        float telemetryScore = malicious > 0 ? 100f : 0f;
+                        bool isThreat = malicious > 0;
+
+                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Link Analysis", telemetryScore, isThreat, targetUrl);
                     }
                 }
             }

@@ -110,7 +110,7 @@ namespace ATLAS.Pages
                         float scoreValue = (float)(result.Score ?? 0.0);
                         bool scamValue = result.IsScam ?? false;
 
-                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Text Analysis", scoreValue, scamValue);
+                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Text Analysis", scoreValue, scamValue, lastAnalyzedText);
                     }
                 }
             }
@@ -130,7 +130,6 @@ namespace ATLAS.Pages
 
         private AnalysisResult PerformLocalInference(string text)
         {
-            // FIX: Block until static references are guaranteed available if triggered externally
             EnsureModelInitializedAsync().Wait();
 
             if (_tokenizer == null || _onnxSession == null)
@@ -138,11 +137,17 @@ namespace ATLAS.Pages
                 return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Local AI model metrics are uninitialized." };
             }
 
+            // 1. Encode text natively into raw ID fragments
             IReadOnlyList<int> nativeIds = _tokenizer.EncodeToIds(text);
 
-            long[] tokenIds = nativeIds.Select(id => (long)id).ToArray();
+            // FIX: Clamp and truncate the array sequence strictly to 512 tokens to prevent ONNX runtime broadcasting boundary crashes
+            const int MaxSequenceLength = 512;
+            long[] tokenIds = nativeIds.Select(id => (long)id).Take(MaxSequenceLength).ToArray();
+
+            // Ensure attention mask mirrors the clamped length exactly
             long[] attentionMask = Enumerable.Repeat(1L, tokenIds.Length).ToArray();
 
+            // 2. Set dimensions dynamically matching your truncated footprint
             int[] dimensions = new int[] { 1, tokenIds.Length };
 
             var inputIdsTensor = new DenseTensor<long>(tokenIds, dimensions);

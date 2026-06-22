@@ -20,10 +20,12 @@ namespace ATLAS.Models
         [JsonPropertyName("created_at")]
         public string? CreatedAt { get; set; }
 
-        // FIX: Provide a concrete DateTime structure for robust timeline sorting loops
+        [JsonPropertyName("scanned_content")]
+        public string? ScannedContent { get; set; }
+
         public DateTime SortingDate { get; set; }
 
         public string ScoreDisplay => $"Score: {Score:F2}/10";
-        public string ScamStatusDisplay => IsScam ? "Status: Threat Detected" : "Status: Verified Clear";
+        public string ScamStatusDisplay => IsScam ? "Status: Threat Detected" : "Status: No Threat Detected";
     }
 }

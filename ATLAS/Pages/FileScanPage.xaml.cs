@@ -104,19 +104,23 @@ namespace ATLAS.Pages
                     if (malicious > 0)
                     {
                         StatusText.Text = "Threat Detected";
-                        StatusIcon.Glyph = "\xE7BA"; // Warning Icon
+                        StatusIcon.Glyph = "\xE7BA";
                         ExplanationText.Text = $"Flagged by {malicious} engine signatures. SHA-256: {fileHash.Substring(0, 16)}...";
                     }
                     else
                     {
-                        StatusText.Text = "Verified Safe";
-                        StatusIcon.Glyph = "\xE73E"; // Checkmark Icon
+                        StatusText.Text = "No Threat Detected";
+                        StatusIcon.Glyph = "\xE73E";
                         ExplanationText.Text = "No antivirus engine variants flagged this file asset.";
                     }
 
                     if (AuthService.IsLoggedIn)
                     {
-                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("File Scan", malicious > 0 ? 100f : 0f, malicious > 0);
+                        string fileName = _selectedFile != null ? _selectedFile.Name : "Unknown File";
+                        float telemetryScore = malicious > 0 ? 100f : 0f;
+                        bool isThreat = malicious > 0;
+
+                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("File Scan", telemetryScore, isThreat, fileName);
                     }
                 }
             }

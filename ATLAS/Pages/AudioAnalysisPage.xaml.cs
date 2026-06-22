@@ -154,13 +154,13 @@ namespace ATLAS.Pages
 
                 if (isThreatScam)
                 {
-                    StatusText.Text = "Voice Print Threat Flagged";
+                    StatusText.Text = "Threat Detected";
                     StatusIcon.Glyph = "\xE7BA";
-                    ExplanationText.Text = analysisResult.Explanation ?? "Heuristic analysis detected structural scam patterns.";
+                    ExplanationText.Text = analysisResult.Explanation ?? "Audio analysis detected structural scam patterns.";
                 }
                 else
                 {
-                    StatusText.Text = "Voice Print Clear";
+                    StatusText.Text = "No Threat Detected";
                     StatusIcon.Glyph = "\xE73E";
                     ExplanationText.Text = "No structural conversational scam models were matched in the audio sample.";
                 }
@@ -168,7 +168,8 @@ namespace ATLAS.Pages
                 if (AuthService.IsLoggedIn)
                 {
                     float telemetryScore = (float)(analysisResult.Score ?? 0.0);
-                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Audio Scan", telemetryScore, isThreatScam);
+                    string fileName = Path.GetFileName(_selectedAudioPath) ?? "Unknown Audio";
+                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Audio Scan", telemetryScore, isThreatScam, fileName);
                 }
             }
             catch (Exception ex)

@@ -34,7 +34,8 @@ namespace ATLAS.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task SaveScanTelemetryAsync(string analysisType, float resultScore, bool isScam)
+        // 1. Update the signature and fields payload of SaveScanTelemetryAsync
+        public async Task SaveScanTelemetryAsync(string analysisType, float resultScore, bool isScam, string scannedContent)
         {
             if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
                 return;
@@ -51,20 +52,15 @@ namespace ATLAS.Services
                         analysis_type = new { stringValue = analysisType },
                         result_score = new { doubleValue = (double)resultScore },
                         is_scam = new { booleanValue = isScam },
-                        created_at = new { stringValue = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ") }
+                        created_at = new { stringValue = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ") },
+                        // ADD THIS: Appends the artifact metadata into the database doc layout context
+                        scanned_content = new { stringValue = scannedContent ?? string.Empty }
                     }
                 };
 
                 string jsonContent = JsonSerializer.Serialize(payload);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync(url, content);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    string errorDetails = await response.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine($"[Firestore REST Upload Error]: {response.StatusCode} - {errorDetails}");
-                }
+                await _httpClient.PostAsync(url, content);
             }
             catch (Exception ex)
             {
@@ -193,6 +189,9 @@ namespace ATLAS.Services
                         fieldsElement.TryGetProperty("result_score", out var scoreProp);
                         fieldsElement.TryGetProperty("is_scam", out var scamProp);
                         fieldsElement.TryGetProperty("created_at", out var timeProp);
+                        fieldsElement.TryGetProperty("scanned_content", out var contentProp);
+
+                        string scannedContentValue = contentProp.TryGetProperty("stringValue", out var cVal) ? cVal.GetString() ?? "N/A" : "N/A";
 
                         string type = typeProp.TryGetProperty("stringValue", out var tVal) ? tVal.GetString() ?? "Unknown" : "Unknown";
 
@@ -219,7 +218,8 @@ namespace ATLAS.Services
                             Score = (float)score,
                             IsScam = isScam,
                             CreatedAt = formattedDisplayDate,
-                            SortingDate = sortingDateValue
+                            SortingDate = sortingDateValue,
+                            ScannedContent = scannedContentValue
                         });
                     }
                 }

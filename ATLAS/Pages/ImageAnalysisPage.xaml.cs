@@ -127,7 +127,8 @@ namespace ATLAS.Pages
                     float telemetryScore = (float)(result.Analysis.Score ?? 0.0);
                     bool isThreatScam = result.Analysis.IsScam ?? false;
 
-                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Image Scan", telemetryScore, isThreatScam);
+                    string fileName = selectedImageFile != null ? selectedImageFile.Name : "Unknown Image";
+                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Image Scan", telemetryScore, isThreatScam, fileName);
                 }
             }
             catch (Exception ex)
@@ -185,14 +186,14 @@ namespace ATLAS.Pages
             else
             {
                 ExpandButton.Visibility = Visibility.Collapsed;
-                ExtractedText.MaxLines = 0; // Let it render fully without limits if short
+                ExtractedText.MaxLines = 0;
             }
 
             var analysis = result.Analysis ?? new AnalysisResult
             {
                 IsScam = false,
                 Score = 0f,
-                Explanation = "Local text heuristics returned an empty profile or processing timed out."
+                Explanation = "Local text analysis returned an empty profile or processing timed out."
             };
 
             if (analysis.IsScam == true)
@@ -211,10 +212,8 @@ namespace ATLAS.Pages
             ScoreText.Text = $"{analysis.Score:F2}/10";
             ExplanationText.Text = analysis.Explanation;
 
-            // Set visibility to Visible first so the framework instantiates rendering components
             ResultsBox.Visibility = Visibility.Visible;
 
-            // FIX: Guard against null RenderTransform instances on collapsed XAML layouts
             if (ResultsBox.RenderTransform == null || !(ResultsBox.RenderTransform is TranslateTransform))
             {
                 ResultsBox.RenderTransform = new TranslateTransform();
