@@ -6,13 +6,12 @@ ATLAS is a modern Windows desktop application designed to be your digital map to
 
 In the current age of widespread misinformation and sophisticated scams, ATLAS empowers users to navigate the digital world with confidence. Using AI and machine learning models, ATLAS examines content you provide for common patterns and indicators of malicious intent. Whether it's a suspicious email 📧, a strange voicemail 🎙️, or a questionable image 🖼️, our platform provides a clear analysis to help you make informed decisions.
 
-This repository contains the **frontend client** for ATLAS, built with WinUI 3. The **backend server** is located in a separate repository: [https://github.com/inthezone006/atlas](https://github.com/inthezone006/atlas).
+This repository contains the **frontend client** for ATLAS, built with WinUI 3 on C#.
 
 ### Built With 🛠️
 
 * **Frontend:** C# with WinUI 3 & the Windows App SDK
-* **Backend:** Python with Flask
-* **Database:** MongoDB
+* **Database:** Firestore
 
 ---
 
@@ -44,18 +43,11 @@ Before you begin, ensure you have the following software installed:
 
 1.  **Clone the Frontend Repository and install Git LFS:**
     ```sh
-    git lfs install
     git clone [https://github.com/inthezone006/atlas-winui.git](https://github.com/inthezone006/atlas-winui.git)
-	git lfs pull
     cd atlas-winui
     ```
 2.  **Open the Solution:**
     * Open the `ATLAS.sln` file with Visual Studio. Visual Studio should automatically restore the required NuGet packages.
-3.  **Connect to the Backend:** 🔗
-    * For ease of development, you can connect the client directly to the live, deployed backend.
-    * Go through the C# files in the `Pages` folder and ensure all API URLs point to:
-        `https://atlas-backend-fkgye9e7b6dkf4cj.westus-01.azurewebsites.net/`
-    * **(Optional) Run Local Backend:** If you wish to run the backend locally, clone the [backend repository](https://github.com/inthezone006/atlas) and follow the setup instructions in its `README` file. Remember to update the API URLs in the WinUI 3 app to `http://127.0.0.1:5000`.
 
 ---
 
