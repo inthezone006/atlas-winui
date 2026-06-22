@@ -35,7 +35,7 @@ Follow these instructions to set up the ATLAS client for local development.
 
 Before you begin, ensure you have the following software installed:
 
-1.  **Visual Studio 2022** 🧑‍💻
+1.  **Visual Studio** 🧑‍💻
     * You **must** include the **".NET Multi-platform App UI development"** workload.
 2.  **Windows Developer Mode** ⚙️
     * Go to **Settings** > **Privacy & security** > **For developers** and turn **Developer Mode** on.
@@ -50,7 +50,7 @@ Before you begin, ensure you have the following software installed:
     cd atlas-winui
     ```
 2.  **Open the Solution:**
-    * Open the `ATLAS.sln` file with Visual Studio 2022. Visual Studio should automatically restore the required NuGet packages.
+    * Open the `ATLAS.sln` file with Visual Studio. Visual Studio should automatically restore the required NuGet packages.
 3.  **Connect to the Backend:** 🔗
     * For ease of development, you can connect the client directly to the live, deployed backend.
     * Go through the C# files in the `Pages` folder and ensure all API URLs point to:
