@@ -81,14 +81,14 @@ namespace ATLAS.Pages
 
                     if (malicious > 0)
                     {
-                        StatusText.Text = "Suspicious / Threat Detected";
+                        StatusText.Text = "Threat Detected";
                         StatusIcon.Glyph = "\xE7BA";
                         ExplanationText.Text = $"Flagged as dangerous by structural scan engines. Target: {targetUrl}";
                     }
                     else
                     {
-                        StatusText.Text = "Verified Safe";
-                        StatusIcon.Glyph = "\xE73E"; // Checkmark Icon
+                        StatusText.Text = "No Threat Detected";
+                        StatusIcon.Glyph = "\xE73E";
                         ExplanationText.Text = "No engines flagged this link as a known security risk.";
                     }
 

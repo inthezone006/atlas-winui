@@ -24,7 +24,6 @@ namespace ATLAS.Pages
             }
         }
 
-        // Reusable helper to show native WinUI 3 alert confirmation boxes
         private async Task ShowConfirmationDialogAsync(string title, string message)
         {
             ContentDialog dialog = new ContentDialog
@@ -55,7 +54,6 @@ namespace ATLAS.Pages
 
             if (success)
             {
-                // FIX: Native alert confirmation box pop-up trigger
                 await ShowConfirmationDialogAsync("Name Updated", "Your local profile first and last display names have been updated successfully.");
             }
             else

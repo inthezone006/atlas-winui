@@ -75,21 +75,17 @@ namespace ATLAS.Pages
 
             try
             {
-                // 1. Open file stream natively
                 using var stream = await selectedImageFile.OpenAsync(FileAccessMode.Read);
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
 
-                // 2. FIX: Decode with default native values first to prevent COMExceptions on JPEGs
                 SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
-                // 3. FIX: Safely convert the bitmap only if it isn't already in the right format for OCR
                 if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 ||
                     softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Premultiplied)
                 {
                     softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
                 }
 
-                // 4. Native Windows OCR engine execution
                 OcrEngine ocrEngine = OcrEngine.TryCreateFromUserProfileLanguages();
                 if (ocrEngine == null)
                 {
@@ -112,10 +108,8 @@ namespace ATLAS.Pages
 
                 if (!string.IsNullOrWhiteSpace(extractedText))
                 {
-                    // Instantiation happens safely on the UI Thread here
                     var textPageInstance = new TextAnalysisPage();
 
-                    // Pass the UI-created instance into the background thread pool task runner safely
                     var localAnalysis = await Task.Run(() => PerformLocalTextClassification(extractedText, textPageInstance));
                     result.Analysis = localAnalysis;
                 }
@@ -128,7 +122,7 @@ namespace ATLAS.Pages
                     bool isThreatScam = result.Analysis.IsScam ?? false;
 
                     string fileName = selectedImageFile != null ? selectedImageFile.Name : "Unknown Image";
-                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Image Scan", telemetryScore, isThreatScam, fileName);
+                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Image Analysis", telemetryScore, isThreatScam, fileName);
                 }
             }
             catch (Exception ex)
@@ -147,7 +141,6 @@ namespace ATLAS.Pages
         {
             try
             {
-                // Leverages the reflection execution loop safely on the background worker
                 var privateMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 

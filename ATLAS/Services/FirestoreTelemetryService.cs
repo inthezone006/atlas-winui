@@ -33,8 +33,6 @@ namespace ATLAS.Services
         {
             _httpClient = new HttpClient();
         }
-
-        // 1. Update the signature and fields payload of SaveScanTelemetryAsync
         public async Task SaveScanTelemetryAsync(string analysisType, float resultScore, bool isScam, string scannedContent)
         {
             if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
@@ -136,7 +134,6 @@ namespace ATLAS.Services
             var historyList = new List<Models.AnalysisHistoryItem>();
             if (!AuthService.IsLoggedIn || string.IsNullOrEmpty(AuthService.CurrentUserId))
             {
-                System.Diagnostics.Debug.WriteLine("[DEBUG TELEMETRY]: GetUserHistoryAsync blocked - Not logged in or CurrentUserId is null.");
                 return historyList;
             }
 
@@ -162,19 +159,13 @@ namespace ATLAS.Services
                 };
 
                 string jsonContent = JsonSerializer.Serialize(queryPayload);
-                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Query payload target: {jsonContent}");
-
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(url, content);
 
-                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Server response status code: {response.StatusCode}");
-
                 string responseJson = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Raw JSON output payload: {responseJson}");
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY ERROR]: HTTP query status error string returned: {responseJson}");
                     return historyList;
                 }
 
@@ -225,7 +216,6 @@ namespace ATLAS.Services
                 }
 
                 var sortedList = historyList.OrderByDescending(item => item.SortingDate).ToList();
-                System.Diagnostics.Debug.WriteLine($"[DEBUG TELEMETRY]: Successfully parsed and sorted {sortedList.Count} history items.");
                 return sortedList;
             }
             catch (Exception ex)

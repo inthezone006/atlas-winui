@@ -8,8 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using Vosk;
-using NAudio.Wave; // Added for universal client-side audio conversion
-
+using NAudio.Wave;
 namespace ATLAS.Pages
 {
     public sealed partial class AudioAnalysisPage : Page
@@ -71,7 +70,6 @@ namespace ATLAS.Pages
 
             openPicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
 
-            // FIX: Added universal audio extension filters to picker parameters
             openPicker.FileTypeFilter.Add(".mp3");
             openPicker.FileTypeFilter.Add(".wav");
             openPicker.FileTypeFilter.Add(".m4a");
@@ -109,7 +107,6 @@ namespace ATLAS.Pages
                     throw new InvalidOperationException("Vosk transcription pipeline is unavailable or unconfigured.");
                 }
 
-                // Process decoding and transcription in a separate thread task pool
                 string transcribedResultText = await Task.Run(() => PerformAudioTranscription(_selectedAudioPath));
 
                 if (string.IsNullOrWhiteSpace(transcribedResultText))
@@ -169,7 +166,7 @@ namespace ATLAS.Pages
                 {
                     float telemetryScore = (float)(analysisResult.Score ?? 0.0);
                     string fileName = Path.GetFileName(_selectedAudioPath) ?? "Unknown Audio";
-                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Audio Scan", telemetryScore, isThreatScam, fileName);
+                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Audio Analysis", telemetryScore, isThreatScam, fileName);
                 }
             }
             catch (Exception ex)
@@ -186,7 +183,6 @@ namespace ATLAS.Pages
             }
         }
 
-        // FIX: Universally transforms any audio variant into the raw 16kHz PCM data Vosk requires
         private string PerformAudioTranscription(string audioPath)
         {
             try
@@ -194,23 +190,17 @@ namespace ATLAS.Pages
                 using var recognizer = new VoskRecognizer(_voskModel, 16000.0f);
                 recognizer.SetWords(false);
 
-                // AudioFileReader natively implements IDisposable and handles file locking streams
                 using var audioReader = new AudioFileReader(audioPath);
 
-                // Define target format context: 16000Hz, 16-bit, Mono PCM
                 var outFormat = new WaveFormat(16000, 16, 1);
 
-                // MediaFoundationResampler natively handles unmanaged decoder resources via IDisposable
                 using var resampler = new MediaFoundationResampler(audioReader, outFormat);
 
-                // Fine-tune standard conversion quality optimization parameters
                 resampler.ResamplerQuality = 60;
 
                 byte[] buffer = new byte[4096];
                 int bytesRead;
 
-                // FIX: MediaFoundationResampler is already an IWaveProvider, so read from it directly
-                // without wrapping it in a redundant nested using block.
                 while ((bytesRead = resampler.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     recognizer.AcceptWaveform(buffer, bytesRead);

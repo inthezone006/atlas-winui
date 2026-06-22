@@ -48,8 +48,7 @@ namespace ATLAS.Pages
 
             if (BackgroundCanvas.ActualWidth == 0) return;
 
-            // FIX: Define vertical "lanes" to prevent horizontal overlap
-            int numLanes = (int)(BackgroundCanvas.ActualWidth / 100); // Create a lane every 100 pixels
+            int numLanes = (int)(BackgroundCanvas.ActualWidth / 100);
             if (numLanes == 0) numLanes = 1;
             double laneWidth = BackgroundCanvas.ActualWidth / numLanes;
 
@@ -62,11 +61,9 @@ namespace ATLAS.Pages
                     Opacity = 0.1
                 };
 
-                // Assign to a random lane
                 int lane = random.Next(numLanes);
                 double horizontalPosition = (lane * laneWidth) + (laneWidth - emoji.FontSize) / 2;
 
-                // Position randomly vertically
                 double verticalPosition = random.NextDouble() * BackgroundCanvas.ActualHeight;
 
                 Canvas.SetLeft(emoji, horizontalPosition);
@@ -81,7 +78,6 @@ namespace ATLAS.Pages
         {
             if (BackgroundCanvas.ActualWidth == 0) return;
 
-            // Recalculate lanes in case window was resized
             int numLanes = (int)(BackgroundCanvas.ActualWidth / 100);
             if (numLanes == 0) numLanes = 1;
             double laneWidth = BackgroundCanvas.ActualWidth / numLanes;
@@ -93,7 +89,6 @@ namespace ATLAS.Pages
 
                 if (top > BackgroundCanvas.ActualHeight)
                 {
-                    // If an emoji goes off-screen, reset it to the top in a new random lane
                     Canvas.SetTop(emoji, -50);
 
                     int lane = random.Next(numLanes);

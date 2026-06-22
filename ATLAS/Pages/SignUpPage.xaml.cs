@@ -84,14 +84,12 @@ public sealed partial class SignUpPage : Page
 
         try
         {
-            // FIX: Use your local client-side Firebase Auth wrapper
             bool registrationSuccess = await AuthService.RegisterWithEmailAsync(username, password, firstName, lastName);
 
             if (registrationSuccess)
             {
                 if ((Application.Current as App)?.RootFrame != null)
                 {
-                    // Redirect directly into the secure app view layout 
                     (Application.Current as App)!.RootFrame!.Navigate(
                         typeof(DashboardPage),
                         null,

@@ -60,7 +60,6 @@ namespace ATLAS.Pages
                     }
                     else
                     {
-                        // FIX: Marshal collection binding updates cleanly back onto the Main WinUI UI Thread context
                         this.DispatcherQueue.TryEnqueue(() =>
                         {
                             foreach (var record in records)

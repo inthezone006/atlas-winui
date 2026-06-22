@@ -25,7 +25,6 @@ namespace ATLAS.Pages
         {
             var openPicker = new FileOpenPicker();
 
-            // FIX: Use your App instance's Window handle natively
             var app = Application.Current as App;
             var window = app?._window;
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
@@ -79,7 +78,7 @@ namespace ATLAS.Pages
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     StatusText.Text = "Unknown Signature";
-                    StatusIcon.Glyph = "\xE9CE"; // Help/Unknown Info Icon
+                    StatusIcon.Glyph = "\xE9CE";
                     ExplanationText.Text = "This file footprint has never been seen by VirusTotal engines before.";
                     HarmlessCountText.Text = "0";
                     SuspiciousCountText.Text = "0";
@@ -120,7 +119,7 @@ namespace ATLAS.Pages
                         float telemetryScore = malicious > 0 ? 100f : 0f;
                         bool isThreat = malicious > 0;
 
-                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("File Scan", telemetryScore, isThreat, fileName);
+                        await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("File Analysis", telemetryScore, isThreat, fileName);
                     }
                 }
             }

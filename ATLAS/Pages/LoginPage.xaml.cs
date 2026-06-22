@@ -22,7 +22,7 @@ namespace ATLAS.Pages
             LoadingRing.IsActive = true;
             LoginButton.IsEnabled = false;
 
-            var username = EmailTextBox.Text; // This corresponds to the user's email address
+            var username = EmailTextBox.Text;
             var password = PasswordBox.Password;
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
@@ -35,7 +35,6 @@ namespace ATLAS.Pages
 
             try
             {
-                // Native Client side Firebase authentication execution
                 bool loginSuccess = await AuthService.LoginWithEmailAsync(username, password);
 
                 if (loginSuccess)

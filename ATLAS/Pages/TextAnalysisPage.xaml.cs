@@ -20,7 +20,6 @@ namespace ATLAS.Pages
     {
         private string? lastAnalyzedText;
 
-        // FIX: Made these static so the heavy model is shared globally across Text and Image analysis views
         private static InferenceSession? _onnxSession;
         private static Tokenizer? _tokenizer;
         private static readonly object _initLock = new object();
@@ -34,11 +33,9 @@ namespace ATLAS.Pages
 
         private void TextAnalysisPage_Loaded(object sender, RoutedEventArgs e)
         {
-            // Trigger global initialization asynchronously without blocking UI render streams
             EnsureModelInitializedAsync();
         }
 
-        // FIX: Thread-safe initialization gate accessible by external analysis components
         public static Task EnsureModelInitializedAsync()
         {
             lock (_initLock)
@@ -49,7 +46,6 @@ namespace ATLAS.Pages
                     {
                         try
                         {
-                            // Using absolute installation package context mapping strings to guarantee path resolution
                             string installedPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
                             string modelPath = Path.Combine(installedPath, "Assets", "model.onnx");
                             string vocabPath = Path.Combine(installedPath, "Assets", "vocab.txt");
@@ -92,7 +88,6 @@ namespace ATLAS.Pages
 
             try
             {
-                // FIX: Ensure initialization finishes completely before pulling values
                 await EnsureModelInitializedAsync();
 
                 if (_onnxSession == null || _tokenizer == null)
@@ -137,17 +132,13 @@ namespace ATLAS.Pages
                 return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Local AI model metrics are uninitialized." };
             }
 
-            // 1. Encode text natively into raw ID fragments
             IReadOnlyList<int> nativeIds = _tokenizer.EncodeToIds(text);
 
-            // FIX: Clamp and truncate the array sequence strictly to 512 tokens to prevent ONNX runtime broadcasting boundary crashes
             const int MaxSequenceLength = 512;
             long[] tokenIds = nativeIds.Select(id => (long)id).Take(MaxSequenceLength).ToArray();
 
-            // Ensure attention mask mirrors the clamped length exactly
             long[] attentionMask = Enumerable.Repeat(1L, tokenIds.Length).ToArray();
 
-            // 2. Set dimensions dynamically matching your truncated footprint
             int[] dimensions = new int[] { 1, tokenIds.Length };
 
             var inputIdsTensor = new DenseTensor<long>(tokenIds, dimensions);

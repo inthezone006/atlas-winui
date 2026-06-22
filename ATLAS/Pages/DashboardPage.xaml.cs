@@ -20,20 +20,17 @@ namespace ATLAS.Pages
 
         private void DashboardPage_Loaded(object sender, RoutedEventArgs e)
         {
-            // Subscribe to the correct AuthService login state event
             AuthService.OnLoginStateChanged += OnLoginStateChangedHandler;
             RefreshDashboardUI();
         }
 
         private void DashboardPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            // Unsubscribe to protect against unmanaged thread leaks
             AuthService.OnLoginStateChanged -= OnLoginStateChangedHandler;
         }
 
         private void OnLoginStateChangedHandler()
         {
-            // Safely marshal execution back to the WinUI UI thread
             this.DispatcherQueue.TryEnqueue(() =>
             {
                 RefreshDashboardUI();

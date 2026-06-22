@@ -17,7 +17,6 @@ namespace ATLAS.Services
         public static string? AuthToken { get; private set; }
         public static bool IsLoggedIn => CurrentUser != null;
 
-        // FIX: Falls back immediately to cached storage data if the network handshake is still completing
         public static string? CurrentUserId => _firebaseClient?.User?.Uid ?? CurrentUser?.Id;
 
         public static event Action? OnLoginStateChanged;
@@ -64,7 +63,6 @@ namespace ATLAS.Services
                 string firstName = nameParts[0];
                 string lastName = nameParts.Length > 1 ? nameParts[1] : "";
 
-                // FIX: Map the unique Firebase Uid onto the local model instance descriptor
                 var localUser = new ATLAS.Models.User
                 {
                     Id = userCredential.User.Uid,
@@ -93,7 +91,6 @@ namespace ATLAS.Services
 
                 string token = await userCredential.User.GetIdTokenAsync();
 
-                // FIX: Map the unique Firebase Uid onto the local model instance descriptor
                 var localUser = new ATLAS.Models.User
                 {
                     Id = userCredential.User.Uid,
@@ -133,7 +130,6 @@ namespace ATLAS.Services
                     string fullDisplayName = userCredential.User.Info.DisplayName ?? "Google User";
                     var nameParts = fullDisplayName.Split(' ', 2);
 
-                    // FIX: Map the unique Firebase Uid onto the local model instance descriptor
                     var localUser = new ATLAS.Models.User
                     {
                         Id = userCredential.User.Uid,

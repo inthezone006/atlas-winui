@@ -15,7 +15,6 @@ namespace ATLAS.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            // Default to the first item, "File Scan"
             ProtectionSelectionList.SelectedIndex = 0;
         }
 
