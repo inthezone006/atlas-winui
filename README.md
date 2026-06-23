@@ -41,7 +41,7 @@ Before you begin, ensure you have the following software installed:
 
 ### Installation & Setup ⚙️
 
-1.  **Clone the Frontend Repository and install Git LFS:**
+1.  **Clone the Frontend Repository:**
     ```sh
     git clone [https://github.com/inthezone006/atlas-winui.git](https://github.com/inthezone006/atlas-winui.git)
     cd atlas-winui
