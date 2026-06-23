@@ -48,22 +48,22 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="24" VerticalAlignment="Center">
 
                     <StackPanel Spacing="4" MinWidth="64">
-                        <TextBlock x:Name="MaliciousText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="IndianRed" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="MaliciousText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="Black" HorizontalAlignment="Center"/>
                         <TextBlock Text="Malicious" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
                     </StackPanel>
 
                     <StackPanel Spacing="4" MinWidth="64">
-                        <TextBlock x:Name="SuspiciousText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="Orange" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="SuspiciousText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="Black" HorizontalAlignment="Center"/>
                         <TextBlock Text="Suspicious" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
                     </StackPanel>
 
                     <StackPanel Spacing="4" MinWidth="64">
-                        <TextBlock x:Name="HarmlessText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="SeaGreen" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="HarmlessText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="Black" HorizontalAlignment="Center"/>
                         <TextBlock Text="Harmless" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
                     </StackPanel>
 
                     <StackPanel Spacing="4" MinWidth="64">
-                        <TextBlock x:Name="UndetectedText" Text="94" Style="{ThemeResource TitleTextBlockStyle}" Foreground="{ThemeResource TextFillColorDisabledBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="UndetectedText" Text="94" Style="{ThemeResource TitleTextBlockStyle}" Foreground="Black" HorizontalAlignment="Center"/>
                         <TextBlock Text="Undetected" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
                     </StackPanel>
 

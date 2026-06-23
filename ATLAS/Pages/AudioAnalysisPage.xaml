@@ -68,7 +68,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Confidence Score:" FontWeight="SemiBold" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="0" Text="Analysis Score:" FontWeight="SemiBold" Margin="0,0,10,0"/>
                         <TextBlock Grid.Column="1" x:Name="ScoreText" Text="-"/>
                     </Grid>
                     <StackPanel>

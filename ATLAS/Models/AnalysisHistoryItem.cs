@@ -25,7 +25,7 @@ namespace ATLAS.Models
 
         public DateTime SortingDate { get; set; }
 
-        public string ScoreDisplay => $"Score: {Score:F2}/10";
+        public string ScoreDisplay => $"Score: {Score:F2}/10.00";
 
         public string ScamStatusDisplay => IsScam ? "Status: Unsafe" : "Status: Unsafe";
     }

@@ -45,8 +45,8 @@
                         <TextBlock x:Name="StatusText" Text="Scan Pending" FontSize="18" FontWeight="SemiBold"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <TextBlock Text="Risk Confidence Score: " Opacity="0.8"/>
-                        <TextBlock x:Name="ScoreText" Text="0/10" FontWeight="SemiBold"/>
+                        <TextBlock Text="Analysis Score: " Opacity="0.8"/>
+                        <TextBlock x:Name="ScoreText" Text="0.00/10.00" FontWeight="SemiBold"/>
                     </StackPanel>
                     <TextBlock x:Name="ExplanationText" TextWrapping="Wrap" Opacity="0.8"/>
                 </StackPanel>

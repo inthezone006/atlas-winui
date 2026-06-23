@@ -125,7 +125,7 @@ namespace ATLAS.Pages
                 TranscriptText.Text = transcribedResultText;
 
                 float score = (float)(analysisResult.Score ?? 0.0);
-                ScoreText.Text = $"{score:F2}/10";
+                ScoreText.Text = $"{score:F2}/10.00";
 
                 if (!string.IsNullOrWhiteSpace(transcribedResultText) && transcribedResultText.Length > 180)
                 {

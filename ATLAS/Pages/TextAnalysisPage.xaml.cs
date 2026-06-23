@@ -171,7 +171,7 @@ namespace ATLAS.Pages
                 StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
 
-            ScoreText.Text = $"{score:F2}/10";
+            ScoreText.Text = $"{score:F2}/10.00";
             ExplanationText.Text = result.Explanation;
 
             var storyboard = new Storyboard();
