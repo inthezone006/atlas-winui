@@ -45,5 +45,15 @@ namespace ATLAS.Pages
                 }
             }
         }
+
+        private void PrivacyPolicyButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(PrivacyPolicyPage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
+        }
+
+        private void TermsOfServiceButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(TermsOfServicePage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
+        }
     }
 }

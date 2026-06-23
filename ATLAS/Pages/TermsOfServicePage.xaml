@@ -1,0 +1,46 @@
+<Page
+    x:Class="ATLAS.Pages.TermsOfServicePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="Transparent">
+
+    <ScrollViewer>
+        <StackPanel Padding="36" Spacing="24" HorizontalAlignment="Stretch">
+            <HyperlinkButton x:Name="BackButton"
+             Click="BackButton_Click"
+             HorizontalAlignment="Left"
+             Margin="0,0,0,10"> 
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <FontIcon Glyph="&#xE72B;" FontSize="12"/>
+                    <TextBlock Text="Back to Settings"/>
+                </StackPanel>
+            </HyperlinkButton>
+            <StackPanel Spacing="8">
+                <TextBlock Text="Terms of Service" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Last Updated: June 2026" 
+                           Style="{ThemeResource BodyTextBlockStyle}" 
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            </StackPanel>
+
+            <StackPanel Spacing="16" Padding="24"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+
+                <TextBlock Text="1. Acceptance of Terms" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold"/>
+                <TextBlock Text="By accessing and using ATLAS Protection, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+                <TextBlock Text="2. Use License" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                <TextBlock Text="Permission is granted to temporarily download one copy of the materials (information or software) on ATLAS Protection for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+                <TextBlock Text="3. Disclaimer" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                <TextBlock Text="The materials on ATLAS Protection are provided on an 'as is' basis. ATLAS Protection makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+                <TextBlock Text="4. Limitations" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                <TextBlock Text="In no event shall ATLAS Protection or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on ATLAS Protection." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

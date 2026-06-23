@@ -1,0 +1,47 @@
+<Page
+    x:Class="ATLAS.Pages.PrivacyPolicyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="Transparent">
+
+    <ScrollViewer>
+        <StackPanel Padding="36" Spacing="24" HorizontalAlignment="Stretch">
+            <HyperlinkButton x:Name="BackButton"
+                 Click="BackButton_Click"
+                 HorizontalAlignment="Left"
+                 Margin="0,0,0,10">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <FontIcon Glyph="&#xE72B;" FontSize="12"/>
+                    <TextBlock Text="Back to Settings"/>
+                </StackPanel>
+            </HyperlinkButton>
+
+            <StackPanel Spacing="8">
+                <TextBlock Text="Privacy Policy" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Last Updated: June 2026" 
+                           Style="{ThemeResource BodyTextBlockStyle}" 
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            </StackPanel>
+
+            <StackPanel Spacing="16" Padding="24"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+
+                <TextBlock Text="1. Information We Collect" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold"/>
+                <TextBlock Text="We collect information that you provide directly to us. For example, we collect information when you create an account, participate in any interactive features of the services, fill out a form, request customer support or otherwise communicate with us." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+                <TextBlock Text="2. Use of Information" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                <TextBlock Text="We may use the information we collect about you to provide, maintain, and improve our services, including, for example, to provide products and services you request, develop new features, provide customer support, and authenticate users." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+                <TextBlock Text="3. Cloud Processing &amp; Telemetry" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                <TextBlock Text="To provide real-time threat analysis, certain text, audio, and image payloads are processed securely via cloud-based AI engines (such as the Gemini API) and third-party security vendors. Anonymized telemetry regarding scam detection rates may be collected to improve application accuracy." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+                <TextBlock Text="4. Data Security" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                <TextBlock Text="We take reasonable measures to help protect information about you from loss, theft, misuse and unauthorized access, disclosure, alteration and destruction." TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -24,6 +24,12 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\PrivacyPolicyPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TermsOfServicePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\WhatsNewPage.xaml">
       <SubType>Designer</SubType>
     </Page>

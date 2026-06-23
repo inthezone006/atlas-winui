@@ -14,6 +14,8 @@
     <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Pages\PrivacyPolicyPage.xaml" />
+    <None Remove="Pages\TermsOfServicePage.xaml" />
     <None Remove="Pages\WhatsNewPage.xaml" />
   </ItemGroup>
 
@@ -98,6 +100,16 @@
     <Content Update="Assets\model\README">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\PrivacyPolicyPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\TermsOfServicePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\WhatsNewPage.xaml">

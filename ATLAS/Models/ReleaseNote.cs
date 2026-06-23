@@ -41,6 +41,7 @@ namespace ATLAS.Models
                     BugFixes = new List<string>
                     {
                         "Removed local machine learning model dependencies, shrinking the app size by over 300MB.",
+                        "Added in-build Terms of Service and Privacy Policy to reduce external dependencies."
                     }
                 },
                 new ReleaseNote
