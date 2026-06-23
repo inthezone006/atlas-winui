@@ -79,7 +79,6 @@ namespace ATLAS.Pages
 
             if (success)
             {
-                // FIX: Native alert confirmation box pop-up trigger
                 await ShowConfirmationDialogAsync("Password Changed", "Your password has been securely rotated on the server.");
                 OldPasswordBox.Password = "";
                 NewPasswordBox.Password = "";

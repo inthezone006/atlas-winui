@@ -47,8 +47,8 @@ namespace ATLAS.Models
                 {
                     Version = "3.0.0",
                     ReleaseDate = new DateTime(2026, 6, 22, 12, 0, 0),
-                    Title = "The Windows Overhaul",
-                    Description = "ATLAS now offloads machine learning load to the included model. Although this generates a larger app size, ATLAS can now perform local text, audio, and image analysis through the provided model, removing dependencies on online ATLAS service.",
+                    Title = "The All-Inclusive Model",
+                    Description = "ATLAS now includes the proprietary model within the package, reducing network latency while increasing app install size.",
                     NewFeatures = new List<string>
                     {
                         "Added local analysis via included model.",
@@ -64,7 +64,7 @@ namespace ATLAS.Models
                 {
                     Version = "2.0.0",
                     ReleaseDate = new DateTime(2026, 11, 19, 12, 0, 0),
-                    Title = "1.0.0 Fixes",
+                    Title = "The Better 1.0.0",
                     Description = "ATLAS now comes with full connection to the UI found on our online service with all API keys updated to allow for a full experience.",
                     NewFeatures = new List<string>
                     {
@@ -80,7 +80,7 @@ namespace ATLAS.Models
                 {
                     Version = "1.0.0",
                     ReleaseDate = new DateTime(2025, 10, 20, 12, 00, 0),
-                    Title = "Initial Release",
+                    Title = "The Initial Release",
                     Description = "ATLAS is now released for Windows. This application works with the online custom-tuned model created within the team using confirmed threats online. Accounts and different analysis methods are present with plans to add more.",
                     NewFeatures = new List<string>
                     {

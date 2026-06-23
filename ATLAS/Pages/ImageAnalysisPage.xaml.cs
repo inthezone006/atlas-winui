@@ -118,7 +118,7 @@ namespace ATLAS.Pages
                 if (AuthService.IsLoggedIn && result.Analysis != null)
                 {
                     float telemetryScore = (float)(result.Analysis.Score ?? 0.0);
-                    bool isThreatScam = telemetryScore > 5.0f; // Aligned with the > 5.0 high risk bucket
+                    bool isThreatScam = telemetryScore > 5.0f;
 
                     string fileName = selectedImageFile != null ? selectedImageFile.Name : "Unknown Image";
                     await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Image Analysis", telemetryScore, isThreatScam, fileName);
@@ -195,28 +195,28 @@ namespace ATLAS.Pages
             {
                 StatusIcon.Glyph = "\uE73E";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-                StatusText.Text = "Classification: Minimal Risk (Verified Safe)";
+                StatusText.Text = "Safe";
                 StatusText.Foreground = new SolidColorBrush(Colors.Green);
             }
             else if (score <= 5.0f)
             {
                 StatusIcon.Glyph = "\uE7BA";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Yellow);
-                StatusText.Text = "Classification: Elevated Risk (Caution Advised)";
+                StatusText.Text = "Medium Risk";
                 StatusText.Foreground = new SolidColorBrush(Colors.Yellow);
             }
             else if (score <= 7.5f)
             {
                 StatusIcon.Glyph = "\uE7BA";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Orange);
-                StatusText.Text = "Classification: High Risk (Deceptive Pattern Detected)";
+                StatusText.Text = "High Risk";
                 StatusText.Foreground = new SolidColorBrush(Colors.Orange);
             }
             else
             {
                 StatusIcon.Glyph = "\uE814";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                StatusText.Text = "Classification: Critical Threat (Confirmed Malicious)";
+                StatusText.Text = "Unsafe";
                 StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
 

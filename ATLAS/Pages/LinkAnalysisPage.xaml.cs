@@ -50,8 +50,6 @@ namespace ATLAS.Pages
                 string vtApiUrl = $"https://www.virustotal.com/api/v3/urls/{base64Url}";
                 var response = await client.GetAsync(vtApiUrl);
 
-                // REMOVED the premature response.Stats calls from here.
-
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     var scanContent = new MultipartFormDataContent();
@@ -62,7 +60,7 @@ namespace ATLAS.Pages
                     ResultsBox.Visibility = Visibility.Visible;
                     StatusText.Text = "Scan Dispatched";
                     StatusText.Foreground = new SolidColorBrush(Colors.Orange);
-                    StatusIcon.Glyph = "\xE896"; // Sync icon
+                    StatusIcon.Glyph = "\xE896";
                     StatusIcon.Foreground = new SolidColorBrush(Colors.Orange);
                     ExplanationText.Text = "This link wasn't in the database history cache. Scan requested. Re-run in 1 minute.";
 
@@ -86,7 +84,6 @@ namespace ATLAS.Pages
 
                     ResultsBox.Visibility = Visibility.Visible;
 
-                    // Fixed the bindings to match the new XAML names
                     HarmlessText.Text = harmless.ToString();
                     SuspiciousText.Text = suspicious.ToString();
                     MaliciousText.Text = malicious.ToString();

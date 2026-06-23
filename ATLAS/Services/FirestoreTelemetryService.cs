@@ -51,7 +51,6 @@ namespace ATLAS.Services
                         result_score = new { doubleValue = (double)resultScore },
                         is_scam = new { booleanValue = isScam },
                         created_at = new { stringValue = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ") },
-                        // ADD THIS: Appends the artifact metadata into the database doc layout context
                         scanned_content = new { stringValue = scannedContent ?? string.Empty }
                     }
                 };

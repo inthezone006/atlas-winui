@@ -146,28 +146,28 @@ namespace ATLAS.Pages
             {
                 StatusIcon.Glyph = "\uE73E";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-                StatusText.Text = "Classification: Minimal Risk (Verified Safe)";
+                StatusText.Text = "Safe";
                 StatusText.Foreground = new SolidColorBrush(Colors.Green);
             }
             else if (score <= 5.0f)
             {
                 StatusIcon.Glyph = "\uE7BA";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Yellow);
-                StatusText.Text = "Classification: Elevated Risk (Caution Advised)";
+                StatusText.Text = "Medium Risk";
                 StatusText.Foreground = new SolidColorBrush(Colors.Yellow);
             }
             else if (score <= 7.5f)
             {
                 StatusIcon.Glyph = "\uE7BA";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Orange);
-                StatusText.Text = "Classification: High Risk (Deceptive Pattern Detected)";
+                StatusText.Text = "High Risk";
                 StatusText.Foreground = new SolidColorBrush(Colors.Orange);
             }
             else
             {
                 StatusIcon.Glyph = "\uE814";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                StatusText.Text = "Classification: Critical Threat (Confirmed Malicious)";
+                StatusText.Text = "Unsafe";
                 StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
 
