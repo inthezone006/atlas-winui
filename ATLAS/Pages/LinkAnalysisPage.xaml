@@ -22,44 +22,56 @@
                 <ProgressRing x:Name="LoadingRing" IsActive="False"/>
             </StackPanel>
 
-            <Border x:Name="ResultsBox"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                    Padding="24" Margin="0,20,0,0" Visibility="Collapsed">
-                <StackPanel Spacing="15">
-                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold" />
+            <Grid x:Name="ResultsBox" Visibility="Collapsed" Margin="0,24,0,0" Padding="24" 
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+              BorderThickness="1" 
+              CornerRadius="8"
+              HorizontalAlignment="Stretch">
 
-                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10" >
-                        <FontIcon x:Name="StatusIcon" Glyph="&#xE73E;" FontSize="20"/>
-                        <TextBlock x:Name="StatusText" Text="This URL appears to be safe." FontSize="18" FontWeight="SemiBold"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="8" VerticalAlignment="Center" Margin="0,0,24,0">
+                    <TextBlock Text="Analysis result" Style="{ThemeResource BodyStrongTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <FontIcon x:Name="StatusIcon" Glyph="&#xE73E;" FontSize="24" Foreground="SeaGreen" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="StatusText" Text="Safe" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <TextBlock x:Name="ExplanationText" Opacity="0.8"/>
-
-                    <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" Margin="0,10"/>
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                            <TextBlock Text="Harmless" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="HarmlessCountText" Text="-" FontSize="24" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                            <TextBlock Text="Suspicious" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="SuspiciousCountText" Text="-" FontSize="24" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                            <TextBlock Text="Malicious" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="MaliciousCountText" Text="-" FontSize="24" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>
+                    <TextBlock x:Name="ExplanationText" Text="No security vendors and no sandboxes flagged this as malicious." 
+                   Style="{ThemeResource BodyTextBlockStyle}" 
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   TextWrapping="Wrap"/>
                 </StackPanel>
-            </Border>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="24" VerticalAlignment="Center">
+
+                    <StackPanel Spacing="4" MinWidth="64">
+                        <TextBlock x:Name="MaliciousText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="IndianRed" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Malicious" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Spacing="4" MinWidth="64">
+                        <TextBlock x:Name="SuspiciousText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="Orange" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Suspicious" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Spacing="4" MinWidth="64">
+                        <TextBlock x:Name="HarmlessText" Text="0" Style="{ThemeResource TitleTextBlockStyle}" Foreground="SeaGreen" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Harmless" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Spacing="4" MinWidth="64">
+                        <TextBlock x:Name="UndetectedText" Text="94" Style="{ThemeResource TitleTextBlockStyle}" Foreground="{ThemeResource TextFillColorDisabledBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Undetected" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>

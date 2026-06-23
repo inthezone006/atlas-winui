@@ -32,6 +32,11 @@
                     <NavigationViewItem Content="Home" Icon="Home" Tag="Home"/>
                     <NavigationViewItem Content="Analysis Tools" Icon="GoToStart" Tag="AnalysisTools"/>
                     <NavigationViewItem Content="On-Device Protection" Icon="Permissions" Tag="OnDeviceProtection"/>
+                    <NavigationViewItem Content="What's New" Tag="WhatsNewPage">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE789;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
                     <NavigationViewItem Content="Our Vision" Icon="Flag" Tag="Vision"/>
                     <NavigationViewItem x:Name="AccountNavItemLoggedIn" Icon="Contact" Tag="AccountLoggedIn" Visibility="Collapsed">
                         <NavigationViewItem.MenuItems>

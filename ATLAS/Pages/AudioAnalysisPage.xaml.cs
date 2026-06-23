@@ -116,7 +116,6 @@ namespace ATLAS.Pages
                     transcribedResultText = "[No readable spoken vocal structures were parsed from the audio file source context]";
                 }
 
-                // Route the transcribed text to Gemini
                 var textPage = new TextAnalysisPage();
                 var analysisResult = await PerformTextClassificationAsync(transcribedResultText, textPage);
 

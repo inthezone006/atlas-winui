@@ -27,6 +27,6 @@ namespace ATLAS.Models
 
         public string ScoreDisplay => $"Score: {Score:F2}/10";
 
-        public string ScamStatusDisplay => IsScam ? "Status: Threat Detected" : "Status: No Threat Detected";
+        public string ScamStatusDisplay => IsScam ? "Status: Unsafe" : "Status: Unsafe";
     }
 }

@@ -39,19 +39,15 @@ namespace ATLAS.Pages
 
         private async void LoadHistoryRecords()
         {
-            System.Diagnostics.Debug.WriteLine("[DEBUG HISTORY]: LoadHistoryRecords called.");
             LoadingRing.IsActive = true;
             NoHistoryText.Visibility = Visibility.Collapsed;
             HistoryItems.Clear();
 
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[DEBUG HISTORY]: IsLoggedIn={AuthService.IsLoggedIn}, CurrentUserId='{AuthService.CurrentUserId}'");
-
                 if (AuthService.IsLoggedIn)
                 {
                     var records = await FirestoreTelemetryService.Instance.GetUserHistoryAsync();
-                    System.Diagnostics.Debug.WriteLine($"[DEBUG HISTORY]: Returned records count = {records.Count}");
 
                     if (records.Count == 0)
                     {
@@ -66,7 +62,6 @@ namespace ATLAS.Pages
                             {
                                 HistoryItems.Add(record);
                             }
-                            System.Diagnostics.Debug.WriteLine($"[DEBUG HISTORY UI]: Hydrated ObservableCollection with {HistoryItems.Count} elements on UI stream.");
                         });
                     }
                 }

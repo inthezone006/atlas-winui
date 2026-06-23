@@ -96,7 +96,6 @@ namespace ATLAS.Pages
             {
                 try
                 {
-                    System.Diagnostics.Debug.WriteLine($"[Gemini Engine]: Attempting security analysis using operational tier: {modelName}");
                     var model = googleAI.GenerativeModel(modelName);
 
                     var response = await model.GenerateContent(combinedPrompt);
@@ -113,7 +112,6 @@ namespace ATLAS.Pages
 
                         if (analysisResult != null)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[Gemini Engine]: Analysis successfully concluded via {modelName}. Score: {analysisResult.Score}");
                             return analysisResult;
                         }
                     }
@@ -121,11 +119,10 @@ namespace ATLAS.Pages
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine($"[Gemini Engine Warning]: Tier {modelName} failed or exhausted tokens. Exception: {ex.Message}");
-                    lastException = ex; // Store exception to throw if the entire cascade fails
+                    lastException = ex;
                 }
             }
 
-            // Ultimate fallback if your entire pool is depleted or throttled
             throw new InvalidOperationException(
                 "Critical Failure: All allocated Gemini orchestration models returned an exhausted token state or API error.",
                 lastException
@@ -137,41 +134,38 @@ namespace ATLAS.Pages
             if (result == null) return;
             float score = (float)(result.Score ?? 0.0);
 
-            // FIX: Ensure the transform is a TranslateTransform before animating
             if (ResultsBox.RenderTransform == null || !(ResultsBox.RenderTransform is TranslateTransform))
             {
                 ResultsBox.RenderTransform = new TranslateTransform();
             }
 
-            // Animate UI container into view
             ResultsBox.Visibility = Visibility.Visible;
             ExplanationText.Text = result.Explanation;
 
-            // Evaluate against professional risk buckets
             if (score <= 2.5f)
             {
-                StatusIcon.Glyph = "\uE73E"; // Shield Check / Checkmark
+                StatusIcon.Glyph = "\uE73E";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
                 StatusText.Text = "Classification: Minimal Risk (Verified Safe)";
                 StatusText.Foreground = new SolidColorBrush(Colors.Green);
             }
             else if (score <= 5.0f)
             {
-                StatusIcon.Glyph = "\uE7BA"; // Warning
+                StatusIcon.Glyph = "\uE7BA";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Yellow);
                 StatusText.Text = "Classification: Elevated Risk (Caution Advised)";
                 StatusText.Foreground = new SolidColorBrush(Colors.Yellow);
             }
             else if (score <= 7.5f)
             {
-                StatusIcon.Glyph = "\uE7BA"; // Severe Warning
+                StatusIcon.Glyph = "\uE7BA";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.Orange);
                 StatusText.Text = "Classification: High Risk (Deceptive Pattern Detected)";
                 StatusText.Foreground = new SolidColorBrush(Colors.Orange);
             }
             else
             {
-                StatusIcon.Glyph = "\uE814"; // Error/Critical Block
+                StatusIcon.Glyph = "\uE814";
                 StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
                 StatusText.Text = "Classification: Critical Threat (Confirmed Malicious)";
                 StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
@@ -195,7 +189,6 @@ namespace ATLAS.Pages
                 EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
             };
 
-            // This cast will now succeed because of the check we added at the top
             Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
             Storyboard.SetTargetProperty(slideAnimation, "Y");
             storyboard.Children.Add(slideAnimation);

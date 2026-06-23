@@ -1,0 +1,77 @@
+<Page
+    x:Class="ATLAS.Pages.WhatsNewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ATLAS.Pages"
+    xmlns:models="using:ATLAS.Models"
+    Background="Transparent">
+
+    <ScrollViewer>
+        <StackPanel Padding="36" Spacing="24" HorizontalAlignment="Stretch">
+
+            <StackPanel Spacing="8">
+                <TextBlock Text="What's New" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Stay up to date with the latest improvements and security features in ATLAS." 
+                           Style="{ThemeResource BodyTextBlockStyle}" 
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            </StackPanel>
+
+            <ItemsControl x:Name="NotesList" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:ReleaseNote">
+
+                        <StackPanel Spacing="12" Margin="0,0,0,32" Padding="24" 
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8"
+                                    HorizontalAlignment="Stretch">
+
+                            <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                                <Border Background="{ThemeResource SystemAccentColorLight2}" CornerRadius="4" Padding="8,4">
+                                    <TextBlock Text="{x:Bind Version}" FontWeight="Bold" Foreground="Black"/>
+                                </Border>
+                                <TextBlock Text="{x:Bind FormattedDate}" 
+                                           Style="{ThemeResource BodyTextBlockStyle}" 
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" 
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}" Margin="0,0,0,8" />
+
+                            <StackPanel Visibility="{x:Bind GetVisibility(NewFeatures.Count)}">
+                                <TextBlock Text="New Features" Style="{ThemeResource BodyStrongTextBlockStyle}" Margin="0,8,0,4" />
+                                <ItemsControl ItemsSource="{x:Bind NewFeatures}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="4,4,0,4">
+                                                <FontIcon Glyph="&#xE73E;" FontSize="12" Foreground="SeaGreen" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{x:Bind}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+
+                            <StackPanel Visibility="{x:Bind GetVisibility(BugFixes.Count)}" Margin="0,8,0,0">
+                                <TextBlock Text="Bug Fixes" Style="{ThemeResource BodyStrongTextBlockStyle}" Margin="0,8,0,4" />
+                                <ItemsControl ItemsSource="{x:Bind BugFixes}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="4,4,0,4">
+                                                <FontIcon Glyph="&#xE783;" FontSize="12" Foreground="IndianRed" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{x:Bind}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

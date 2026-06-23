@@ -80,9 +80,9 @@ namespace ATLAS.Pages
                     StatusText.Text = "Unknown Signature";
                     StatusIcon.Glyph = "\xE9CE";
                     ExplanationText.Text = "This file footprint has never been seen by VirusTotal engines before.";
-                    HarmlessCountText.Text = "0";
-                    SuspiciousCountText.Text = "0";
-                    MaliciousCountText.Text = "0";
+                    HarmlessText.Text = "0";
+                    SuspiciousText.Text = "0";
+                    MaliciousText.Text = "0";
                     return;
                 }
 
@@ -95,20 +95,22 @@ namespace ATLAS.Pages
                     int malicious = stats.GetProperty("malicious").GetInt32();
                     int suspicious = stats.GetProperty("suspicious").GetInt32();
                     int harmless = stats.GetProperty("harmless").GetInt32();
+                    int undetected = stats.GetProperty("undetected").GetInt32();
 
-                    HarmlessCountText.Text = harmless.ToString();
-                    SuspiciousCountText.Text = suspicious.ToString();
-                    MaliciousCountText.Text = malicious.ToString();
+                    HarmlessText.Text = harmless.ToString();
+                    SuspiciousText.Text = suspicious.ToString();
+                    MaliciousText.Text = malicious.ToString();
+                    UndetectedText.Text = undetected.ToString();
 
                     if (malicious > 0)
                     {
-                        StatusText.Text = "Threat Detected";
+                        StatusText.Text = "Unsafe";
                         StatusIcon.Glyph = "\xE7BA";
                         ExplanationText.Text = $"Flagged by {malicious} engine signatures. SHA-256: {fileHash.Substring(0, 16)}...";
                     }
                     else
                     {
-                        StatusText.Text = "No Threat Detected";
+                        StatusText.Text = "Safe";
                         StatusIcon.Glyph = "\xE73E";
                         ExplanationText.Text = "No antivirus engine variants flagged this file asset.";
                     }
