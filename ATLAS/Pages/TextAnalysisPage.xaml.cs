@@ -6,13 +6,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.ML.OnnxRuntime;
-using Microsoft.ML.OnnxRuntime.Tensors;
-using Microsoft.ML.Tokenizers;
+using Mscc.GenerativeAI;
 
 namespace ATLAS.Pages
 {
@@ -20,61 +16,9 @@ namespace ATLAS.Pages
     {
         private string? lastAnalyzedText;
 
-        private static InferenceSession? _onnxSession;
-        private static Tokenizer? _tokenizer;
-        private static readonly object _initLock = new object();
-        private static Task? _initializationTask;
-
         public TextAnalysisPage()
         {
             this.InitializeComponent();
-            this.Loaded += TextAnalysisPage_Loaded;
-        }
-
-        private void TextAnalysisPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            EnsureModelInitializedAsync();
-        }
-
-        public static Task EnsureModelInitializedAsync()
-        {
-            lock (_initLock)
-            {
-                if (_initializationTask == null)
-                {
-                    _initializationTask = Task.Run(() =>
-                    {
-                        try
-                        {
-                            string installedPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-                            string modelPath = Path.Combine(installedPath, "Assets", "model.onnx");
-                            string vocabPath = Path.Combine(installedPath, "Assets", "vocab.txt");
-
-                            if (File.Exists(modelPath) && File.Exists(vocabPath))
-                            {
-                                if (_onnxSession == null)
-                                {
-                                    _onnxSession = new InferenceSession(modelPath);
-                                }
-                                if (_tokenizer == null)
-                                {
-                                    _tokenizer = Microsoft.ML.Tokenizers.BertTokenizer.Create(vocabPath);
-                                }
-                                System.Diagnostics.Debug.WriteLine("[ONNX]: Shared pipeline pipelines loaded cleanly.");
-                            }
-                            else
-                            {
-                                System.Diagnostics.Debug.WriteLine("[ONNX Error]: Assets missing from deployment directory.");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"Error initializing ONNX runtime static context: {ex.Message}");
-                        }
-                    });
-                }
-                return _initializationTask;
-            }
         }
 
         private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
@@ -88,14 +32,7 @@ namespace ATLAS.Pages
 
             try
             {
-                await EnsureModelInitializedAsync();
-
-                if (_onnxSession == null || _tokenizer == null)
-                {
-                    throw new InvalidOperationException("Local analysis components are still initializing or missing.");
-                }
-
-                var result = await Task.Run(() => PerformLocalInference(lastAnalyzedText));
+                var result = await PerformGeminiInferenceAsync(lastAnalyzedText);
 
                 if (result != null)
                 {
@@ -104,7 +41,6 @@ namespace ATLAS.Pages
                     {
                         float scoreValue = (float)(result.Score ?? 0.0);
                         bool scamValue = result.IsScam ?? false;
-
                         await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Text Analysis", scoreValue, scamValue, lastAnalyzedText);
                     }
                 }
@@ -123,78 +59,125 @@ namespace ATLAS.Pages
             }
         }
 
-        private AnalysisResult PerformLocalInference(string text)
+        private static readonly string[] GeminiModelPool = new string[]
         {
-            EnsureModelInitializedAsync().Wait();
+            "gemini-3.1-flash-lite-preview",
+            "gemini-2.5-flash-lite",
+            "gemini-2.5-flash",
+            "gemini-3-flash-preview",
+            "gemma-3-1b-it",
+            "gemma-3-4b-it",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro"
+        };
 
-            if (_tokenizer == null || _onnxSession == null)
+        public async Task<AnalysisResult> PerformGeminiInferenceAsync(string text)
+        {
+            var googleAI = new GoogleAI(Config.GeminiApiKey);
+            Exception? lastException = null;
+
+            string systemInstruction =
+                "You are an elite cybersecurity automation engine specialized in natural language forensic analysis, " +
+                "anti-phishing detection, and social engineering mitigation. " +
+                "Analyze the provided text payload thoroughly for indicators of compromise, fraud, phishing, urgency manipulation, " +
+                "or credential harvesting. " +
+                "You must output strictly valid JSON matching this schema exactly without markdown formatting wrappers: " +
+                "{ \"IsScam\": true/false, \"Score\": 0.0, \"Explanation\": \"string\" }. " +
+                "The 'Score' field must be a floating-point value from 0.0 to 10.0 mapping precisely to these corporate risk parameters:\n" +
+                "- 0.0 to 2.5: Minimal Risk (Verified Safe)\n" +
+                "- 2.6 to 5.0: Elevated Risk (Caution Advised)\n" +
+                "- 5.1 to 7.5: High Risk (Deceptive Pattern Detected)\n" +
+                "- 7.6 to 10.0: Critical Threat (Confirmed Malicious)\n" +
+                "The 'Explanation' field must systematically dissect the linguistic anchors, anomalies, or structural vectors used to reach your conclusion.";
+
+            string combinedPrompt = $"{systemInstruction}\n\nPayload to Analyze:\n\"{text}\"";
+
+            foreach (var modelName in GeminiModelPool)
             {
-                return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Local AI model metrics are uninitialized." };
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine($"[Gemini Engine]: Attempting security analysis using operational tier: {modelName}");
+                    var model = googleAI.GenerativeModel(modelName);
+
+                    var response = await model.GenerateContent(combinedPrompt);
+
+                    if (response != null && !string.IsNullOrWhiteSpace(response.Text))
+                    {
+                        string cleanJson = response.Text
+                            .Replace("```json", "")
+                            .Replace("```", "")
+                            .Trim();
+
+                        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                        var analysisResult = JsonSerializer.Deserialize<AnalysisResult>(cleanJson, options);
+
+                        if (analysisResult != null)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[Gemini Engine]: Analysis successfully concluded via {modelName}. Score: {analysisResult.Score}");
+                            return analysisResult;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[Gemini Engine Warning]: Tier {modelName} failed or exhausted tokens. Exception: {ex.Message}");
+                    lastException = ex; // Store exception to throw if the entire cascade fails
+                }
             }
 
-            IReadOnlyList<int> nativeIds = _tokenizer.EncodeToIds(text);
-
-            const int MaxSequenceLength = 512;
-            long[] tokenIds = nativeIds.Select(id => (long)id).Take(MaxSequenceLength).ToArray();
-
-            long[] attentionMask = Enumerable.Repeat(1L, tokenIds.Length).ToArray();
-
-            int[] dimensions = new int[] { 1, tokenIds.Length };
-
-            var inputIdsTensor = new DenseTensor<long>(tokenIds, dimensions);
-            var attentionMaskTensor = new DenseTensor<long>(attentionMask, dimensions);
-
-            var inputs = new List<NamedOnnxValue>
-            {
-                NamedOnnxValue.CreateFromTensor("input_ids", inputIdsTensor),
-                NamedOnnxValue.CreateFromTensor("attention_mask", attentionMaskTensor)
-            };
-
-            using var outputs = _onnxSession.Run(inputs);
-            var outputTensor = outputs.First(o => o.Name == "logits").AsTensor<float>();
-
-            float logit0 = outputTensor[0, 0];
-            float logit1 = outputTensor[0, 1];
-
-            double maxLogit = Math.Max(logit0, logit1);
-            double exp0 = Math.Exp(logit0 - maxLogit);
-            double exp1 = Math.Exp(logit1 - maxLogit);
-            double sumExp = exp0 + exp1;
-
-            float probLabel1 = (float)(exp1 / sumExp);
-            bool isScam = probLabel1 >= 0.5f;
-
-            return new AnalysisResult
-            {
-                IsScam = isScam,
-                Score = probLabel1 * 10f,
-                Explanation = $"Local AI model predicts a {probLabel1:P0} chance of this being a scam."
-            };
+            // Ultimate fallback if your entire pool is depleted or throttled
+            throw new InvalidOperationException(
+                "Critical Failure: All allocated Gemini orchestration models returned an exhausted token state or API error.",
+                lastException
+            );
         }
 
         private void DisplayResults(AnalysisResult? result)
         {
             if (result == null) return;
+            float score = (float)(result.Score ?? 0.0);
 
+            // FIX: Ensure the transform is a TranslateTransform before animating
             if (ResultsBox.RenderTransform == null || !(ResultsBox.RenderTransform is TranslateTransform))
             {
                 ResultsBox.RenderTransform = new TranslateTransform();
             }
 
-            if (result.IsScam == true)
+            // Animate UI container into view
+            ResultsBox.Visibility = Visibility.Visible;
+            ExplanationText.Text = result.Explanation;
+
+            // Evaluate against professional risk buckets
+            if (score <= 2.5f)
             {
-                StatusIcon.Glyph = "\uE7BA";
-                StatusText.Text = "This text appears to be a scam.";
-                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                StatusIcon.Glyph = "\uE73E"; // Shield Check / Checkmark
+                StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+                StatusText.Text = "Classification: Minimal Risk (Verified Safe)";
+                StatusText.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            else if (score <= 5.0f)
+            {
+                StatusIcon.Glyph = "\uE7BA"; // Warning
+                StatusIcon.Foreground = new SolidColorBrush(Colors.Yellow);
+                StatusText.Text = "Classification: Elevated Risk (Caution Advised)";
+                StatusText.Foreground = new SolidColorBrush(Colors.Yellow);
+            }
+            else if (score <= 7.5f)
+            {
+                StatusIcon.Glyph = "\uE7BA"; // Severe Warning
+                StatusIcon.Foreground = new SolidColorBrush(Colors.Orange);
+                StatusText.Text = "Classification: High Risk (Deceptive Pattern Detected)";
+                StatusText.Foreground = new SolidColorBrush(Colors.Orange);
             }
             else
             {
-                StatusIcon.Glyph = "\uE73E";
-                StatusText.Text = "This text appears to be safe.";
-                StatusText.Foreground = new SolidColorBrush(Colors.Green);
+                StatusIcon.Glyph = "\uE814"; // Error/Critical Block
+                StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                StatusText.Text = "Classification: Critical Threat (Confirmed Malicious)";
+                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
 
-            ScoreText.Text = $"{result.Score:F2}/10";
+            ScoreText.Text = $"{score:F2}/10";
             ExplanationText.Text = result.Explanation;
 
             var storyboard = new Storyboard();
@@ -211,6 +194,8 @@ namespace ATLAS.Pages
                 Duration = TimeSpan.FromMilliseconds(400),
                 EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseOut }
             };
+
+            // This cast will now succeed because of the check we added at the top
             Storyboard.SetTarget(slideAnimation, (TranslateTransform)ResultsBox.RenderTransform);
             Storyboard.SetTargetProperty(slideAnimation, "Y");
             storyboard.Children.Add(slideAnimation);

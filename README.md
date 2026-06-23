@@ -48,6 +48,19 @@ Before you begin, ensure you have the following software installed:
     ```
 2.  **Open the Solution:**
     * Open the `ATLAS.sln` file with Visual Studio. Visual Studio should automatically restore the required NuGet packages.
+	
+3.  **Create Config file:**
+	* Create a file in `Services/` called `Config.cs`. Inside, create this file using the template:
+	```csharp
+	namespace ATLAS.Services
+	{
+		public static class Config
+		{
+			// Place your actual API key here.
+			public const string GeminiApiKey = ""; 
+		}
+	}
+	```
 
 ---
 

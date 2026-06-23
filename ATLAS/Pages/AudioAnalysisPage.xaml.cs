@@ -1,7 +1,9 @@
 using ATLAS.Models;
 using ATLAS.Services;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using Vosk;
 using NAudio.Wave;
+
 namespace ATLAS.Pages
 {
     public sealed partial class AudioAnalysisPage : Page
@@ -100,7 +103,6 @@ namespace ATLAS.Pages
             try
             {
                 await EnsureVoskInitializedAsync();
-                await TextAnalysisPage.EnsureModelInitializedAsync();
 
                 if (_voskModel == null)
                 {
@@ -114,25 +116,17 @@ namespace ATLAS.Pages
                     transcribedResultText = "[No readable spoken vocal structures were parsed from the audio file source context]";
                 }
 
+                // Route the transcribed text to Gemini
                 var textPage = new TextAnalysisPage();
-                var privateInferenceMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-                AnalysisResult analysisResult;
-                if (privateInferenceMethod != null)
-                {
-                    analysisResult = (AnalysisResult)privateInferenceMethod.Invoke(textPage, new object[] { transcribedResultText })!;
-                }
-                else
-                {
-                    analysisResult = new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Local text classifier uninitialized." };
-                }
+                var analysisResult = await PerformTextClassificationAsync(transcribedResultText, textPage);
 
                 TranscriptBox.Visibility = Visibility.Visible;
                 ResultsBox.Visibility = Visibility.Visible;
 
                 TranscriptText.Text = transcribedResultText;
-                ScoreText.Text = $"{(analysisResult.Score ?? 0.0):F2}/10";
+
+                float score = (float)(analysisResult.Score ?? 0.0);
+                ScoreText.Text = $"{score:F2}/10";
 
                 if (!string.IsNullOrWhiteSpace(transcribedResultText) && transcribedResultText.Length > 180)
                 {
@@ -147,26 +141,44 @@ namespace ATLAS.Pages
                     TranscriptText.MaxLines = 0;
                 }
 
-                bool isThreatScam = analysisResult.IsScam ?? false;
-
-                if (isThreatScam)
+                if (score <= 2.5f)
                 {
-                    StatusText.Text = "Threat Detected";
-                    StatusIcon.Glyph = "\xE7BA";
-                    ExplanationText.Text = analysisResult.Explanation ?? "Audio analysis detected structural scam patterns.";
+                    StatusIcon.Glyph = "\uE73E";
+                    StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+                    StatusText.Text = "Classification: Minimal Risk (Verified Safe)";
+                    StatusText.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else if (score <= 5.0f)
+                {
+                    StatusIcon.Glyph = "\uE7BA";
+                    StatusIcon.Foreground = new SolidColorBrush(Colors.Yellow);
+                    StatusText.Text = "Classification: Elevated Risk (Caution Advised)";
+                    StatusText.Foreground = new SolidColorBrush(Colors.Yellow);
+                }
+                else if (score <= 7.5f)
+                {
+                    StatusIcon.Glyph = "\uE7BA";
+                    StatusIcon.Foreground = new SolidColorBrush(Colors.Orange);
+                    StatusText.Text = "Classification: High Risk (Deceptive Pattern Detected)";
+                    StatusText.Foreground = new SolidColorBrush(Colors.Orange);
                 }
                 else
                 {
-                    StatusText.Text = "No Threat Detected";
-                    StatusIcon.Glyph = "\xE73E";
-                    ExplanationText.Text = "No structural conversational scam models were matched in the audio sample.";
+                    StatusIcon.Glyph = "\uE814";
+                    StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    StatusText.Text = "Classification: Critical Threat (Confirmed Malicious)";
+                    StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
                 }
+
+                ExplanationText.Text = analysisResult.Explanation ?? "Audio analysis completed.";
+
+                // Treats high/critical risk classifications as threats for the telemetry dash
+                bool isThreatScam = score > 5.0f;
 
                 if (AuthService.IsLoggedIn)
                 {
-                    float telemetryScore = (float)(analysisResult.Score ?? 0.0);
                     string fileName = Path.GetFileName(_selectedAudioPath) ?? "Unknown Audio";
-                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Audio Analysis", telemetryScore, isThreatScam, fileName);
+                    await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Audio Analysis", score, isThreatScam, fileName);
                 }
             }
             catch (Exception ex)
@@ -183,6 +195,27 @@ namespace ATLAS.Pages
             }
         }
 
+        private async Task<AnalysisResult> PerformTextClassificationAsync(string text, TextAnalysisPage textPage)
+        {
+            try
+            {
+                var publicMethod = typeof(TextAnalysisPage).GetMethod("PerformGeminiInferenceAsync",
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+                if (publicMethod != null)
+                {
+                    var task = (Task<AnalysisResult>)publicMethod.Invoke(textPage, new object[] { text })!;
+                    return await task;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Gemini Audio Classification Error]: {ex.Message}");
+            }
+
+            return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run Gemini text inference." };
+        }
+
         private string PerformAudioTranscription(string audioPath)
         {
             try
@@ -191,11 +224,9 @@ namespace ATLAS.Pages
                 recognizer.SetWords(false);
 
                 using var audioReader = new AudioFileReader(audioPath);
-
                 var outFormat = new WaveFormat(16000, 16, 1);
 
                 using var resampler = new MediaFoundationResampler(audioReader, outFormat);
-
                 resampler.ResamplerQuality = 60;
 
                 byte[] buffer = new byte[4096];

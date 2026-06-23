@@ -59,3 +59,6 @@ _pkginfo.txt
 *.msixbundle
 *.msixupload
 *Test_pkg.appxmanifest
+
+# Ignore API Keys
+ATLAS/Services/Config.cs

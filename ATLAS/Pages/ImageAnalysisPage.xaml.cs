@@ -109,8 +109,7 @@ namespace ATLAS.Pages
                 if (!string.IsNullOrWhiteSpace(extractedText))
                 {
                     var textPageInstance = new TextAnalysisPage();
-
-                    var localAnalysis = await Task.Run(() => PerformLocalTextClassification(extractedText, textPageInstance));
+                    var localAnalysis = await PerformTextClassificationAsync(extractedText, textPageInstance);
                     result.Analysis = localAnalysis;
                 }
 
@@ -119,7 +118,7 @@ namespace ATLAS.Pages
                 if (AuthService.IsLoggedIn && result.Analysis != null)
                 {
                     float telemetryScore = (float)(result.Analysis.Score ?? 0.0);
-                    bool isThreatScam = result.Analysis.IsScam ?? false;
+                    bool isThreatScam = telemetryScore > 5.0f; // Aligned with the > 5.0 high risk bucket
 
                     string fileName = selectedImageFile != null ? selectedImageFile.Name : "Unknown Image";
                     await FirestoreTelemetryService.Instance.SaveScanTelemetryAsync("Image Analysis", telemetryScore, isThreatScam, fileName);
@@ -137,16 +136,17 @@ namespace ATLAS.Pages
             }
         }
 
-        private AnalysisResult PerformLocalTextClassification(string text, TextAnalysisPage textPage)
+        private async Task<AnalysisResult> PerformTextClassificationAsync(string text, TextAnalysisPage textPage)
         {
             try
             {
-                var privateMethod = typeof(TextAnalysisPage).GetMethod("PerformLocalInference",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var publicMethod = typeof(TextAnalysisPage).GetMethod("PerformGeminiInferenceAsync",
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-                if (privateMethod != null)
+                if (publicMethod != null)
                 {
-                    return (AnalysisResult)privateMethod.Invoke(textPage, new object[] { text })!;
+                    var task = (Task<AnalysisResult>)publicMethod.Invoke(textPage, new object[] { text })!;
+                    return await task;
                 }
             }
             catch (Exception ex)
@@ -154,7 +154,7 @@ namespace ATLAS.Pages
                 System.Diagnostics.Debug.WriteLine($"[Image OCR Classification Error]: {ex.Message}");
             }
 
-            return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run local model text inference." };
+            return new AnalysisResult { IsScam = false, Score = 0f, Explanation = "Failed to run Gemini text inference." };
         }
 
         private void DisplayResults(ImageAnalysisResponse? result)
@@ -189,20 +189,38 @@ namespace ATLAS.Pages
                 Explanation = "Local text analysis returned an empty profile or processing timed out."
             };
 
-            if (analysis.IsScam == true)
+            float score = (float)(analysis.Score ?? 0.0);
+
+            if (score <= 2.5f)
+            {
+                StatusIcon.Glyph = "\uE73E";
+                StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+                StatusText.Text = "Classification: Minimal Risk (Verified Safe)";
+                StatusText.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            else if (score <= 5.0f)
             {
                 StatusIcon.Glyph = "\uE7BA";
-                StatusText.Text = "The text in this image appears to be a scam.";
-                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                StatusIcon.Foreground = new SolidColorBrush(Colors.Yellow);
+                StatusText.Text = "Classification: Elevated Risk (Caution Advised)";
+                StatusText.Foreground = new SolidColorBrush(Colors.Yellow);
+            }
+            else if (score <= 7.5f)
+            {
+                StatusIcon.Glyph = "\uE7BA";
+                StatusIcon.Foreground = new SolidColorBrush(Colors.Orange);
+                StatusText.Text = "Classification: High Risk (Deceptive Pattern Detected)";
+                StatusText.Foreground = new SolidColorBrush(Colors.Orange);
             }
             else
             {
-                StatusIcon.Glyph = "\uE73E";
-                StatusText.Text = "The text in this image appears to be safe.";
-                StatusText.Foreground = new SolidColorBrush(Colors.Green);
+                StatusIcon.Glyph = "\uE814";
+                StatusIcon.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                StatusText.Text = "Classification: Critical Threat (Confirmed Malicious)";
+                StatusText.Foreground = new SolidColorBrush(Colors.OrangeRed);
             }
 
-            ScoreText.Text = $"{analysis.Score:F2}/10";
+            ScoreText.Text = $"{score:F2}/10";
             ExplanationText.Text = analysis.Explanation;
 
             ResultsBox.Visibility = Visibility.Visible;

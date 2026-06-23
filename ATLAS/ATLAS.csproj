@@ -13,11 +13,6 @@
     <Nullable>enable</Nullable>
     <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Assets\model.onnx" />
-    <None Remove="Assets\model.onnx.data" />
-    <None Remove="Assets\vocab.txt" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -44,12 +39,11 @@
   <ItemGroup>
     <PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="4.3.0" />
-    <PackageReference Include="Microsoft.ML.Tokenizers" Version="1.0.1" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6584" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
+    <PackageReference Include="Mscc.GenerativeAI" Version="3.1.0" />
     <PackageReference Include="NAudio" Version="2.3.0" />
-    <PackageReference Include="System.Numerics.Tensors" Version="9.0.0" />
     <PackageReference Include="Vosk" Version="0.3.38" />
   </ItemGroup>
   <ItemGroup>
@@ -58,12 +52,6 @@
     </Content>
     <Content Update="Assets\logo_simple.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\model.onnx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\model.onnx.data">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\model\am\final.mdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -106,11 +94,6 @@
     </Content>
     <Content Update="Assets\model\README">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\vocab.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
