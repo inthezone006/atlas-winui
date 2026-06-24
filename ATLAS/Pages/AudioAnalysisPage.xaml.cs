@@ -65,13 +65,13 @@ namespace ATLAS.Pages
 
         private async void SelectFileButton_Click(object sender, RoutedEventArgs e)
         {
-            var openPicker = new FileOpenPicker();
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
             var app = Application.Current as App;
             var window = app?._window;
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
 
-            openPicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+            openPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.MusicLibrary;
 
             openPicker.FileTypeFilter.Add(".mp3");
             openPicker.FileTypeFilter.Add(".wav");
@@ -83,7 +83,19 @@ namespace ATLAS.Pages
             var file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                _selectedAudioPath = file.Path;
+                try
+                {
+                    var tempFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
+                    var tempFile = await file.CopyAsync(tempFolder, file.Name, Windows.Storage.NameCollisionOption.ReplaceExisting);
+
+                    _selectedAudioPath = tempFile.Path;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to copy file to temp folder: {ex.Message}");
+                    _selectedAudioPath = file.Path;
+                }
+
                 SelectedFileNameText.Text = file.Name;
                 AnalyzeButton.IsEnabled = true;
 

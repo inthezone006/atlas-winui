@@ -26,6 +26,21 @@ namespace ATLAS.Models
             {
                 new ReleaseNote
                 {
+                    Version = "4.1.0",
+                    ReleaseDate = new DateTime(2026, 6, 24, 12, 0, 0),
+                    Title = "The Polishing Update",
+                    Description = "ATLAS now polishes up its outputs. This allows for a full unified user experience with the recent overhaul.",
+                    NewFeatures = new List<string>
+                    {
+                        "Cleaned up audio analysis so uploads are within the AppContainer sandbox."
+                    },
+                    BugFixes = new List<string>
+                    {
+                        "Unified results box across all analysis methods."
+                    }
+                },
+                new ReleaseNote
+                {
                     Version = "4.0.0",
                     ReleaseDate = new DateTime(2026, 6, 23, 12, 0, 0),
                     Title = "The Gemini AI Overhaul",

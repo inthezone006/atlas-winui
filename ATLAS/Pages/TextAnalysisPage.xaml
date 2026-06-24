@@ -28,13 +28,13 @@
             </StackPanel>
 
             <Border x:Name="ResultsBox"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                    Padding="24" Margin="0,20,0,0" Visibility="Collapsed">
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
+                Padding="24" Margin="0,20,0,0" Visibility="Collapsed">
                 <StackPanel Spacing="15">
-                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock Text="Analysis Result" FontSize="20" FontWeight="SemiBold" />
 
-                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10">
+                    <StackPanel x:Name="StatusPanel" Orientation="Horizontal" Spacing="10" >
                         <FontIcon x:Name="StatusIcon" Glyph="&#xE73E;" FontSize="20"/>
                         <TextBlock x:Name="StatusText" Text="This text appears to be safe." FontSize="18" FontWeight="SemiBold"/>
                     </StackPanel>
