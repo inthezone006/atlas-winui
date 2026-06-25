@@ -27,7 +27,7 @@ namespace ATLAS.Models
                 new ReleaseNote
                 {
                     Version = "4.1.0",
-                    ReleaseDate = new DateTime(2026, 6, 24, 12, 0, 0),
+                    ReleaseDate = new DateTime(2026, 6, 25, 12, 0, 0),
                     Title = "The Polishing Update",
                     Description = "ATLAS now polishes up its outputs. This allows for a full unified user experience with the recent overhaul.",
                     NewFeatures = new List<string>
